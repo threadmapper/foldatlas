@@ -1,0 +1,10 @@
+---
+# Install and configure build tools.
+
+- name: install gcc
+  apt: name=gcc
+       state=present
+
+- name: install git
+  apt: name=git
+       state=present

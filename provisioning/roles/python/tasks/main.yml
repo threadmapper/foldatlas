@@ -1,0 +1,26 @@
+---
+# Install the python package dependencies.
+
+- name: install pip
+  apt: name=python3-pip
+       state=present
+
+- name: install python packages using apt
+  apt: name={{ item }}
+       state=present
+  with_items:
+    - python3-numpy
+    - python3-scipy
+
+- name: install python packages using pip
+  pip: name={{ item }}
+       executable=pip3
+  with_items:
+    - scikit-learn
+    - biopython
+    - Flask
+    - Flask-Migrate
+    - Flask-SQLAlchemy
+#    - forgi
+
+

@@ -1,0 +1,4 @@
+---
+
+- name: run ferm
+  command: ferm /etc/ferm/ferm.conf

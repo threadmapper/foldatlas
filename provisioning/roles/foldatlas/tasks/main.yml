@@ -1,0 +1,51 @@
+---
+# Install and configure foldatlas.
+#
+
+#
+# --- Download data ---
+#
+
+- name: download the annotation data
+  get_url: url={{ item }} dest={{ annotation_home }}
+  with_items: 
+    - {{ annotation_urls }}
+    - {{ relative_annotations_urls }}
+
+- name: download reference genome
+  get_url: url={{ item }} dest={{ reference_home }}
+  with_items:
+    - {{ reference_genome_url }}{{ reference_chrs }}
+
+- name: download fasta of other strains
+  get_url: url={{ item }} dest={{ strains_home }}
+  with_items:
+    - {{ strains_url }}{{ strains_fasta }}
+
+- name: download and decompress GFF
+  unarchive: src={{ item }} dest={{ gff_home }}
+  with_items:
+    - {{ gff_url }}{{ gff }}
+
+#
+# --- Configure DB ---
+#
+
+- name: create mysql account for foldatlas
+  mysql_user: name={{ foldatlas_db_user }}
+              password={{ foldatlas_db_pass }}
+              priv='*.*:ALL'
+              state=present
+              encrypted=yes
+
+#
+# --- Populate DB ---
+#
+
+#
+# --- Export DB ---
+#
+
+#
+# --- Import DB ---
+#
