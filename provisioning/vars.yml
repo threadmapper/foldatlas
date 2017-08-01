@@ -1,0 +1,88 @@
+---
+# Variables to enable customisation of the FoldAtlas server install.
+
+#
+# FoldAtlas URL
+#
+
+foldatlas_url: "http://foldatlas.jic.ac.uk"
+
+#
+# Annotation data
+#
+
+# Base URL for gene model annotation
+# Arabidopsis
+#root_annotation_url: "http://mtweb.cs.ucl.ac.uk/mus/www/19genomes/annotations/consolidated_annotation_9.4.2011/gene_models/"
+# Rice
+root_annotation_url - "http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/"
+
+# List of gene model annotation GFF files to down load from annotatioon_root_url
+annotation_files:
+# Arabidopsis
+  - "consolidated_annotation.Col_0"
+  - "consolidated_annotation.Bur_0"
+  - "consolidated_annotation.Can_0"
+  #- "consolidated_annotation.Ct_1"
+  #- "consolidated_annotation.Edi_0"
+  #- "consolidated_annotation.Hi_0"
+  #- "consolidated_annotation.Kn_0"
+  #- "consolidated_annotation.Ler_0"
+  #- "consolidated_annotation.Mt_0"
+  #- "consolidated_annotation.No_0"
+  #- "consolidated_annotation.Oy_0"
+  #- "consolidated_annotation.Po_0"
+  #- "consolidated_annotation.Rsch_4"
+  #- "consolidated_annotation.Sf_2"
+  #- "consolidated_annotation.Tsu_0"
+  #- "consolidated_annotation.Wil_2"
+  #- "consolidated_annotation.Ws_0"
+  #- "consolidated_annotation.Wu_0"
+  #- "consolidated_annotation.Zu_0"
+# Rice
+  - "chr01.dir/Chr1.gff3"
+  - "chr02.dir/Chr2.gff3"
+  - "chr03.dir/Chr3.gff3"
+  - "chr04.dir/Chr4.gff3"
+  - "chr05.dir/Chr5.gff3"
+  - "chr06.dir/Chr6.gff3"
+  - "chr07.dir/Chr7.gff3"
+  - "chr08.dir/Chr8.gff3"
+  - "chr09.dir/Chr9.gff3"
+  - "chr10.dir/Chr10.gff3"
+  - "chr11.dir/Chr11.gff3"
+  - "chr12.dir/Chr12.gff3"
+
+#
+# Reference sequence files
+#
+
+# Base URL for reference chromosome sequences
+# Arabidopsis
+#root_refseq_url: "ftp://ftp.arabidopsis.org/home/tair/Sequences/whole_chromosomes/"
+
+# Rice
+root_refseq_url: "http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/"
+
+# Reference sequence FASTA files
+refseq_files:
+# Arabidopsis
+#  - "TAIR10_chr1.fas"
+#  - "TAIR10_chr2.fas"
+#  - "TAIR10_chr3.fas"
+#  - "TAIR10_chr4.fas"
+#  - "TAIR10_chr5.fas"
+
+# Rice
+  - "chr01.dir/Chr1.seq"
+  - "chr02.dir/Chr2.seq"
+  - "chr03.dir/Chr3.seq"
+  - "chr04.dir/Chr4.seq"
+  - "chr05.dir/Chr5.seq"
+  - "chr06.dir/Chr6.seq"
+  - "chr07.dir/Chr7.seq"
+  - "chr08.dir/Chr8.seq"
+  - "chr09.dir/Chr9.seq"
+  - "chr10.dir/Chr10.seq"
+  - "chr11.dir/Chr11.seq"
+  - "chr12.dir/Chr10.seq"

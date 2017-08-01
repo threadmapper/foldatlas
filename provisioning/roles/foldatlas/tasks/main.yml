@@ -9,23 +9,23 @@
 - name: download the annotation data
   get_url: url={{ item }} dest={{ annotation_home }}
   with_items: 
-    - {{ annotation_urls }}
-    - {{ relative_annotations_urls }}
+    - "{{ annotation_urls }}"
+    - "{{ relative_annotations_urls }}"
 
 - name: download reference genome
   get_url: url={{ item }} dest={{ reference_home }}
   with_items:
-    - {{ reference_genome_url }}{{ reference_chrs }}
+    - "{{ reference_genome_url }}{{ reference_chrs }}"
 
 - name: download fasta of other strains
   get_url: url={{ item }} dest={{ strains_home }}
   with_items:
-    - {{ strains_url }}{{ strains_fasta }}
+    - "{{ strains_url }}{{ strains_fasta }}"
 
 - name: download and decompress GFF
   unarchive: src={{ item }} dest={{ gff_home }}
   with_items:
-    - {{ gff_url }}{{ gff }}
+    - "{{ gff_url }}{{ gff }}"
 
 #
 # --- Configure DB ---
@@ -37,6 +37,11 @@
               priv='*.*:ALL'
               state=present
               encrypted=yes
+
+- name: load foldatlas schema
+  mysql_db: name={{ foldatlas_db }}
+            state=import
+            target={{ foldatlas_sql }}
 
 #
 # --- Populate DB ---
