@@ -1,0 +1,10 @@
+---
+# Install and configure ViennaRNA
+
+- name: add ViennaRNA repo
+  apt_repository: repo="ppa:j-4/vienna-rna"
+                  state=present
+
+- name: install ViennaRNA core and Python3 bindings
+  apt: name="vienna-rna"
+       update_cache=yes
