@@ -5,22 +5,35 @@
 # FoldAtlas URL
 #
 
+#
+# Species
+#
+
+list_of_species:
+  - "A. thaliana"
+  - "O. sativa"
+
+default_spcies: "O. sativa"
+
 foldatlas_url: "http://foldatlas.jic.ac.uk"
 
 #
 # Annotation data
 #
 
+# Directory for annotation data
+annotation_home: "/vagrant/source_data"
+
 # Base URL for gene model annotation
 # Arabidopsis
 #root_annotation_url: "http://mtweb.cs.ucl.ac.uk/mus/www/19genomes/annotations/consolidated_annotation_9.4.2011/gene_models/"
 # Rice
-root_annotation_url - "http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/"
+annotation_root_url: "http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/"
 
-# List of gene model annotation GFF files to down load from annotatioon_root_url
+# List of gene model annotation GFF files to down load from annotation_root_url
 annotation_files:
 # Arabidopsis
-  - "consolidated_annotation.Col_0.gff3.bz2"
+  #- "consolidated_annotation.Col_0.gff3.bz2"
   #- "consolidated_annotation.Bur_0.gff3.bz2"
   #- "consolidated_annotation.Can_0.gff3.bz2"
   #- "consolidated_annotation.Ct_1.gff3.bz2"
@@ -57,15 +70,18 @@ annotation_files:
 # Reference sequence files
 #
 
+# Directory for reference sequence Fasta files
+reference_home: "/vagrant/source_data"
+
 # Base URL for reference chromosome sequences
 # Arabidopsis
-#root_refseq_url: "ftp://ftp.arabidopsis.org/home/tair/Sequences/whole_chromosomes/"
+#root_refseq_url: "ftp://ftp.arabidopsis.org/home/tair/Sequences/whole_chromosomes"
 
 # Rice
-root_refseq_url: "http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0/"
+reference_root_url: "http://rice.plantbiology.msu.edu/pub/data/Eukaryotic_Projects/o_sativa/annotation_dbs/pseudomolecules/version_7.0"
 
 # Reference sequence FASTA files
-refseq_files:
+reference_fasta_files:
 # Arabidopsis
 #  - "TAIR10_chr1.fas"
 #  - "TAIR10_chr2.fas"
@@ -85,4 +101,37 @@ refseq_files:
   - "chr09.dir/Chr9.seq"
   - "chr10.dir/Chr10.seq"
   - "chr11.dir/Chr11.seq"
-  - "chr12.dir/Chr10.seq"
+  - "chr12.dir/Chr12.seq"
+
+#
+# Data for different strains
+#
+
+# Directory for strains data
+strains_home: "/vagrant/source_data"
+
+#
+# Database variables
+#
+
+# The database name
+foldatlas_db: "foldatlas"
+
+# The database user
+foldatlas_db_user: "fa_user"
+foldatlas_db_pass: "@_t3mp_Pas5"
+
+#
+# SQL files
+#
+
+foldatlas_sql_dir: "/vagrant/source_data"
+foldatlas_schema_sql: "foldatlas.schema.sql.gz"
+
+#
+# Structure data
+#
+
+structures_home: "/vagrant/structure_data"
+structure_tids_file: "structure_tids.txt"
+

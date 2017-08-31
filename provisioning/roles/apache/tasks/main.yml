@@ -4,6 +4,7 @@
 - name: install Apache and mod_wsgi
   apt: name={{ item }}
        state=present
+       update_cache=yes
   with_items:
     - apache2
     - libapache2-mod-wsgi
