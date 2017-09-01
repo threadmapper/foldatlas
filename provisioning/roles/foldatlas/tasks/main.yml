@@ -42,23 +42,35 @@
               priv='*.*:ALL'
               state=present
 
-- name: add the SQL schema to the SQL dir
-  copy: src={{ foldatlas_schema_sql }}
-        dest={{ foldatlas_sql_dir }}
+- name: increase max_allowed_packet to allow for huge chromosome DNA strings
+  mysql_variables: variable="max_allowed_packet"
+                   value=1073741824
+                   login_user="{{ foldatlas_db_user }}"
+                   login_password="{{ foldatlas_db_pass }}"
 
-- name: load foldatlas schema
-  mysql_db: name={{ foldatlas_db }}
-            state=import
-            target="{{ foldatlas_sql_dir }}/{{ foldatlas_schema_sql }}"
+#- name: add the SQL schema to the SQL dir
+#  copy: src={{ foldatlas_schema_sql }}
+#        dest={{ foldatlas_sql_dir }}
+
+#- name: load foldatlas schema
+#  mysql_db: name={{ foldatlas_db }}
+#            state=import
+#            target="{{ foldatlas_sql_dir }}/{{ foldatlas_schema_sql }}"
 
 #
 # --- Populate DB ---
 #
 
-#
-# --- Export DB ---
-#
+- name: load SQL dump if it exists
+  mysql_db: name={{ foldatlas_db }}
+            state=import
+            target="{{ foldatlas_downloads_dir }}/{{ foldatlas_sql_dump }}"
+            login_user="{{ foldatlas_db_user }}"
+            login_password="{{ foldatlas_db_pass }}"
 
 #
-# --- Import DB ---
+# --- Configure Apache2 ---
 #
+
+- name: copy apache configuration template to guest VM
+  command: "cp {{ apache_config_file }} /etc/apache2/sites_available"

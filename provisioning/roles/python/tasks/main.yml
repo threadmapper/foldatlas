@@ -21,6 +21,7 @@
     - Flask
     - Flask-Migrate
     - Flask-SQLAlchemy
+    - Flask-Script
     - mysql-connector==2.1.4
 #    - forgi
 
