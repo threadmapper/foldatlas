@@ -1,31 +1,36 @@
 ---
+#
 # Install and configure foldatlas.
 #
+
+- name: create data directory
+  file: path={{ foldatlas_sql_dir }}
+        mode=0700
+        state=directory
 
 #
 # --- Download data ---
 #
 
 - name: download the annotation data
-  get_url: url={{ item }} dest={{ annotation_home }}
-  with_items: 
-    - "{{ annotation_urls }}"
-    - "{{ relative_annotations_urls }}"
+  get_url: url={{ annotation_root_url }}/{{ item }} 
+           dest={{ annotation_home }}
+  with_items: "{{ annotation_files }}"
 
-- name: download reference genome
-  get_url: url={{ item }} dest={{ reference_home }}
-  with_items:
-    - "{{ reference_genome_url }}{{ reference_chrs }}"
+#- name: download reference genome
+#  get_url: url={{ reference_root_url }}/{{ item }} 
+#           dest={{ reference_home }}
+#  with_items: "{{ reference_fasta_files }}"
 
-- name: download fasta of other strains
-  get_url: url={{ item }} dest={{ strains_home }}
-  with_items:
-    - "{{ strains_url }}{{ strains_fasta }}"
+#- name: download fasta of other strains
+#  get_url: url={{ item }} dest={{ strains_home }}
+#  with_items:
+#    - "{{ strains_url }}{{ strains_fasta }}"
 
-- name: download and decompress GFF
-  unarchive: src={{ item }} dest={{ gff_home }}
-  with_items:
-    - "{{ gff_url }}{{ gff }}"
+#- name: download and decompress GFF
+#  unarchive: src={{ item }} dest={{ gff_home }}
+#  with_items:
+#    - "{{ gff_url }}{{ gff }}"
 
 #
 # --- Configure DB ---
@@ -36,21 +41,55 @@
               password={{ foldatlas_db_pass }}
               priv='*.*:ALL'
               state=present
-              encrypted=yes
 
-- name: load foldatlas schema
-  mysql_db: name={{ foldatlas_db }}
-            state=import
-            target={{ foldatlas_sql }}
+- name: increase max_allowed_packet to allow for huge chromosome DNA strings
+  mysql_variables: variable="max_allowed_packet"
+                   value=1073741824
+                   login_user="{{ foldatlas_db_user }}"
+                   login_password="{{ foldatlas_db_pass }}"
+
+#- name: add the SQL schema to the SQL dir
+#  copy: src={{ foldatlas_schema_sql }}
+#        dest={{ foldatlas_sql_dir }}
+
+#- name: load foldatlas schema
+#  mysql_db: name={{ foldatlas_db }}
+#            state=import
+#            target="{{ foldatlas_sql_dir }}/{{ foldatlas_schema_sql }}"
 
 #
 # --- Populate DB ---
 #
 
-#
-# --- Export DB ---
-#
+- name: load SQL dump if it exists
+  mysql_db: 
+    name={{ foldatlas_db }}
+    state=import
+    target="{{ foldatlas_downloads_dir }}/{{ foldatlas_sql_dump }}"
+    login_user="{{ foldatlas_db_user }}"
+    login_password="{{ foldatlas_db_pass }}"
 
 #
-# --- Import DB ---
+# --- Add Web Content ---
 #
+
+- name: ensure that /var/www/static exists
+  file:
+    path: /var/www/static
+    state: directory
+
+- name: copy over static files for website
+  copy:
+    src: "{{ role_path }}/files/static/"
+    dest: "/var/www/static/"
+
+- name: ensure that /var/www/foldatlas exists
+  file:
+    path: /var/www/foldatlas
+    state: directory
+
+- name: copy over foldatlas flask files for website
+  copy:
+    src: "{{ role_path }}/files/foldatlas/"
+    dest: "/var/www/foldatlas/"
+

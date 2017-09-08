@@ -170,14 +170,12 @@ if __name__ == "__main__":
         # custom commands
         if argv[ 1 ] == "grabstructures":
             import utils
-
             utils.grab_structures()
 
         elif argv[ 1 ] == "hydratedb":
             # reset the database
-            import database
-
-            database.import_db( 2 )
+            import importers
+            importers.import_db( 2 )
 
         elif argv[ 1 ] == "exportfasta":
             # export sequences into a big fasta file
@@ -189,12 +187,10 @@ if __name__ == "__main__":
 
         elif argv[ 1 ] == "export_structure_tids":
             from importers import StructureTidsExporter
-
             StructureTidsExporter().export()
 
         else:  # some other command
             from models import manager
-
             manager.run()
 
     else:

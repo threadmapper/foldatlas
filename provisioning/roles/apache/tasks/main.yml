@@ -4,18 +4,32 @@
 - name: install Apache and mod_wsgi
   apt: name={{ item }}
        state=present
+       update_cache=yes
   with_items:
     - apache2
     - libapache2-mod-wsgi
 
+- name: create Apache virtual host file
+  copy:
+    src="{{ role_path }}/files/{{ apache_config_file }}"
+    dest="/etc/apache2/sites-available/"
+
+- name: enable virtual host within Apache
+  command: a2ensite {{ apache_config_file }} 
+
+- name: enable wsgi apache module
+  command: a2enmod wsgi
+
 - name: start apache and enable at boot
-  service: name=apache2
-           enabled=yes
-           state=started
+  service: 
+    name=apache2
+    enabled=yes
+    state=started
 
 - name: open up http, https
-  lineinfile: dest=/etc/ferm/ferm.conf
-              line='proto tcp dport (http https) ACCEPT;'
-              insertafter='# Ansible specified rules.'
+  lineinfile:
+    dest=/etc/ferm/ferm.conf
+    line='proto tcp dport (http https) ACCEPT;'
+    insertafter='# Ansible specified rules.'
   notify: run ferm
 

@@ -1,44 +1,44 @@
 #!/bin/bash
 
 function hydrate_db() {
-	pretty_print "Hydrating database"
-	cd /vagrant/foldatlas
-	python3 app.py hydratedb
+    pretty_print "Hydrating database"
+    cd /vagrant/foldatlas
+    python3 app.py hydratedb
 }
 
 function export_db() {
-	pretty_print "Dumping database"
-	cd /vagrant/static/downloads/
-	mysqldump -uroot -pvagrant --add-drop-database foldatlas > foldatlas.sql
-	tar -czpf foldatlas.sql.tar.gz foldatlas.sql
-	rm foldatlas.sql
+    pretty_print "Dumping database"
+    cd /vagrant/static/downloads/
+    mysqldump -uroot -pvagrant --add-drop-database foldatlas > foldatlas.sql
+    tar -czpf foldatlas.sql.tar.gz foldatlas.sql
+    rm foldatlas.sql
 }
 
 function import_db() {
-	pretty_print "Extracting database..."
-	cd /vagrant/static/downloads/
-	tar xvzf foldatlas.sql.tar.gz
-	echo "Done."
+    pretty_print "Extracting database..."
+    cd /vagrant/static/downloads/
+    tar xvzf foldatlas.sql.tar.gz
+    echo "Done."
 
 
 	# PASSWORD=jGEHL3qT6sdntJD9pfyB8f3hGzBajLW2
 	PASSWORD=vagrant
 
-	pretty_print "Importing database..."
+    pretty_print "Importing database..."
 
-	# stops mysql crashing out on import
-	echo "SET GLOBAL max_allowed_packet=1073741824;" | mysql -u root -p$PASSWORD
+    # stops mysql crashing out on import
+    echo "SET GLOBAL max_allowed_packet=1073741824;" | mysql -u root -p$PASSWORD
 
-	# does the actual import
+    # does the actual import
 
-	# live password
-	# mysql -uroot -pjGEHL3qT6sdntJD9pfyB8f3hGzBajLW2 foldatlas < foldatlas.sql
+    # live password
+    # mysql -uroot -pjGEHL3qT6sdntJD9pfyB8f3hGzBajLW2 foldatlas < foldatlas.sql
 
-	# local version
-	mysql -uroot -p$PASSWORD foldatlas < foldatlas.sql
-	rm foldatlas.sql
+    # local version
+    mysql -uroot -p$PASSWORD foldatlas < foldatlas.sql
+    rm foldatlas.sql
 
-	echo "Done."
+    echo "Done."
 }
 
 # Grabs lots of genome data files. These will be parsed and used to seed the SNP database.
@@ -137,7 +137,7 @@ function dl_sauce() {
 
 # Prints aesthetically pleasing messages into the terminal.
 function pretty_print() {
-	printf "\n-=-=-=-=[ $1 ]=-=-=-=-\n"
+    printf "\n-=-=-=-=[ $1 ]=-=-=-=-\n"
     len=${#1} ch='-'
     padding=$(printf '%*s' "$len" | tr ' ' "$ch")
     printf "          $padding\n\n"
@@ -145,47 +145,47 @@ function pretty_print() {
 
 # Fetch a .bz2 file and extract it
 function fetch_extract_gff3() {
-	base_sauce_url=$1
-	base_filename=$2
-	sauce_url="$base_sauce_url$base_filename"
+    base_sauce_url=$1
+    base_filename=$2
+    sauce_url="$base_sauce_url$base_filename"
 
-	echo "Processing [$base_filename]..."
-	if [ ! -f "$base_filename.gff3" ]
-		then
-		echo "Fetching..."
-		curl "$sauce_url.gff3.bz2" -o "$base_filename.gff3.bz2" >&/dev/null # fetch compressed file
-		bunzip2 "$base_filename.gff3.bz2" # decompress to get the .gff3 file
-		echo "...Done."
-	else
-		echo "...Already exists!"
-	fi
+    echo "Processing [$base_filename]..."
+    if [ ! -f "$base_filename.gff3" ]
+        then
+        echo "Fetching..."
+        curl "$sauce_url.gff3.bz2" -o "$base_filename.gff3.bz2" >&/dev/null # fetch compressed file
+        bunzip2 "$base_filename.gff3.bz2" # decompress to get the .gff3 file
+        echo "...Done."
+    else
+        echo "...Already exists!"
+    fi
 }
 
 # Fetch a file and save it.
 function fetch_raw() {
-	base_sauce_url=$1
-	base_filename=$2
-	sauce_url="$base_sauce_url$base_filename"
+    base_sauce_url=$1
+    base_filename=$2
+    sauce_url="$base_sauce_url$base_filename"
 
-	echo "Processing [$base_filename]..."
+    echo "Processing [$base_filename]..."
 
-	if [ ! -f "$base_filename" ] # if file does not exist...
-		then
-		echo "Fetching..."
-		curl "$sauce_url" -o "$base_filename" >&/dev/null
-		echo "...Done."
-	else
-		echo "...Already exists!"
-	fi
+    if [ ! -f "$base_filename" ] # if file does not exist...
+        then
+        echo "Fetching..."
+        curl "$sauce_url" -o "$base_filename" >&/dev/null
+        echo "...Done."
+    else
+        echo "...Already exists!"
+    fi
 
 }
 
 # this is only really useful in the production environment
 # since we prefer Flask's own web server for development
 function install_apache_wsgi() {
-	pretty_print "Installing Apache WSGI"
-	apt-get install -y apache2
-	apt-get install -y libapache2-mod-wsgi
-	cp /vagrant/bootstrap/000-default.conf /etc/apache2/sites-available/000-default.conf
-	service apache2 restart
+    pretty_print "Installing Apache WSGI"
+    apt-get install -y apache2
+    apt-get install -y libapache2-mod-wsgi
+    cp /vagrant/bootstrap/000-default.conf /etc/apache2/sites-available/000-default.conf
+    service apache2 restart
 }
