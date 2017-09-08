@@ -11,7 +11,7 @@ site_url: "http://foldatlas.jic.ac.uk"
 # Apache config file
 #
 
-apache_config_file: "/vagrant/bootstrap/000-default_vagrant.conf"
+apache_config_file: "foldatlas.conf"
 
 #
 # Species
