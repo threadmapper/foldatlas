@@ -14,11 +14,12 @@ from alembic import op
 import sqlalchemy as sa
 from importers import BppmImporter
 
+
 def upgrade():
-	BppmImporter().run()
-	exit()
+    BppmImporter().run()
+    exit()
+
 
 def downgrade():
-	print("Nothign to do for BPPM import reversal")
-	pass
-	
+    print( "Nothign to do for BPPM import reversal" )
+    pass

@@ -10,7 +10,7 @@ function export_db() {
 	pretty_print "Dumping database"
 	cd /vagrant/static/downloads/
 	mysqldump -uroot -pvagrant --add-drop-database foldatlas > foldatlas.sql
-	tar -czpf foldatlas.sql.tar.gz foldatlas.sql 
+	tar -czpf foldatlas.sql.tar.gz foldatlas.sql
 	rm foldatlas.sql
 }
 
@@ -20,7 +20,7 @@ function import_db() {
 	tar xvzf foldatlas.sql.tar.gz
 	echo "Done."
 
-	
+
 	# PASSWORD=jGEHL3qT6sdntJD9pfyB8f3hGzBajLW2
 	PASSWORD=vagrant
 
@@ -45,12 +45,15 @@ function import_db() {
 function dl_sauce() {
 	pretty_print "Grabbing sauce data"
 	# TODO
-	# grab raw genome data from network if available. 
+	# grab raw genome data from network if available.
 	# otherwise, download the data from its origin
 	cd /vagrant/sauce_data
 
 	# Grab sequence annotation files, relative to both strain-of-interest and reference, for each strain
 	urlbase="http://mus.well.ox.ac.uk/19genomes/annotations/consolidated_annotation_9.4.2011/gene_models/"
+
+	# the URI above is not reachable...it should be:
+	# http://mtweb.cs.ucl.ac.uk/mus/www/19genomes/annotations/consolidated_annotation_9.4.2011/gene_models/
 
 	fetch_extract_gff3 $urlbase "consolidated_annotation.Col_0"
 	fetch_extract_gff3 $urlbase "consolidated_annotation.Bur_0"
@@ -108,6 +111,9 @@ function dl_sauce() {
 
 	# Grab chromosomal sequences for each of the 18 other strains
 	urlbase="http://mus.well.ox.ac.uk/19genomes/fasta/MASKED/"
+
+    # the URI above is not reachable...it should be:
+    # http://mtweb.cs.ucl.ac.uk/mus/www/19genomes/fasta/MASKED/
 
 	fetch_raw $urlbase "bur_0.v7.PR_in_lowercase.fas"
 	fetch_raw $urlbase "can_0.v7.PR_in_lowercase.fas"
@@ -171,7 +177,7 @@ function fetch_raw() {
 	else
 		echo "...Already exists!"
 	fi
-	
+
 }
 
 # this is only really useful in the production environment
