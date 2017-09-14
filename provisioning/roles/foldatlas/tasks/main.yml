@@ -37,10 +37,18 @@
 #
 
 - name: create mysql account for foldatlas
-  mysql_user: name={{ foldatlas_db_user }}
-              password={{ foldatlas_db_pass }}
-              priv='*.*:ALL'
-              state=present
+  mysql_user:
+    name: "{{ foldatlas_db_user }}"
+    password: "{{ foldatlas_db_pass }}"
+    priv: '*.*:ALL'
+    state: present
+
+- name: Set root user password
+  mysql_user:
+    name: "root"
+    password: "{{ root_db_password }}"
+    check_implicit_admin: yes
+    state: present
 
 - name: increase max_allowed_packet to allow for huge chromosome DNA strings
   mysql_variables: variable="max_allowed_packet"
