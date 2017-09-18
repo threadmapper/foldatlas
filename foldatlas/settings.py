@@ -8,12 +8,12 @@ if live:
     dbpassword = "s7Alvwh801mcZ"  # don't put the real live password here. change it on server instead.
     bppms_folder = "/var/data/bppms"  # this will need to be changed for live site
 else:
-    app_base_url = "http://foldatlas.dev"
-    static_base_url = "http://static.foldatlas.dev"
-    static_path = "/vagrant/static"
-    dbuser = "root"
-    dbpassword = "vagrant"
-    bppms_folder = "/vagrant/sauce_data/bppms"
+	app_base_url = "http://localhost:8080"
+	static_base_url = "/static"
+	static_path = "/var/www/static"
+	dbuser = "fa_user"
+	dbpassword = "@_t3mp_Pas5"
+	bppms_folder = "/vagrant/sauce_data/bppms"
 
 # This defines hostname, database name, username and password for connecting to the DB.
 database_uri = "mysql+mysqlconnector://" + dbuser + ":" + dbpassword + "@127.0.0.1/foldatlas?charset=utf8&use_unicode=0"

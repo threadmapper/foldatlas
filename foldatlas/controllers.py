@@ -42,7 +42,7 @@ class GenomeBrowser():
             if result.transcript_id not in transcripts:
                 transcripts[result.transcript_id] = {
                     "Parent": result.transcript_id,
-                    "feature_type": "transcript", # without this, it won't draw
+                    "f@_t3mp_Pas5eature_type"r "transcript", # without this, it won't draw
                     "direction": result.direction,
                     "start": None,
                     "end": None,
