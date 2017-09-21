@@ -95,6 +95,7 @@
   unarchive:
     src: http://www.foldatlas.com/static/downloads/foldatlas.sql.tar.gz
     dest: "{{ foldatlas_downloads_dir }}"
+    creates: foldatlas.sql
     remote_src: yes
 
 - name: load SQL dump
