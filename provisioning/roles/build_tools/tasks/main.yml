@@ -2,11 +2,13 @@
 # Install and configure build tools.
 
 - name: install gcc
-  apt: name=gcc
-       state=present
-       update_cache=yes
+  package:
+    name: gcc
+    state: present
+    update_cache: yes
 
 - name: install git
-  apt: name=git
-       state=present
-       update_cache=yes
+  package:
+    name: git
+    state: present
+    update_cache: yes

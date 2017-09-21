@@ -2,20 +2,24 @@
 # Install and configure ferm.
 #
 
-- name: install iptables for ubuntu # needed save iptables handler
-  apt: name=iptables
-       state=present
+- name: install iptables 
+  package:
+    name: iptables
+    state: present
 
 - name: install ferm
-  apt: name=ferm
-       state=present
+  package:
+    name: ferm
+    state: present
 
 - name: add /etc/ferm directory
-  file: path=/etc/ferm
-        mode=0700
-        state=directory
+  file:
+    path: /etc/ferm
+    mode: 0700
+    state: directory
 
 - name: add the ferm.conf file to /etc/ferm
-  copy: src=ferm.conf
-        dest=/etc/ferm/ferm.conf
+  copy:
+    src: ferm.conf
+    dest: /etc/ferm/ferm.conf
   notify: run ferm

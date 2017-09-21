@@ -12,10 +12,10 @@
 # --- Download data ---
 #
 
-- name: download the annotation data
-  get_url: url={{ annotation_root_url }}/{{ item }} 
-           dest={{ annotation_home }}
-  with_items: "{{ annotation_files }}"
+#- name: download the annotation data
+#  get_url: url={{ annotation_root_url }}/{{ item }} 
+#           dest={{ annotation_home }}
+#  with_items: "{{ annotation_files }}"
 
 #- name: download reference genome
 #  get_url: url={{ reference_root_url }}/{{ item }} 
@@ -36,25 +36,28 @@
 # --- Configure DB ---
 #
 
+#- name: Set root user password
+#  mysql_user:
+#    name: "root"
+#    password: "{{ root_db_password }}"
+#    check_implicit_admin: yes
+#    state: present
+
 - name: create mysql account for foldatlas
   mysql_user:
     name: "{{ foldatlas_db_user }}"
     password: "{{ foldatlas_db_pass }}"
     priv: '*.*:ALL'
-    state: present
-
-- name: Set root user password
-  mysql_user:
-    name: "root"
-    password: "{{ root_db_password }}"
-    check_implicit_admin: yes
+    login_user: 'root'
+    login_password: "{{ root_db_password }}"
     state: present
 
 - name: increase max_allowed_packet to allow for huge chromosome DNA strings
-  mysql_variables: variable="max_allowed_packet"
-                   value=1073741824
-                   login_user="{{ foldatlas_db_user }}"
-                   login_password="{{ foldatlas_db_pass }}"
+  mysql_variables:
+    variable: "max_allowed_packet"
+    value: 1073741824
+    login_user: "{{ foldatlas_db_user }}"
+    login_password: "{{ foldatlas_db_pass }}"
 
 #- name: add the SQL schema to the SQL dir
 #  copy: src={{ foldatlas_schema_sql }}
@@ -66,10 +69,35 @@
 #            target="{{ foldatlas_sql_dir }}/{{ foldatlas_schema_sql }}"
 
 #
+# --- Setup directories
+#
+
+- file:
+    path: "{{ foldatlas_root_dir }}"
+    state: directory
+    mode: 0755
+
+- file:
+    path: "{{ foldatlas_sql_dir }}"
+    state: directory
+    mode: 0755
+
+- file:
+    path: "{{ foldatlas_downloads_dir }}"
+    state: directory
+    mode: 0755
+
+#
 # --- Populate DB ---
 #
 
-- name: load SQL dump if it exists
+- name: download and unarchive SQL dump
+  unarchive:
+    src: http://www.foldatlas.com/static/downloads/foldatlas.sql.tar.gz
+    dest: "{{ foldatlas_downloads_dir }}"
+    remote_src: yes
+
+- name: load SQL dump
   mysql_db: 
     name={{ foldatlas_db }}
     state=import

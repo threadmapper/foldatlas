@@ -134,10 +134,11 @@ root_db_password: "vagrant"
 # SQL files
 #
 
-foldatlas_sql_dir: "/vagrant/source_data"
+foldatlas_root_dir: "/opt/foldatlas"
+foldatlas_sql_dir: "/opt/foldatlas/source_data"
 foldatlas_schema_sql: "foldatlas.schema.sql.gz"
-foldatlas_downloads_dir: "/vagrant/static/downloads"
-foldatlas_sql_dump: "foldatlas.sql.bz2"
+foldatlas_downloads_dir: "/opt/foldatlas/source_data/downloads"
+foldatlas_sql_dump: "foldatlas.sql"
 
 #
 # Structure data

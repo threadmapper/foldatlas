@@ -3,15 +3,17 @@
 # Install and configure MariaDB
 
 - name: install MariaDB 
-  apt: name={{ item }}
-       state=present
+  package:
+    name: "{{ item }}"
+    state: present
   with_items:
     - mariadb-common
     - mariadb-server
     - python-mysqldb
 
 - name: start MariaDB daemon and enable at boot
-  service: name=mysql
-           enabled=yes
-           state=started
+  service:
+    name: mysql
+    enabled: yes
+    state: started
 
