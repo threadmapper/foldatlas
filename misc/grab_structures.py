@@ -12,14 +12,14 @@ dest_folder = os.path.expanduser("~/foldatlas/sauce_data/structures")
 genes_to_grab = {"AT3G29370.1", "AT3G48550.1", "AT2G31360.1"}
 
 def process_folder(sauce_folder, dest_folder):
-	files = os.listdir(sauce_folder)
-	for filename in files:
-		for gene in genes_to_grab:
-			if gene in filename:
-				sauce = sauce_folder+"/"+filename
-				dest = dest_folder+"/"+filename
-				shutil.copyfile(sauce, dest)
-				print("Added ["+dest+"]")
+    files = os.listdir(sauce_folder)
+    for filename in files:
+        for gene in genes_to_grab:
+            if gene in filename:
+                sauce = sauce_folder+"/"+filename
+                dest = dest_folder+"/"+filename
+                shutil.copyfile(sauce, dest)
+                print("Added ["+dest+"]")
 
 process_folder(sauce_folder+"/in_silico_structures", dest_folder+"/in_silico")
 process_folder(sauce_folder+"/in_vivo_structures", dest_folder+"/in_vivo")

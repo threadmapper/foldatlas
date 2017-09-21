@@ -1,4 +1,3 @@
-
 # Database package
 # Includes all the code needed to import plaintext files into the DB.
 # @author Matthew Norris <matthew.norris@jic.ac.uk>
@@ -19,9 +18,9 @@ import re
 import math
 
 # from app import sqla
-engine = create_engine(settings.database_uri, convert_unicode=True)
+engine = create_engine( settings.database_uri, convert_unicode=True )
 
 # Autoflush = true is important to prevent errors on EC2
-db_session = scoped_session(sessionmaker(autocommit=False, autoflush=True, bind=engine))
+db_session = scoped_session( sessionmaker( autocommit=False, autoflush=True, bind=engine ) )
 # Base = sqla.Model # declarative_base()
 # Base.query = db_session.query_property()
