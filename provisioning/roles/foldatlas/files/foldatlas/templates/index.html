@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<!--
+
+       /)  _,_ //  __/  __,  -/- // __,   ,  
+     _//__(_/_(/__(_/(_(_/(__/__(/_(_/(__/_)_
+    _/                                       
+    /)                                       
+
+(C) 2015-2016 | Matthew Norris | Ding Lab
+
+-->
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <title>FoldAtlas</title>
+
+    <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/foldatlas/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/foldatlas/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/assets/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/assets/forna/htdocs/css/fornac.css" media="screen" />
+
+    <script type="text/javascript" src="{{ settings.static_base_url }}/foldatlas/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/foldatlas/jquery-ui.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/foldatlas/d3.v3.min.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/assets/jquery.jqpagination.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/assets/colorbrewer.min.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/assets/forna/htdocs/js/fornac.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/assets/FileSaver.js/FileSaver.js"></script>
+    
+    <!-- FoldAtlas config and js -->
+    <script type="text/javascript">
+        window.foldatlasConfig = {
+            staticBaseUrl: "{{ settings.static_base_url }}",
+            appBaseUrl: "{{ settings.app_base_url }}"
+
+        }
+    </script>
+
+    <script type="text/javascript" src="{{ settings.static_base_url }}/foldatlas/simplejsinheritance.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/foldatlas/d3nome.js"></script>
+    <script type="text/javascript" src="{{ settings.static_base_url }}/foldatlas/main.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () { 
+            {% set chromosomes = genome_browser.get_chromosomes() %}
+
+            window.d3nomeConfig = {
+                container: "#d3nome",
+                selectedChromosome: 0, // i.e. select the first chromosome
+
+                // define where to get the data from
+                // will call with GET params "chr", "start", and "end".
+                featuresUrl: window.foldatlasConfig.appBaseUrl+"/ajax/genome-browser/transcripts",
+                genesUrl: window.foldatlasConfig.appBaseUrl+"/ajax/genome-browser/genes",
+                chromosomes: [
+                    {% for chromosome in chromosomes %}
+                    {
+                        id: "{{ chromosome.chromosome_id }}", 
+                        length: "{{ chromosome.length }}"
+                    },
+                    {% endfor %}
+                ],
+                geneClick: function(transcriptID) {
+                    window.browserController.jumpTo("/transcript/"+transcriptID);
+                }
+            }
+            window.d3nomeObject = new D3nome(window.d3nomeConfig);
+
+            window.browserController = new BrowserController(window.foldatlasConfig);
+        });
+
+    </script>
+
+    <!-- Dynamically generated CSS goes here -->
+    <style>
+        #header {
+            background: url("{{ settings.static_base_url }}/assets/header-bg.png");
+        }
+
+        /* explicitly specify the fonts, so it looks the same between browsers / platforms */
+        @font-face {
+            font-family: UbuntuFA;
+            src: url("{{ settings.static_base_url }}/assets/ubuntu_fonts/Ubuntu-R.ttf");
+        }
+
+        @font-face {
+            font-family: UbuntuFA;
+            src: url("{{ settings.static_base_url }}/assets/ubuntu_fonts/Ubuntu-B.ttf");
+            font-weight: bold;
+        }
+
+        @font-face {
+            font-family: UbuntuMonoFA;
+            src: url("{{ settings.static_base_url }}/assets/ubuntu_fonts/UbuntuMono-R.ttf");
+        }
+
+        @font-face {
+            font-family: UbuntuMonoFA;
+            src: url("{{ settings.static_base_url }}/assets/ubuntu_fonts/UbuntuMono-B.ttf");
+            font-weight: bold;
+        }
+
+    </style>
+
+  </head>
+  <body>
+    <div id="structure-pca-chart-tooltip"></div>
+    <div id="loading-indicator" style="display: none;">
+        <i class="fa fa-cog fa-spin"></i>
+    </div>
+
+    <div id="main-container">
+        <div id="header">
+            <span id="title">FoldAtlas</span>
+            <span id="desc">A repository for genome-scale RNA structure probing data</span>
+            <a id="help-button" href="{{ settings.app_base_url }}/help" class="button" id="documentation-button">
+                <i class="fa fa-question-circle"></i>&nbsp;Help
+            </a>
+            <a href="{{ settings.static_base_url }}/downloads/foldatlas.sql.tar.gz" class="button">
+                <i class="fa fa-download"></i>&nbsp;Download all
+            </a>
+            <a id="search-button" href="#" class="button"><i class="fa fa-search"></i>&nbsp;Search</a>
+        </div>
+
+        <div id="content">
+
+            <div id="help" {% if page != "help" %}style="display: none;"{% endif %}>
+                {% if page == "help" %}
+                    {% include "help-view.html" %}
+                {% endif %}
+            </div>
+
+            <div id="search" {% if page != "search" %}style="display: none;"{% endif %}>
+                <div class="tabs">
+                    <div class="tab active" id="search-tab-transcript-id" data-ui-id="search-transcript-id"><i class="fa fa-search"></i>&nbsp;Transcript ID</div>
+                    <div class="tab" id="search-tab-coverage" data-ui-id="search-coverage"><i class="fa fa-search"></i>&nbsp;Coverage</div>
+                </div>
+
+                <div id="search-transcript-id">
+                    <div id="search-transcript-id-container">
+                        <input type="text" id="search-transcript-id-text" />
+                        <a href="#" class="button" type="submit" id="search-transcript-id-submit">Search</a>
+                    </div>
+                    <div id="search-transcript-id-message" class="message" style="display: none;">
+                        <!-- filled by JS -->
+                    </div>
+                </div>
+
+                <div id="search-coverage" style="display: none;"><!-- filled by JS --></div>
+            </div>
+
+            <!-- this empty div will be filled by d3nome -->
+            <div id="d3nome" class="d3nome-container" {% if page != "home" and page != "transcript" %}style="display: none;"{% endif %}></div>
+
+            <!-- Transcript data is added here when loading -->
+            <div id="transcript-data">
+                {% if transcript_view is defined %}
+                    {% include "transcript-view.html" %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div id="info-panel">
+        Version 1.1
+        (C) 2015 <a href="https://www.jic.ac.uk/directory/yiliang-ding">Ding lab</a>.
+        <a href="https://www.github.com/mnori/foldatlas"> Github page</a>.
+        General comments or questions: <a href="email:matthew.norris@jic.ac.uk">matthew.norris@jic.ac.uk</a>.
+    </div>
+  </body>
+</html>
