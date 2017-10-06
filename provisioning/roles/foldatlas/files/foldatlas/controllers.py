@@ -817,14 +817,14 @@ class BppmDownloader():
     def fetch(self, transcript_id):
         import os
 
-        sauce_filepath = settings.bppms_folder+"/"+transcript_id+".bppm"
+        source_filepath = settings.bppms_folder+"/"+transcript_id+".bppm"
 
-        if not os.path.isfile(sauce_filepath):
+        if not os.path.isfile(source_filepath):
             return "No BPPM data available for "+transcript_id
 
         buf = ""
         # Open the raw BPPM and convert to our simpler format
-        with open(sauce_filepath, "r") as f:
+        with open(source_filepath, "r") as f:
             first = True
             for line in f:
                 if first: # skip the first line, which shows the length

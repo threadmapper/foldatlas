@@ -808,8 +808,8 @@ class StructureImporter():
         for transcript_id in transcript_ids:
 
             structure_filepath = \
-                experiment_config["sauce_filepath"] + \
-                "/"+transcript_id+experiment_config["sauce_ext"]
+                experiment_config["source_filepath"] + \
+                "/"+transcript_id+experiment_config["source_ext"]
 
             if not os.path.isfile(structure_filepath):
                 print("["+structure_filepath+"] skipped")

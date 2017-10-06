@@ -13,12 +13,12 @@ def rename_folder( folder_filepath ):
             print( "Skipped " + filename )
             continue
 
-        sauce_filepath = folder_filepath + "/" + filename
-        with open( sauce_filepath, "r" ) as f:
+        source_filepath = folder_filepath + "/" + filename
+        with open( source_filepath, "r" ) as f:
             line = f.readline()
             transcript_id = line.strip().split()[ -1 ]
             dest_filepath = folder_filepath + "/" + transcript_id + ".ct"
-            shutil.move( sauce_filepath, dest_filepath )
+            shutil.move( source_filepath, dest_filepath )
             print( "Moved to [" + dest_filepath + "]" )
 
 

@@ -28,7 +28,7 @@ default_species: "A. thaliana"
 #
 
 # Directory for annotation data
-annotation_home: "/vagrant/source_data"
+annotation_home: "/var/www/source_data"
 
 # Base URL for gene model annotation
 # Arabidopsis
@@ -77,7 +77,7 @@ annotation_files:
 #
 
 # Directory for reference sequence Fasta files
-reference_home: "/vagrant/source_data"
+reference_home: "/var/www/source_data"
 
 # Base URL for reference chromosome sequences
 # Arabidopsis
@@ -113,7 +113,7 @@ reference_fasta_files:
 #
 
 # Directory for strains data
-strains_home: "/vagrant/source_data"
+strains_home: "/var/www/source_data"
 
 #
 # Database variables
@@ -144,6 +144,12 @@ foldatlas_sql_dump: "foldatlas.sql"
 # Structure data
 #
 
-structures_home: "/vagrant/structure_data"
+structures_home: "/var/www/structure_data"
 structure_tids_file: "structure_tids.txt"
 
+#
+# Path for node.js installation
+#
+
+nodejs_path: "/var/www/static/assets"
+nodejs_version: "6.x"

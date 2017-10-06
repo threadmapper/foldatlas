@@ -60,7 +60,7 @@
     login_password: "{{ foldatlas_db_pass }}"
 
 #- name: add the SQL schema to the SQL dir
-#  copy: src={{ foldatlas_schema_sql }}
+#  synchronize: src={{ foldatlas_schema_sql }}
 #        dest={{ foldatlas_sql_dir }}
 
 #- name: load foldatlas schema
@@ -95,7 +95,7 @@
   unarchive:
     src: http://www.foldatlas.com/static/downloads/foldatlas.sql.tar.gz
     dest: "{{ foldatlas_downloads_dir }}"
-    creates: foldatlas.sql
+    creates: "{{ foldatlas_downloads_dir }}/foldatlas.sql"
     remote_src: yes
 
 - name: load SQL dump
@@ -105,6 +105,7 @@
     target="{{ foldatlas_downloads_dir }}/{{ foldatlas_sql_dump }}"
     login_user="{{ foldatlas_db_user }}"
     login_password="{{ foldatlas_db_pass }}"
+  when: initialised_db is not defined
 
 #
 # --- Add Web Content ---
@@ -116,7 +117,7 @@
     state: directory
 
 - name: copy over static files for website
-  copy:
+  synchronize:
     src: "{{ role_path }}/files/static/"
     dest: "/var/www/static/"
 
@@ -126,7 +127,11 @@
     state: directory
 
 - name: copy over foldatlas flask files for website
-  copy:
+  synchronize:
     src: "{{ role_path }}/files/foldatlas/"
     dest: "/var/www/foldatlas/"
 
+- name: ensure that /var/www/bpps exists
+  file:
+    path: /var/www/bpps
+    state: directory

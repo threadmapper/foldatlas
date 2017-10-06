@@ -6,25 +6,25 @@ if live:
     static_path = "/var/www/foldatlas/static"
     dbuser = "root"
     dbpassword = "s7Alvwh801mcZ" # don't put the real live password here. change it on server instead.
-    bppms_folder = "/var/data/bppms" # this will need to be changed for live site
+    bppms_folder = "/var/www/bppms" # this will need to be changed for live site
 else:
     app_base_url = "http://localhost:8080"
     static_base_url = "/static"
     static_path = "/var/www/static"
     dbuser = "fa_user"
     dbpassword = "@_t3mp_Pas5"
-    bppms_folder = "/vagrant/sauce_data/bppms"
+    bppms_folder = "/var/www/bppms"
 
 # This defines hostname, database name, username and password for connecting to the DB.
-database_uri = "mysql+mysqlconnector://"+dbuser+":"+dbpassword+"@127.0.0.1/foldatlas"
+database_uri = "mysql+mysqlconnector://"+dbuser+":"+dbpassword+"@127.0.0.1/foldatlas?charset=utf8&use_unicode=1"
 
 # Points to the general data folder
-data_folder = "/vagrant/sauce_data"
+data_folder = "/var/www/source_data"
 
 db_name="foldatlas"
 
 # Points to structure data folder, which contains a *lot* of files
-structure_data_folder = "/vagrant/structure_data"
+structure_data_folder = "/var/www/structure_data"
 structure_tids_filepath = data_folder+"/structure_tids.txt"
 
 raw_replicate_counts_keys = {
@@ -58,21 +58,21 @@ structures_in_silico = {
     "structure_prediction_run_id": 1,
     "strain_id": "Col_0",
     "description": "In silico structure prediction",
-    "sauce_filepath": structure_data_folder+"/in_silico_structures",
-    "sauce_ext": ".ct",
+    "source_filepath": structure_data_folder+"/in_silico_structures",
+    "source_ext": ".ct",
 }
 
 structures_in_vivo = {
     "structure_prediction_run_id": 2,
     "strain_id": "Col_0",
     "description": "In vivo experimental structure prediction",
-    "sauce_filepath": structure_data_folder+"/in_vivo_structures",
-    "sauce_ext": ".ct",
+    "source_filepath": structure_data_folder+"/in_vivo_structures",
+    "source_ext": ".ct",
 }
 
 transcripts_fasta_filepath = data_folder+"/transcripts.fasta"
 
-base_path = "/vagrant/foldatlas"
+base_path = "/var/www/foldatlas"
 
 genoverse_base = static_base_url+"/genoverse"
 
@@ -82,7 +82,7 @@ reference_strain_id = "Col_0"
 # path of folder for temporary files
 temp_folder = "/tmp"
 
-# Strain metadata. This is used to parse from sauce files when hydrating the DB.
+# Strain metadata. This is used to parse from source files when hydrating the DB.
 strains = [
     {
         "name": "Col_0",
