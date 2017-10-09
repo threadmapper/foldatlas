@@ -1,5 +1,4 @@
-/* 	CSS for RNA structure browser.
-	@author Matthew Norris */
+/* 	CSS for RNA structure browser. */
 
 body {
 	height: auto;
@@ -127,7 +126,7 @@ h1 .button {
 	margin-right: 0px;
 	margin-bottom: 0px;
 	margin-left: -1px;
-	vertical-align: bottom;	
+	vertical-align: bottom;
 	z-index: 9001;
 	font-weight: normal;
 }
@@ -176,7 +175,7 @@ h1 .button {
 	left: 15px;
 	bottom: 15px;
 	font-size: 14px;
-	line-height: 1em;	
+	line-height: 1em;
 }
 
 #title:hover {
@@ -327,7 +326,7 @@ h2.bar {
 }
 
 .c {
-	background-color: #ca0;	
+	background-color: #ca0;
 }
 
 .g {
@@ -522,7 +521,7 @@ svg#forna-key {
 	width: 630px;
 	height: 630px;
 	top: 40px;
-	right: 1px;	
+	right: 1px;
 }
 
 #forna-overlay {
@@ -710,7 +709,7 @@ svg#forna-key {
 	padding: 2px;
 	font-size: 13px;
 	white-space: nowrap; /* prevents line break at hyphens */
-	z-index: 3; 
+	z-index: 3;
 	/*font-weight: bold;*/
 
 	position: absolute;

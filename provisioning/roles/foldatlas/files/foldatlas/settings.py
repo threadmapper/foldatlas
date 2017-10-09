@@ -1,12 +1,12 @@
 live = False
 
 if live:
-    app_base_url = "http://www.foldatlas.com/" # if this is wrong, some ajax will fail
+    app_base_url = "http://www.foldatlas.com/"  # if this is wrong, some ajax will fail
     static_base_url = "/static"
     static_path = "/var/www/foldatlas/static"
     dbuser = "root"
-    dbpassword = "s7Alvwh801mcZ" # don't put the real live password here. change it on server instead.
-    bppms_folder = "/var/www/bppms" # this will need to be changed for live site
+    dbpassword = "s7Alvwh801mcZ"  # don't put the real live password here. change it on server instead.
+    bppms_folder = "/var/www/bppms"  # this will need to be changed for live site
 else:
     app_base_url = "http://localhost:8080"
     static_base_url = "/static"
@@ -15,42 +15,42 @@ else:
     dbpassword = "@_t3mp_Pas5"
     bppms_folder = "/var/www/bppms"
 
-# This defines hostname, database name, username and password for connecting to the DB.
-database_uri = "mysql+mysqlconnector://"+dbuser+":"+dbpassword+"@127.0.0.1/foldatlas?charset=utf8&use_unicode=1"
+# Format the database connection string
+database_uri = "mysql+mysqlconnector://{}:{}@127.0.0.1/foldatlas?{}".format( dbuser,
+                                                                             dbpassword,
+                                                                             'charset=utf8&use_unicode=1' )
 
 # Points to the general data folder
 data_folder = "/var/www/source_data"
 
-db_name="foldatlas"
+db_name = "foldatlas"
 
 # Points to structure data folder, which contains a *lot* of files
 structure_data_folder = "/var/www/structure_data"
-structure_tids_filepath = data_folder+"/structure_tids.txt"
+structure_tids_filepath = data_folder + "/structure_tids.txt"
 
 raw_replicate_counts_keys = {
-    "minus": [
-        ["mDMS_1_ATCACG_L001_R1"],
-        ["mDMS_2_TAGCTT_L001_R1"],
-        ["mDMS_3_CGATGT_L001_R1"]
-    ],
-    "plus": [
-        ["pDMS_1_ACAGTG_L001_R1"],
-        ["pDMS_2_CTTGTA_L001_R1"],
-        ["pDMS_3_TTAGGC_L001_R1"]
-    ]
+    "minus": [ [ "mDMS_1_ATCACG_L001_R1" ],
+               [ "mDMS_2_TAGCTT_L001_R1" ],
+               [ "mDMS_3_CGATGT_L001_R1" ]
+               ],
+    "plus": [ [ "pDMS_1_ACAGTG_L001_R1" ],
+              [ "pDMS_2_CTTGTA_L001_R1" ],
+              [ "pDMS_3_TTAGGC_L001_R1" ]
+              ]
 }
 
 dms_reactivities_experiment = {
     "nucleotide_measurement_run_id": 1,
     "strain_id": "Col_0",
-    "nucleotides_filepath": data_folder+"/a_thaliana_compiled_counts.txt",
+    "nucleotides_filepath": data_folder + "/a_thaliana_compiled_counts.txt",
     "description": "DMS reactivities"
 }
 
 ribosome_profile_experiment = {
     "nucleotide_measurement_run_id": 2,
     "strain_id": "Col_0",
-    "nucleotides_filepath": data_folder+"/p_site_counts_all.txt",
+    "nucleotides_filepath": data_folder + "/p_site_counts_all.txt",
     "description": "Ribosome occupancies",
 }
 
@@ -58,7 +58,7 @@ structures_in_silico = {
     "structure_prediction_run_id": 1,
     "strain_id": "Col_0",
     "description": "In silico structure prediction",
-    "source_filepath": structure_data_folder+"/in_silico_structures",
+    "source_filepath": structure_data_folder + "/in_silico_structures",
     "source_ext": ".ct",
 }
 
@@ -66,15 +66,15 @@ structures_in_vivo = {
     "structure_prediction_run_id": 2,
     "strain_id": "Col_0",
     "description": "In vivo experimental structure prediction",
-    "source_filepath": structure_data_folder+"/in_vivo_structures",
+    "source_filepath": structure_data_folder + "/in_vivo_structures",
     "source_ext": ".ct",
 }
 
-transcripts_fasta_filepath = data_folder+"/transcripts.fasta"
+transcripts_fasta_filepath = data_folder + "/transcripts.fasta"
 
 base_path = "/var/www/foldatlas"
 
-genoverse_base = static_base_url+"/genoverse"
+genoverse_base = static_base_url + "/genoverse"
 
 # this is the one that will be displayed by the genome browser.
 reference_strain_id = "Col_0"
@@ -89,7 +89,7 @@ strains = [
         "description": "TAIR 10 Columbia reference ecotype",
         "sequence_filename": "TAIR10_combined.fas",
         "annotation_filename": "consolidated_annotation.Col_0.gff3"
-    } # , 
+    }  # ,
 
     # {
     #     "name": "Bur_0",
@@ -185,7 +185,7 @@ strains = [
     #     "sequence_filename": "zu_0.v7.PR_in_lowercase.fas",
     #     "annotation_filename": "consolidated_annotation.Zu_0.gff3"
     # }
-    
+
 ]
 
-ignored_chromosomes = set(["chloroplast", "mitochondria"])
+ignored_chromosomes = { "chloroplast", "mitochondria" }

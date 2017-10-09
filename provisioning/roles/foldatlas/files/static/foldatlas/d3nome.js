@@ -1,6 +1,5 @@
 /**
  * D3nome: D3-based genome browser
- * Matthew Norris 2015
  */
 (D3nome = function(config) { this.init(config); }).prototype = {
 
@@ -8,7 +7,7 @@
 	init: function(config) {
 
 		this.labelHeight = 20;
-		
+
 		this.intronBulge = 10;
 		this.intronBulgeOffset = 20;
 
@@ -40,12 +39,12 @@
 		this.chromosomes = this.config.chromosomes;
 
 		// select the first chromosome
-		this.selectedChromosome = config.selectedChromosome; 
+		this.selectedChromosome = config.selectedChromosome;
 
 		// function for fetching and parsing data into the right format.
 		this.fetchData = this.config.fetchData;
 
-		// total dimensions of the browser 
+		// total dimensions of the browser
 		// TODO use config values
 		this.horizMargin = 20;
 
@@ -97,7 +96,7 @@
 
 	draw: function() {
 		// Draw canvas and its resize bar
-		var buf = 	
+		var buf =
 			"<div id=\"d3nome-canvas-container\" style=\"width: "+this.totSvgDims.x+"px;\">"+
 				"<svg id=\"d3nome-canvas\"></svg>"+
 			"</div>"+
@@ -110,7 +109,7 @@
 			"<div class=\"d3nome-flank-overlay r\"></div>";
 
 		// Draw chromosome select menu
-		buf += 
+		buf +=
 	        "<select id=\"d3nome-chromosome-selector\">";
 
 	    var chromosomes = this.chromosomes;
@@ -118,7 +117,7 @@
 	    for (var i = 0; i < chromosomes.length; i++) {
 	    	var selected = i == this.selectedChromosome ? "selected=\"selected\"" : "";
 	    	var len = Math.round(chromosomes[i].length / 1000000)+" Mb";
-    		buf += 
+    		buf +=
 	    		"<option value=\""+i+"\" "+selected+">"+
     		 		chromosomes[i].id+" ("+len+")"+
     			"</option>";
@@ -145,7 +144,7 @@
 		$(this.config.container).resizable({
 			handles: {
 				s: "#d3nome-resize-bar"
-			}, 
+			},
 			minHeight: this.minHeight
 		}).bind({resize: $.proxy(function(event, ui) {
 			var newContainerHeight = ui.size.height;
@@ -153,13 +152,13 @@
 			var newSvgHeight = this.initialSvgDims.y + heightDiff;
 			this.totSvgDims.y = newSvgHeight;
 
-			
+
 
 			this.setSvgDims();
 
 			// must also set the overlay height
 			this.setOverlayDims();
-			
+
 			// reset the x grid - could also do initViewer(), but that's rather slow
 			this.calcDims();
 			this.setXGrid();
@@ -202,7 +201,7 @@
 		var oldChrInd = this.selectedChromosome;
 		this.selectedChromosome = chrInd;
 
-		if (oldChrInd != this.selectedChromosome) { 
+		if (oldChrInd != this.selectedChromosome) {
 			// New chromosome selected. Must whole thing
 			this.draw();
 		}
@@ -229,7 +228,7 @@
 
 	// Change all the overlay dimensions to reflect the new height of the plotting area
 	setOverlayDims: function() {
-		var styleStr = 
+		var styleStr =
 			"width: "+this.viewDims.x+"px; "+
 			"height: "+(this.viewDims.y - this.navHeight)+"px; "+
 			"top: "+(this.navHeight * 2)+"px; "+
@@ -269,7 +268,7 @@
 		// canvasContainer.attr("width", this.totSvgDims.x).attr("height", this.totSvgDims.y);
 
 		// set style width and height
-		var styleStr = 
+		var styleStr =
 			"width: "+this.totSvgDims.x+"px; "+
 			"height: "+this.totSvgDims.y+"px; ";
 		svg.attr("style", styleStr);
@@ -370,9 +369,9 @@
 			// Put the event behind the overlay
 			$("#d3nome-overlay").hide()
 			var elementOut = $(document.elementFromPoint(totOffset.x, totOffset.y))
-			$("#d3nome-overlay").show() 
+			$("#d3nome-overlay").show()
 			return elementOut; // .trigger(eventName);
-		};		
+		};
 
 		d3.select("#d3nome-canvas-container")
 			.append("div")
@@ -386,7 +385,7 @@
 			// also decorates the gene labels
 			.on("mousemove", function(ev) {
 				$(".d3nome-transcript-label-hover").removeClass("d3nome-transcript-label-hover");
-				var element = getElementBehind(this); 
+				var element = getElementBehind(this);
 				if (element.hasClass("d3nome-transcript-label")) {
 					$(this).addClass("d3nome-overlay-hover");
 					element.addClass("d3nome-transcript-label-hover");
@@ -396,8 +395,8 @@
 			})
 
 			// sends the click event to the correct gene label element
-			.on("click", function() { 
-				var element = getElementBehind(this); 
+			.on("click", function() {
+				var element = getElementBehind(this);
 				element.trigger("click");
 			});
 
@@ -405,7 +404,7 @@
 
 		this.setOverlayDims();
 
-		// create the viewport, i.e. the brush	
+		// create the viewport, i.e. the brush
 		this.brush = d3.svg.brush()
 		    .x(this.navXScale)
 
@@ -608,13 +607,13 @@
 
 		var bounds = this.getBounds();
 
-		if (	this.featureData != null && 
+		if (	this.featureData != null &&
 				bounds.diff < this.simpleThreshold) {
 
 			this.drawFeatureData();
 		} else if (
-				this.geneData != null && 
-				bounds.diff >= this.simpleThreshold && 
+				this.geneData != null &&
+				bounds.diff >= this.simpleThreshold &&
 				bounds.diff < this.blankThreshold) {
 
 			this.drawGeneData();
@@ -634,11 +633,11 @@
 		// 	this.drawGeneData();
 		// } else if (
 		// 		this.featureData != null && (
-		// 			(bounds.diff < this.simpleThreshold) || 
+		// 			(bounds.diff < this.simpleThreshold) ||
 		// 			(bounds.diff >= this.simpleThreshold && this.geneData == null) // TODO less than blankThreshold
-		// 		)) { 
+		// 		)) {
 		// 	this.drawFeatureData();
-		// } 
+		// }
 	},
 
 	drawBlankMessage: function() {
@@ -695,11 +694,11 @@
 			.append("rect")
 			.attr("class", function(d) { return "d3nome-gene "+d.direction; })
 			.attr("x", $.proxy(function(d, i) { return this.viewXScale(d.start) + this.horizMargin; }, this))
-			.attr("y", $.proxy(function(d, i) { 
-				return this.navDims.y + this.geneLaneMargin + getYPos(d); 
+			.attr("y", $.proxy(function(d, i) {
+				return this.navDims.y + this.geneLaneMargin + getYPos(d);
 			}, this))
-			.attr("width", $.proxy(function(d, i) { 
-				return (this.viewXScale(d.end + 1) - this.viewXScale(d.start)); 
+			.attr("width", $.proxy(function(d, i) {
+				return (this.viewXScale(d.end + 1) - this.viewXScale(d.start));
 			}, this))
 			.attr("height", this.geneHeight)
 
@@ -719,7 +718,7 @@
 		}, this));
 	},
 
-	// Parses the data from the API into a format that can be easily 
+	// Parses the data from the API into a format that can be easily
 	// understood by the D3 library.
 	parseFeatureData: function(data) {
 
@@ -742,7 +741,7 @@
 						features: []
 					};
 				}
-			} else if (	feature.feature_type == "CDS" || 
+			} else if (	feature.feature_type == "CDS" ||
 				feature.feature_type.indexOf("UTR") > -1) {
 
 				var transcriptID = feature["Parent"];
@@ -772,7 +771,7 @@
 		for (var i = 0; i < data.length; i++) {
 			var feature = data[i];
 			var transcriptID = feature["Parent"];
-			if (	nonCds[transcriptID] !== undefined && 
+			if (	nonCds[transcriptID] !== undefined &&
 					feature.feature_type == "exon") {
 
 				var transcript = nonCds[transcriptID];
@@ -799,7 +798,7 @@
 
 			// sort features by their positions.
 			features.sort(sortFeatures);
-			
+
 			var prevFeature = null;
 			var introns = [];
 
@@ -807,7 +806,7 @@
 			for (var i = 0; i < features.length; i++) {
 				var currFeature = features[i];
 
-				if (	prevFeature != null && 
+				if (	prevFeature != null &&
 						currFeature.start - prevFeature.end > 1) { // there is a gap
 
 					introns.push({
@@ -866,7 +865,7 @@
 				var otherFeature = lane[i];
 
 				// test whether feature overlaps the other feature.
-				if (	feature.end > otherFeature.start && 
+				if (	feature.end > otherFeature.start &&
 						feature.start < otherFeature.end) {
 					return true;
 				}
@@ -920,7 +919,7 @@
 			}, this))
 			.text(function(d) { return d.id; })
 
-		// When gene label is clicked, use the callback		
+		// When gene label is clicked, use the callback
 		$(".d3nome-transcript-label").bind("click", {self:this}, function(event) {
 			var self = event.data.self;
 			var transcriptID = $(this).data("transcript_id");
@@ -946,12 +945,12 @@
 			.append("rect")
 			.attr("class", function(d) { return "d3nome-feature-utr "+d.direction; })
 			.attr("x", $.proxy(function(d, i) { return this.viewXScale(d.start) + this.horizMargin; }, this))
-			.attr("y", $.proxy(function(d, i) { 
-				return this.navDims.y + this.transcriptLaneMargin + getYPos(d); 
+			.attr("y", $.proxy(function(d, i) {
+				return this.navDims.y + this.transcriptLaneMargin + getYPos(d);
 			}, this))
-			.attr("width", $.proxy(function(d, i) { 
+			.attr("width", $.proxy(function(d, i) {
 				// Must add 1 here since boundaries are inclusive.
-				return (this.viewXScale(d.end + 1) - this.viewXScale(d.start)); 
+				return (this.viewXScale(d.end + 1) - this.viewXScale(d.start));
 			}, this))
 			.attr("height", this.transcriptHeight)
 
@@ -962,11 +961,11 @@
 			.append("rect")
 			.attr("class", function(d) { return "d3nome-feature-cds "+d.direction; })
 			.attr("x", $.proxy(function(d, i) { return this.viewXScale(d.start) + this.horizMargin; }, this))
-			.attr("y", $.proxy(function(d, i) { 
-				return this.navDims.y + this.transcriptLaneMargin + getYPos(d); 
+			.attr("y", $.proxy(function(d, i) {
+				return this.navDims.y + this.transcriptLaneMargin + getYPos(d);
 			}, this))
-			.attr("width", $.proxy(function(d, i) { 
-				return (this.viewXScale(d.end + 1) - this.viewXScale(d.start)); 
+			.attr("width", $.proxy(function(d, i) {
+				return (this.viewXScale(d.end + 1) - this.viewXScale(d.start));
 			}, this))
 			.attr("height", this.transcriptHeight)
 

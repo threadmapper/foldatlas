@@ -1,6 +1,5 @@
 /**
  * Front end code for FoldAtlas.
- * @author Matthew Norris <matthew.norris@jic.ac.uk> 2015
  */
 
  window.faGlobals = {
@@ -13,7 +12,7 @@ var BrowserController = Class.extend({
 
 	// Constructor
 	init: function(config) {
-		
+
 		this.nucsPerRow = 80;
 		this.staticBase = config.staticBaseUrl;
 		this.reactivities = {};
@@ -21,9 +20,9 @@ var BrowserController = Class.extend({
 		this.searchController = new SearchController(this);
 
 		$("#title").click($.proxy(function() { this.jumpTo("/"); }, this));
-		$("#help-button").click($.proxy(function(ev) { 
+		$("#help-button").click($.proxy(function(ev) {
 			ev.preventDefault();
-			this.jumpTo("/help"); 
+			this.jumpTo("/help");
 		}, this));
 
 		// Detect back/forward buttons
@@ -237,13 +236,13 @@ var BrowserController = Class.extend({
 		// Add HTML elements (TODO use template instead?)
 
 		if (experimentData["empty"]) {
-			var buf = 
+			var buf =
 				"<h2 class=\"bar\">"+experimentData["description"]+"</h2>"+
 				"<div class=\"message\">No data available.</div>";
 			$("#nucleotide-measurement-charts").append(buf)
 
 		} else {
-			buf = 
+			buf =
 				"<h2 class=\"bar\">"+
 					experimentData["description"]+
 					"<a href=\"/download/raw_measurements/"+experimentData["id"]+"/"+this.getTranscriptID()+"\" target=\"_blank\" class=\"button download r\">"+
@@ -273,7 +272,7 @@ var BrowserController = Class.extend({
 					"</a>"+
 					"<svg id=\""+detailedID+"\"></svg>"+
 				"</div>";
-			
+
 			$("#nucleotide-measurement-charts").append(buf)
 
 			// Add button event handlers
@@ -306,7 +305,7 @@ var BrowserController = Class.extend({
 	// on the same row. Could potentially make this zoomable for more awesomeness
 	drawNucleotideMeasurementsOverview: function(svgID, experimentData) {
 
-		// var yLabelText = (experimentData["type"] == "dms_reactivity") 
+		// var yLabelText = (experimentData["type"] == "dms_reactivity")
 		// 	? "Reactivity"
 		// 	: "Occupancy";
 
@@ -325,7 +324,7 @@ var BrowserController = Class.extend({
 		var lengthOffset = 10
 
 		// dims without margins
-		var panelDims = { 
+		var panelDims = {
 			x: panelTotDims.x - panelMargin.left - panelMargin.right,
 			y: panelTotDims.y - panelMargin.bottom - panelMargin.top
 		}
@@ -333,7 +332,7 @@ var BrowserController = Class.extend({
 		// Init the chart's container element
 		var chart = d3.select("#"+svgID)
 		var chartContainer = d3.select("#"+svgID+"_container")
-		var styleStr = 
+		var styleStr =
 			"width: "+panelTotDims.x+"px; "+
 			"height: "+panelTotDims.y+"px; ";
 		chart.attr("style", styleStr);
@@ -382,7 +381,7 @@ var BrowserController = Class.extend({
 			.call(xAxis);
 
 		// Add inline style to lines and paths
-		var lineStyle = {	
+		var lineStyle = {
 			"fill": "none",
 			"stroke": "#000",
 			"stroke-width": "1px"
@@ -419,7 +418,7 @@ var BrowserController = Class.extend({
 			.data(data).enter()
 			.append("g")
 			.attr("class", "nucleotide-measurement-bar")
-			.attr("transform", function(d) { 
+			.attr("transform", function(d) {
 				return "translate("+
 					(panelMargin.left + xScale(d.position) - (barWidth / 2))+","+
 					(panelMargin.top + yScale(d.measurement))+
@@ -427,7 +426,7 @@ var BrowserController = Class.extend({
 			});
 
 		bar.append("rect")
-			.attr("height", function(d) { 
+			.attr("height", function(d) {
 				return yScale(maxY - d.measurement);
 			})
 			.attr("width", barWidth)
@@ -440,7 +439,7 @@ var BrowserController = Class.extend({
 		// for showing length string
 		var lengthOffset = 10
 
-		// var yLabelText = (experimentData["type"] == "dms_reactivity") 
+		// var yLabelText = (experimentData["type"] == "dms_reactivity")
 		// 	? "Reactivity"
 		// 	: "Occupancy";
 
@@ -457,7 +456,7 @@ var BrowserController = Class.extend({
 		var panelTotDims = {x: 898, y: 100}
 
 		// dims without margins
-		var panelDims = { 
+		var panelDims = {
 			x: panelTotDims.x - panelMargin.left - panelMargin.right,
 			y: panelTotDims.y - panelMargin.bottom - panelMargin.top
 		}
@@ -487,15 +486,15 @@ var BrowserController = Class.extend({
 
 		// when there is no measurement data, degrade gracefully
 		// TODO get rid of this - handle it higher up
-		if (isNaN(yScale.domain()[1])) { 
-			
+		if (isNaN(yScale.domain()[1])) {
+
 			chart.append("text")
 		      .attr("transform", "translate("+(panelTotDims.x / 2)+", "+(panelTotDims.y / 2)+")")
 		      .style("text-anchor", "middle")
 		      .text("No measurement data");
 			return;
 		}
-		
+
 		for (var rowN = 0; rowN < nChartRows; rowN++) { // each iteration = 1 chart row
 			var start = rowN * this.nucsPerRow;
 			var end = start + this.nucsPerRow;
@@ -515,7 +514,7 @@ var BrowserController = Class.extend({
 			var rangeX = parseInt(panelDims.x * (nucsThisRow / this.nucsPerRow));
 
 			var xScale = d3.scale.linear()
-			    .range([0, rangeX], .1) 
+			    .range([0, rangeX], .1)
 			    .domain([start - 0.5, (end - 1) + 0.5])
 
 		   	// Create axis objects
@@ -551,9 +550,9 @@ var BrowserController = Class.extend({
 				.attr("transform", "translate("+(-bgWidth / 2)+", "+10+")")
 				.attr("width", bgWidth)
 				.attr("height", 10)
-				.style("fill", function(n, i) { 
+				.style("fill", function(n, i) {
 					var nucMissing = dataSlice[i].measurement == null
-					return nucMissing ? "#bbb" : "#fff"; 
+					return nucMissing ? "#bbb" : "#fff";
 				})
 
 			xAxisElement.selectAll("text")
@@ -603,7 +602,7 @@ var BrowserController = Class.extend({
 				.data(dataSlice).enter()
 				.append("g")
 				.attr("class", "nucleotide-measurement-bar r"+rowN)
-				.attr("transform", function(d) { 
+				.attr("transform", function(d) {
 					return "translate("+
 						(panelMargin.left + xScale(d.position) - (barWidth / 2))+","+
 						(panelYOffset + panelMargin.top + yScale(d.measurement))+
@@ -612,14 +611,14 @@ var BrowserController = Class.extend({
 
 			// Draw the rects for the bars
 			bar.append("rect")
-				.attr("height", function(d) { 
+				.attr("height", function(d) {
 					return yScale(maxY - d.measurement);
 				})
 				.attr("width", barWidth)
 				.style("fill", "#c33");
 
 			// APPLY STYLES
-			var lineStyle = {	
+			var lineStyle = {
 				"fill": "none",
 				"stroke": "#000",
 				"stroke-width": "1px"
@@ -761,7 +760,7 @@ var TranscriptIDSearchController = Class.extend({
 			url: "/ajax/search-transcript/"+term,
 			context: this
 		}).done(function(results) {
-			results = $.parseJSON(results);		
+			results = $.parseJSON(results);
 			var exactMatch = false;
 			for (var i = 0; i < results.length; i++) {
 				if (results[i] == term) {
@@ -794,7 +793,7 @@ var CoverageSearchController = Class.extend({
 
 		}).done(function(pageNum) {
 			// insert pagination HTML
-			var buf = 
+			var buf =
 				"	<div id=\"search-coverage-paginator\" class=\"pagination\">" +
                 		"<a href=\"#\" class=\"button\" data-action=\"first\">&laquo;</a>" +
                 		"<a href=\"#\" class=\"button\" data-action=\"previous\">&lsaquo;</a>" +
@@ -811,7 +810,7 @@ var CoverageSearchController = Class.extend({
             	// page change callback
 			    paged: $.proxy(function(pageNum) {
 			    	this.search(pageNum);
-		    	}, this) 
+		    	}, this)
 			});
 
             // retrieve the first page of results.
@@ -959,10 +958,10 @@ var StructureExplorer = Class.extend({
 		var lowestEntry = null;
 		var structureData = this.structureData[experimentID].data
 
-		// Find the in vivo structure with the MFE	
+		// Find the in vivo structure with the MFE
 		for (var j = 0; j < structureData.length; j++) {
 			var currentEntry = structureData[j];
-			if (	lowestEntry == null || 
+			if (	lowestEntry == null ||
 					currentEntry["energy"] < lowestEntry["energy"]) {
 
 				lowestEntry = currentEntry;
@@ -1018,7 +1017,7 @@ var StructureExplorer = Class.extend({
 
 		var energyValue = function(d) { return d.energy; };
 
-		// setup x 
+		// setup x
 		var xValue = function(d) { return d.pc1; };
 		var minX = d3.min(dataValues, xValue);
 		var maxX = d3.max(dataValues, xValue);
@@ -1120,8 +1119,8 @@ var StructureExplorer = Class.extend({
 			.attr("cx", xMap)
 			.attr("cy", yMap)
 			.style("fill", function(d) { return heatmapColour(d.energy); })
-			.style("stroke", "#000") 
-			
+			.style("stroke", "#000")
+
 			.on("mousemove", showTooltip)
 			.on("mouseover", showTooltip)
 			.on("mouseout", function(d) {
@@ -1172,7 +1171,7 @@ var StructureExplorer = Class.extend({
 		// or have a getStructure method that attached to the object with a callback
 		this.browserController.showLoading();
 		$.ajax({
-			url: "/ajax/structure-diagram/"+structureID, 
+			url: "/ajax/structure-diagram/"+structureID,
 			context: this
 		}).done(function(data) {
 
@@ -1202,7 +1201,7 @@ var StructureExplorer = Class.extend({
 		// or have a getStructure method that attached to the object with a callback
 		this.browserController.showLoading();
 		$.ajax({
-			url: "/ajax/structure-circle-plot/"+structureID, 
+			url: "/ajax/structure-circle-plot/"+structureID,
 			context: this
 		}).done(function(data) {
 
@@ -1311,18 +1310,18 @@ var StructureExplorer = Class.extend({
 			// Retrieve tick values to compare
 			var tickValues = axis.scale().ticks(axis.ticks()[0])
 
-			// Build some tick node groups and move them to the right spots, with the 
+			// Build some tick node groups and move them to the right spots, with the
 			// correct rotations and translations
 			ticks = node
-				.data(nodes.filter(function(n) { 
-					// this ensures ticks start at 1 and then goes up in (e.g.) 
+				.data(nodes.filter(function(n) {
+					// this ensures ticks start at 1 and then goes up in (e.g.)
 					// 100 nuc intervals
 					var key = n.key + 1
 					if (key == 1) key = 0;
 					return !n.children && tickValues.indexOf(key) > -1;
 				}))
 				.enter().append("g")
-				.attr("transform", function(d) { 
+				.attr("transform", function(d) {
 					return 	"rotate(" + (d.x - 90) + ")"+
 							"translate(" + (d.y) + ",0)"+
 							"rotate(90)"
@@ -1379,7 +1378,7 @@ var StructureExplorer = Class.extend({
 				nodes.forEach(function(d) {
 					if (d.link != null) {
 						links.push({
-							source: map[d.name], 
+							source: map[d.name],
 							target: map[d.link]
 						});
 					};
