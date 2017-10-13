@@ -105,7 +105,6 @@
     target="{{ foldatlas_downloads_dir }}/{{ foldatlas_sql_dump }}"
     login_user="{{ foldatlas_db_user }}"
     login_password="{{ foldatlas_db_pass }}"
-  when: initialised_db is not defined
 
 #
 # --- Add Web Content ---
@@ -135,3 +134,12 @@
   file:
     path: /var/www/bpps
     state: directory
+
+- name: change symlink to point to python3
+  file:
+    src: /bin/python3
+    dest: /bin/python
+    force: yes
+    state: link
+  notify: restart apache
+

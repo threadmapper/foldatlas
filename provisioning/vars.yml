@@ -148,8 +148,19 @@ structures_home: "/var/www/structure_data"
 structure_tids_file: "structure_tids.txt"
 
 #
-# Path for node.js installation
+# node.js variables
 #
 
-nodejs_path: "/var/www/static/assets"
 nodejs_version: "6.x"
+nodejs_install_npm_user: root
+npm_config_prefix: /root/.npm-global
+npm_config_unsafe_perm: "true"
+nodejs_npm_global_packages:
+  - name: jslint
+  - name: babel-cli
+  - name: babel-core
+  - name: bower
+  - name: gulp
+
+fornac_repo: https://github.com/pkerpedjiev/fornac.git
+fornac_package_json_path: /usr/local/src/fornac/

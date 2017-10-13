@@ -1,0 +1,41 @@
+---
+# Install and configure apache.
+
+- name: install Apache
+  package:
+    name: "{{ item }}" 
+    state: present
+    update_cache: yes
+  with_items:
+    - httpd
+    - httpd-devel
+
+- name: install mod_wsgi
+  pip:
+    name: mod_wsgi
+    executable: pip3
+
+- name: create symlink to mod_wsgi in apache setup
+  file:
+    src: /usr/lib64/python3.4/site-packages/mod_wsgi/server/mod_wsgi-py34.cpython-34m.so
+    dest: /etc/httpd/modules/mod_wsgi.so
+    state: link
+
+- name: create Apache virtual host file
+  copy:
+    src: "{{ role_path }}/files/{{ apache_config_file }}"
+    dest: "/etc/httpd/conf.d"
+
+- name: start apache and enable at boot
+  service: 
+    name: httpd
+    enabled: yes
+    state: started
+
+- name: open up http, https
+  lineinfile:
+    dest: /etc/ferm/ferm.conf
+    line: 'proto tcp dport (http https) ACCEPT;'
+    insertafter: '# Ansible specified rules.'
+  notify: run ferm
+

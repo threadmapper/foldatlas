@@ -9,10 +9,12 @@
 
   roles:
     - build_tools
+    - epel
     - ferm
-    - apache
-    - mariadb
-    - python
-    - viennaRNA
-#    - node.js
+    - selinux
+    - python.centos
+    - apache.centos
+    - mariadb.centos
+#    - viennaRNA
+    - node.js
     - foldatlas
