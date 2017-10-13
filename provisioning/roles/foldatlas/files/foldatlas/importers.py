@@ -383,20 +383,21 @@ class SequenceImporter():
                     t.gene_id, 
                     f.chromosome_id, 
                     f.direction, 
-                    MIN(f.start) as min_start, 
-                    MAX(f.end)   as max_end 
+                    MIN(f.start) AS min_start, 
+                    MAX(f.end)   AS max_end 
                 FROM
-                    feature as f
-                INNER JOIN transcript as t
-                    ON t.id = f.transcript_id 
+                           feature    AS f
+                INNER JOIN transcript AS t ON t.id = f.transcript_id 
                 WHERE
-                    f.strain_id = '{strain}'
+                    f.strain_id = '{strain_id}'
                 GROUP BY
-                    t.gene_id 
+                    t.gene_id
                 LIMIT
-                    {limit}, {chunk} """.format( strain='Col_0',
-                                                 limit=start,
-                                                 chunk=self.gene_location_chunk_size ).replace( '\n', ' ' )
+                    {limit_}, {chunk} """
+
+            sql = sql.format( strain_id='Col_0',
+                              limit_=start,
+                              chunk=self.gene_location_chunk_size ).replace( '\n', ' ' )
 
             # sql = ("SELECT "
             #        "   transcript.gene_id, "
@@ -825,11 +826,11 @@ class ReactivitiesImporter():
 
 # fetch all of the transcript IDs from the database, store them in a set to check against.
 def get_inserted_transcript_ids():
-    sql = "SELECT id FROM transcript ORDER BY id ASC"
+    sql = "SELECT id FROM transcript"
+
     results = engine.execute( sql )
-    transcript_ids = set()
-    for result in results:
-        transcript_ids.add( result[ "id" ] )
+
+    transcript_ids = set( (result[ 'id' ] for result in results) )
 
     return transcript_ids
 
@@ -1036,7 +1037,8 @@ class StructureTidsExporter():
         with open( settings.structure_tids_filepath, "w" ) as f:
             for row in results:
                 n += 1
-                f.write( row[ "transcript_id" ] + "\n" )
+                f.write( row[ "transcript_id" ] )
+                f.write( "\n" )
 
         print( "{} structure transcript IDs written to {}".format( n, settings.structure_tids_filepath ) )
 

@@ -37,21 +37,20 @@ class GenomeBrowser():
             SELECT
                 f.*
             FROM
-                gene_location as gl
-            INNER JOIN
-                transcript as t ON t.gene_id = gl.gene_id 
-            INNER JOIN
-                feature as f ON f.strain_id     = gl.strain_id  AND
-                                f.transcript_id = t.id 
+                        gene_location AS gl
+            INNER JOIN  transcript    AS t  ON  t.gene_id       = gl.gene_id 
+            INNER JOIN  feature       AS f  ON  f.strain_id     = gl.strain_id  AND
+                                                f.transcript_id = t.id 
             WHERE
-                gl.strain_id = '{strain}'
-            AND gl.chromosome_id = '{chromo}' 
-            AND gl.end > {start} 
-            AND gl.start < {end} 
-        """.format( strain=settings.reference_strain_id,
-                    chromo=chromosome_id,
-                    start=start,
-                    end=end )
+                gl.strain_id      = '{strain}'
+            AND gl.chromosome_id  = '{chromo}' 
+            AND gl.end            > {start_} 
+            AND gl.start          < {end_} """
+
+        sql = sql.format( strain=settings.reference_strain_id,
+                          chromo=chromosome_id,
+                          start_=start,
+                          end_=end ).replace( '\n', ' ' )
 
         results = database.engine.execute( sql )
 
@@ -110,11 +109,21 @@ class GenomeBrowser():
         end = int( request.args.get( 'end' ) )
 
         # fetch gene data from the location cache table.
-        sql = "SELECT * FROM gene_location " + \
-              "WHERE strain_id = '{}' ".format( settings.reference_strain_id ) + \
-              "AND chromosome_id = '{}' ".format( chromosome_id ) + \
-              "AND END > '{}' ".format( start ) + \
-              "AND START < '{}' ".format( end )
+        sql = """
+            SELECT
+                *
+            FROM
+                gene_location
+            WHERE 
+                strain_id     = '{strain_id}'       AND
+                chromosome_id = '{chromosome_id}'   AND
+                'end'         > {start_}            AND
+                'start'       < {end_} """
+
+        sql = sql.format( strain_id=settings.reference_strain_id,
+                          chromosome_id=chromosome_id,
+                          start_=start,
+                          end_=end ).replace( '\n', ' ' )
 
         results = database.engine.execute( sql )
 
@@ -133,9 +142,18 @@ class GenomeBrowser():
 
     # Fetch chromosome IDs and their lengths. Used for chromosome menu and also initialising the genome browser.
     def get_chromosomes( self ):
-        sql = "SELECT chromosome_id, CHAR_LENGTH(sequence) length FROM chromosome " + \
-              "WHERE strain_id = '{}' ".format( settings.reference_strain_id ) + \
-              "ORDER BY chromosome_id ASC "
+        sql = """ 
+            SELECT 
+                chromosome_id, 
+                CHAR_LENGTH( sequence ) AS length 
+            FROM 
+                chromosome 
+            WHERE
+                strain_id = '{strain_id}' 
+            ORDER BY 
+                chromosome_id ASC """
+
+        sql = sql.format( strain_id=settings.reference_strain_id ).replace( '\n', ' ' )
 
         results = database.engine.execute( sql )
 
@@ -368,21 +386,25 @@ class CoverageSearcher():
         return page_count
 
     def fetch_transcript_data( self, page_num ):
+        # TODO these hard-coded values must become session-specific
+        strain_id = 'Col_0'
+        nucleotide_measurement_run_id = 1
+        structure_prediction_run_id = 2
+
         offset = (int( page_num ) - 1) * self.page_size
         limit = self.page_size
 
         sql = """
             SELECT
-                transcript.id AS transcript_id,
-                gene_location.start AS gene_start, 
-                gene_location.end AS gene_end,  
-                jnms.coverage AS coverage,
-                jnms.structure_transcript_id AS structure_transcript_id
+                t.id                            AS transcript_id,
+                gl.end - gl.start + 1           AS gene_length,
+                jnms.coverage                   AS coverage,
+                jnms.structure_transcript_id    AS structure_transcript_id
             FROM
                 (
                 SELECT
                     nms.*,
-                    structure.transcript_id AS structure_transcript_id
+                    s.transcript_id AS structure_transcript_id
                 FROM
                     (
                     SELECT
@@ -393,22 +415,25 @@ class CoverageSearcher():
                         nucleotide_measurement_run_id = {nt_run_id} 
                     ORDER BY
                         coverage DESC
-                    LIMIT {limit} OFFSET {offset}
+                    LIMIT {limit_} OFFSET {offset_}
                     ) AS nms
-                 LEFT OUTER JOIN structure ON structure.transcript_id = nms.transcript_id
-                                          AND structure.structure_prediction_run_id = {sp_run_id}
+                 LEFT OUTER JOIN structure AS s   ON  s.transcript_id                 = nms.transcript_id   AND
+                                                      s.structure_prediction_run_id   = {sp_run_id}
                 ) AS jnms,
-                transcript,
-                gene_location
+                INNER JOIN transcript      AS t   ON  t.id                            = jnms.transcript_id
+                INNER JOIN gene_location   AS gl  ON  t.gene_id                       = gl.gene_id 
             WHERE
-                transcript.id                       = jnms.transcript_id 
-            AND transcript.gene_id                  = gene_location.gene_id 
-            AND gene_location.strain_id             = '{strain}'
+                gl.strain_id = '{strain_id}'
             GROUP BY
-                jnms.transcript_id
+                transcript_id
             ORDER BY
-                coverage DESC
-        """.format( nt_run_id=1, limit=limit, offset=offset, sp_run_id=2, strain='Col_0' ).replace( '\n', ' ' )
+                coverage DESC """
+
+        sql = sql.format( nt_run_id=nucleotide_measurement_run_id,
+                          limit_=limit,
+                          offset_=offset,
+                          sp_run_id=structure_prediction_run_id,
+                          strain_id=strain_id ).replace( '\n', ' ' )
 
         results = database.engine.execute( sql )
 
@@ -416,7 +441,7 @@ class CoverageSearcher():
         for row in results:
             out.append( {
                 "transcript_id": row[ "transcript_id" ],
-                "gene_length": (row[ "gene_end" ] - row[ "gene_start" ]) + 1,
+                "gene_length": row[ "gene_length" ],
                 "coverage": row[ "coverage" ],
                 "has_structure": row[ "structure_transcript_id" ] is not None
             } )

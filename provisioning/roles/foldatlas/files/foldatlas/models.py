@@ -82,39 +82,25 @@ class Transcript( db.Model ):
             SELECT 
                 f.strain_id, 
                 f.direction,
-                SUBSTR(
-                    c.sequence, 
-                    f.start,
-                    f.end - f.start + 1
-                ) as seq
+                SUBSTR( c.sequence, f.start, f.end - f.start + 1 ) AS seq
             FROM
-                chromosome as c,
-                feature as f
+                        chromosome  AS c,
+            INNER JOIN  feature     AS f  ON  f.strain_id     = c.strain_id     AND
+                                              f.chromosome_id = c.chromosome_id
             WHERE 
-                f.strain_id     = c.strain_id 
-            AND f.chromosome_id = c.chromosome_id 
-            AND f.type_id       = 'exon' 
-            AND f.transcript_id = :transcript_id
-                {0}
+                f.type_id       = 'exon'            AND
+                f.transcript_id = '{transcript_id}'
+                {strain_sql}
             ORDER BY 
-                feature.strain_id, 
-                START
-        """
+                f.strain_id, 
+                f.start """
 
-        # if strain_id:
-        #     strain_sql = "AND f.strain_id = :strain_id"
-        # else:
-        #     strain_sql = ""
-        #
-        # sql = sql.format( strain_sql )
+        sql = sql.format( transcript_id=self.id,
+                          strain_sql="AND c.strain_id = '{}'".format( strain_id ) if strain_id else "" )
 
-        sql = sql.format( "AND f.strain_id = :strain_id" if strain_id else "" )
+        sql = sql.replace( '\n', ' ' )
 
-        sql_params = { "transcript_id": str( self.id ) }
-        if strain_id:
-            sql_params[ "strain_id" ] = strain_id
-
-        results = database.db_session.execute( sql, sql_params )
+        results = database.db_session.execute( sql )
 
         # collect data about the sequences
         transcript_seqs = { }
