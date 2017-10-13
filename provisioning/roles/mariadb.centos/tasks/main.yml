@@ -1,0 +1,19 @@
+---
+
+# Install and configure MariaDB
+
+- name: install MariaDB 
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - mariadb
+    - mariadb-server
+    - MySQL-python 
+
+- name: start MariaDB daemon and enable at boot
+  service:
+    name: mariadb
+    enabled: yes
+    state: started
+

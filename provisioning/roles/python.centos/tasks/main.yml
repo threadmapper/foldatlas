@@ -1,0 +1,29 @@
+---
+# Install the python package dependencies.
+
+- name: install pip
+  package:
+    name: python34-pip
+    state: present
+
+- name: install python packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - python34-numpy
+    - python34-scipy
+
+- name: install python packages using pip
+  pip: name={{ item }}
+       executable=pip3
+  with_items:
+    - scikit-learn
+    - biopython
+    - Flask
+    - Flask-Migrate
+    - Flask-SQLAlchemy
+    - Flask-Script
+    - Flask-Babel
+    - mysql-connector==2.1.4
+    - forgi
