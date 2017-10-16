@@ -17,6 +17,9 @@ import settings
 from app import app
 
 app.config[ 'SQLALCHEMY_DATABASE_URI' ] = settings.database_uri
+app.config[ 'SQLALCHEMY_TRACK_MODIFICATIONS' ] = settings.sqlalchemy_track_modifications
+app.config[ 'SQLALCHEMY_ECHO' ] = settings.sqlalchemy_echo
+
 db = SQLAlchemy( app )
 
 
@@ -84,7 +87,7 @@ class Transcript( db.Model ):
                 f.direction,
                 SUBSTR( c.sequence, f.start, f.end - f.start + 1 ) AS seq
             FROM
-                        chromosome  AS c,
+                        chromosome  AS c
             INNER JOIN  feature     AS f  ON  f.strain_id     = c.strain_id     AND
                                               f.chromosome_id = c.chromosome_id
             WHERE 

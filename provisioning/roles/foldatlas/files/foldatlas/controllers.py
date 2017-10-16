@@ -419,7 +419,7 @@ class CoverageSearcher():
                     ) AS nms
                  LEFT OUTER JOIN structure AS s   ON  s.transcript_id                 = nms.transcript_id   AND
                                                       s.structure_prediction_run_id   = {sp_run_id}
-                ) AS jnms,
+                ) AS jnms
                 INNER JOIN transcript      AS t   ON  t.id                            = jnms.transcript_id
                 INNER JOIN gene_location   AS gl  ON  t.gene_id                       = gl.gene_id 
             WHERE

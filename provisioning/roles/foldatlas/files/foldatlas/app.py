@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, Response, send_from_directory
 # from flask_sqlalchemy import SQLAlchemy
 
 import settings
-from utils import FastaExporter, FastaSplitter
+# from utils import FastaExporter, FastaSplitter
 
 app = Flask( __name__ )
 
@@ -182,10 +182,12 @@ if __name__ == "__main__":
 
         elif argv[ 1 ] == "exportfasta":
             # export sequences into a big fasta file
+            from utils import FastaExporter
             FastaExporter().export()
 
         elif argv[ 1 ] == "splitfasta":
             # split fasta sequences into individual ones
+            from utils import FastaSplitter
             FastaSplitter().split()
 
         elif argv[ 1 ] == "export_structure_tids":

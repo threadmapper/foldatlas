@@ -7,6 +7,9 @@ if live:
     dbuser = "root"
     dbpassword = "s7Alvwh801mcZ"  # don't put the real live password here. change it on server instead.
     bppms_folder = "/var/www/bppms"  # this will need to be changed for live site
+
+    sqlalchemy_track_modifications = False
+    sqlalchemy_echo = False
 else:
     app_base_url = "http://localhost:8080"
     static_base_url = "/static"
@@ -14,6 +17,9 @@ else:
     dbuser = "fa_user"
     dbpassword = "@_t3mp_Pas5"
     bppms_folder = "/var/www/bppms"
+    
+    sqlalchemy_track_modifications = True  # incurs overhead but only on for dev
+    sqlalchemy_echo = True
 
 # Format the database connection string
 database_uri = "mysql+mysqlconnector://{}:{}@127.0.0.1/foldatlas?{}".format( dbuser,
