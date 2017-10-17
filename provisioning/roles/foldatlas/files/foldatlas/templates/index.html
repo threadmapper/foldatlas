@@ -1,12 +1,13 @@
 <!DOCTYPE HTML>
 <!--
 
-       /)  _,_ //  __/  __,  -/- // __,   ,  
+       /)  _,_ //  __/  __,  -/- // __,   ,
      _//__(_/_(/__(_/(_(_/(__/__(/_(_/(__/_)_
-    _/                                       
-    /)                                       
+    _/
+    /)
 
-(C) 2015-2016 | Matthew Norris | Ding Lab
+(C) 2015-2017 | Ding Lab. | John Innes Centre
+
 
 -->
 <html>
@@ -27,7 +28,7 @@
     <script type="text/javascript" src="{{ settings.static_base_url }}/assets/colorbrewer.min.js"></script>
     <script type="text/javascript" src="{{ settings.static_base_url }}/assets/forna/htdocs/js/fornac.js"></script>
     <script type="text/javascript" src="{{ settings.static_base_url }}/assets/FileSaver.js/FileSaver.js"></script>
-    
+
     <!-- FoldAtlas config and js -->
     <script type="text/javascript">
         window.foldatlasConfig = {
@@ -43,7 +44,7 @@
 
     <script type="text/javascript">
 
-        $(document).ready(function () { 
+        $(document).ready(function () {
             {% set chromosomes = genome_browser.get_chromosomes() %}
 
             window.d3nomeConfig = {
@@ -57,7 +58,7 @@
                 chromosomes: [
                     {% for chromosome in chromosomes %}
                     {
-                        id: "{{ chromosome.chromosome_id }}", 
+                        id: "{{ chromosome.chromosome_id }}",
                         length: "{{ chromosome.length }}"
                     },
                     {% endfor %}
@@ -164,9 +165,9 @@
     </div>
     <div id="info-panel">
         Version 1.1
-        (C) 2015 <a href="https://www.jic.ac.uk/directory/yiliang-ding">Ding lab</a>.
+        (C) 2017 <a href="https://www.jic.ac.uk/directory/yiliang-ding">Ding lab</a>.
         <a href="https://www.github.com/mnori/foldatlas"> Github page</a>.
-        General comments or questions: <a href="email:matthew.norris@jic.ac.uk">matthew.norris@jic.ac.uk</a>.
+        General comments or questions: <a href="email:foldatlas@jic.ac.uk">foldatlas@jic.ac.uk</a>.
     </div>
   </body>
 </html>

@@ -1,5 +1,4 @@
 # Define some shorthand aliases to make life easier
-# @author Matthew Norris <Matthew.Norris@jic.ac.uk>
 
 . /vagrant/bootstrap/functions.sh
 

@@ -1,0 +1,11 @@
+alembic
+biopython
+flask
+flask-migrate
+flask-script
+flask-sqlalchemy
+numpy
+requests
+scikit-learn
+scipy
+sqlalchemy

@@ -1,6 +1,5 @@
 #!/bin/bash
 # Bootstrap for vagrant browser server
-# @author Matthew Norris
 
 DBPASSWD="vagrant"
 
@@ -13,16 +12,16 @@ function install() {
 
 	apt-get update
 
-	# Copy handy bash aliases to home folder. Must use explicit home folder path, otherwise 
+	# Copy handy bash aliases to home folder. Must use explicit home folder path, otherwise
 	# it'll copy to super user's path instead of vagrant's
 	cp /vagrant/bootstrap/.bash_aliases /home/vagrant/.bash_aliases
 
 	# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-	pretty_print "Installing apache2" 
+	pretty_print "Installing apache2"
 	apt-get install -y apache2
 	a2enmod proxy
-	a2enmod proxy_http 
-	a2enmod headers 
+	a2enmod proxy_http
+	a2enmod headers
 
 	# copy apache config file
 	cp /vagrant/bootstrap/000-default_vagrant.conf /etc/apache2/sites-available/000-default.conf
@@ -48,28 +47,28 @@ function install() {
 	echo "create database foldatlas" | mysql -u root -p$DBPASSWD
 
 	# custom config - needed for DB export to work properly
-	cp /vagrant/bootstrap/my.cnf /etc/mysql/my.cnf 
+	cp /vagrant/bootstrap/my.cnf /etc/mysql/my.cnf
 
 	# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	pretty_print "Installing git"
 	apt-get install -y git
-	
+
 	# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	pretty_print "Installing pip"
 	apt-get install -y python3-pip
-	
+
 	# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	pretty_print "Installing sklearn"
-	
+
 	# lots of scikit dependencies. use apt-get - much faster to grab the binaries
 	# than compile from scratch using pip3
-	apt-get install -y build-essential python3-dev python3-setuptools 
+	apt-get install -y build-essential python3-dev python3-setuptools
 	apt-get install -y libatlas-dev libatlas3gf-base
 	apt-get install -y python3-numpy python3-scipy
 
 	# must use pip3 for scikit itself
 	pip3 install scikit-learn
-	
+
 	# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 	pretty_print "Installing misc python dependencies"
 	pip3 install biopython

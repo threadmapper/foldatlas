@@ -1,6 +1,5 @@
 // Custom gene loading component
 // Talks to RNA browser endpoint to fetch genome data
-// @author Matthew Norris
 
 // TODO rename to GffSQL
 Genoverse.Track.DBTrack = Genoverse.Track.extend({
@@ -14,7 +13,7 @@ Genoverse.Track.DBTrack = Genoverse.Track.extend({
     // do something with the transcript ID
     // console.log(feature)
   },
-  2000000: { 
+  2000000: {
     // This one applies when > 2M base-pairs per screen
     // Show a message
     labels : false

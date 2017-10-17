@@ -1,6 +1,5 @@
 # Python script for doing batches of RNAstructure predictions.
 # For running on HPC cluster.
-# @author Matthew Norris <matthew.norris@jic.ac.uk>
 
 import os
 import sys
