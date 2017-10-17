@@ -8,11 +8,15 @@
     - vars.yml
 
   roles:
+    - init
     - build_tools
+    - epel
     - ferm
-    - python.ubuntu
-    - apache.ubuntu
-    - mariadb.ubuntu
-    - viennaRNA
+    - selinux
+    - python
+    - apache.centos
+#    - apache.ubuntu
+    - mariadb
+#    - viennaRNA
     - node.js
     - foldatlas

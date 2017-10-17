@@ -140,6 +140,11 @@ foldatlas_schema_sql: "foldatlas.schema.sql.gz"
 foldatlas_downloads_dir: "/opt/foldatlas/source_data/downloads"
 foldatlas_sql_dump: "foldatlas.sql"
 
+# set to "yes" to load the dump
+foldatlas_load_sql_dump: "no"
+#foldatlas_load_sql_dump: "yes"
+
+
 #
 # Structure data
 #

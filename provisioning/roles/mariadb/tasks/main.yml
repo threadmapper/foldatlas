@@ -1,0 +1,24 @@
+---
+
+# Install and configure MariaDB
+
+- include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+       - "{{ ansible_distribution }}.yml"
+
+- name: install MariaDB
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ mariadb_common }}"
+    - "{{ mariadb_server }}"
+    - "{{ mariadb_python }}"
+
+- name: start MariaDB daemon and enable at boot
+  service:
+    name: "{{ mariadb_service_name }}"
+    enabled: yes
+    state: started
+

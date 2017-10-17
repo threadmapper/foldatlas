@@ -1,0 +1,12 @@
+---
+# Initialise
+#
+
+- name: make python symlink point to python2 for npm
+  file:
+    src: /bin/python2
+    dest: /bin/python
+    force: yes
+    state: link
+  when:
+    ansible_distribution == "CentOS"

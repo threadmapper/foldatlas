@@ -1,6 +1,9 @@
 ---
-# This playbook adds the epel repository.
+# This playbook adds the epel repository (for node.js).
 
 - name: add the epel repository
-  yum: name=epel-release
-       state=present
+  yum:
+    name: "epel-release"
+    state: present
+  when:
+    ansible_distribution == "CentOS"

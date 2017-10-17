@@ -1,0 +1,5 @@
+
+python_pip: python3-pip
+
+python_apt_numpy: python3-numpy
+python_apt_scipy: python3-scipy

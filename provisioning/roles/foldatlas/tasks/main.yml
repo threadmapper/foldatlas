@@ -13,12 +13,12 @@
 #
 
 #- name: download the annotation data
-#  get_url: url={{ annotation_root_url }}/{{ item }} 
+#  get_url: url={{ annotation_root_url }}/{{ item }}
 #           dest={{ annotation_home }}
 #  with_items: "{{ annotation_files }}"
 
 #- name: download reference genome
-#  get_url: url={{ reference_root_url }}/{{ item }} 
+#  get_url: url={{ reference_root_url }}/{{ item }}
 #           dest={{ reference_home }}
 #  with_items: "{{ reference_fasta_files }}"
 
@@ -99,12 +99,14 @@
     remote_src: yes
 
 - name: load SQL dump
-  mysql_db: 
+  mysql_db:
     name={{ foldatlas_db }}
     state=import
     target="{{ foldatlas_downloads_dir }}/{{ foldatlas_sql_dump }}"
     login_user="{{ foldatlas_db_user }}"
     login_password="{{ foldatlas_db_pass }}"
+  when:
+    foldatlas_load_sql_dump == "yes"
 
 #
 # --- Add Web Content ---

@@ -1,0 +1,6 @@
+
+mariadb_common: mariadb
+mariadb_server: mariadb-server
+mariadb_python: MySQL-python
+
+mariadb_service_name: mariadb
