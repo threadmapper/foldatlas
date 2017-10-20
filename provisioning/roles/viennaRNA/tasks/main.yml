@@ -15,11 +15,17 @@
     src: "{{ viennarna_src_tarball }}"
     dest: "{{ viennarna_dest }}"
     remote_src: yes
-    state: present
     creates: "{{ viennarna_dest }}/{{ viennarna_version }}.tar.gz"
 
 - name: configure for this VM
-  shell: ./configure --without-perl
+  shell: ./configure  --without-perl \
+                      --without-python \
+                      --without-python3 \
+                      --without-kinfold \
+                      --without-forester \
+                      --without-doc \
+                      --without-tutorial \
+                      --without-check
   args:
       chdir: "{{ viennarna_dest }}/{{ viennarna_version }}"
 
@@ -27,4 +33,3 @@
   make:
     chdir: "{{ viennarna_dest }}/{{ viennarna_version }}"
     target: install
-
