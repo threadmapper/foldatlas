@@ -1,10 +1,30 @@
 ---
-# Install and configure ViennaRNA
+#
+# --- Install ViennaRNA from source ---
+#
 
-- name: add ViennaRNA repo
-  apt_repository: repo="ppa:j-4/vienna-rna"
-                  state=present
+- name: install dependency packages
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - "{{ viennarna_prereqs }}"
 
-- name: install ViennaRNA core and Python3 bindings
-  apt: name="vienna-rna"
-       update_cache=yes
+- name: download ViennaRNA source
+  unarchive:
+    src: "{{ viennarna_src_tarball }}"
+    dest: "{{ viennarna_dest }}"
+    remote_src: yes
+    state: present
+    creates: "{{ viennarna_dest }}/{{ viennarna_version }}.tar.gz"
+
+- name: configure for this VM
+  shell: ./configure --without-perl
+  args:
+      chdir: "{{ viennarna_dest }}/{{ viennarna_version }}"
+
+- name: build and install
+  make:
+    chdir: "{{ viennarna_dest }}/{{ viennarna_version }}"
+    target: install
+

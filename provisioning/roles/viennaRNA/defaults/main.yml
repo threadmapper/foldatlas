@@ -1,0 +1,13 @@
+
+viennarna_prereqs:
+  - gcc-c++
+  - cpp
+  - gsl
+  - gsl-devel
+  - libstdc++
+
+viennarna_dest: /opt/
+
+viennarna_version: ViennaRNA-2.4.2
+
+viennarna_src_tarball: https://www.tbi.univie.ac.at/RNA/download/sourcecode/2_4_x/ViennaRNA-2.4.2.tar.gz  
