@@ -138,12 +138,12 @@
   file:
     path: /var/www/bpps
     state: directory
-
-- name: change symlink to point to python3
-  file:
-    src: /bin/python3
-    dest: /bin/python
-    force: yes
-    state: link
   notify: restart apache
+
+#- name: change symlink to point to python3
+#  file:
+#    src: /bin/python3
+#    dest: /bin/python
+#    force: yes
+#    state: link
 

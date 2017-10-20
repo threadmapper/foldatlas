@@ -17,6 +17,6 @@
     - apache.centos
 #    - apache.ubuntu
     - mariadb
-#    - viennaRNA
+    - viennaRNA
     - node.js
     - foldatlas
