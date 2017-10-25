@@ -1,0 +1,12 @@
+---
+# Ansible playbook copy python code to FoldAtlas server.
+
+- hosts: all
+  become: true
+  become_method: sudo
+  vars_files:
+    - vars.yml
+
+  roles:
+    - init
+    - foldatlas
