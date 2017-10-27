@@ -10,7 +10,6 @@
   roles:
 #    - init
     - build_tools
-    - epel
     - ferm
     - selinux
     - python
@@ -19,4 +18,3 @@
     - mariadb
     - viennaRNA
     - node.js
-    - foldatlas

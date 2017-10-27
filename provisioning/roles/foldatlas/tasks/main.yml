@@ -104,6 +104,8 @@
     dest: "{{ foldatlas_downloads_dir }}"
     creates: "{{ foldatlas_downloads_dir }}/foldatlas.sql"
     remote_src: yes
+  when:
+    foldatlas_load_sql_dump == "yes"
 
 - name: load SQL dump
   mysql_db:
