@@ -20,8 +20,9 @@
     - "{{ python_apt_scipy }}"
 
 - name: install python packages using pip
-  pip: name={{ item }}
-       executable=pip3
+  pip:
+    name: "{{ item }}"
+    executable: pip3
   with_items:
 #    - scikit-learn
     - biopython

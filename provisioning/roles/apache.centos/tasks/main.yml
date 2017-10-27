@@ -10,16 +10,33 @@
     - httpd
     - httpd-devel
 
+- name: check for mod_wsgi.so
+  stat: path=/etc/httpd/modules/mod_wsgi.so
+  register: mod_wsgi
+
+- name: delete Python2 mod_wsgi.so
+  file: 
+    path: /etc/httpd/modules/mod_wsgi.so
+    state: absent
+  when: (mod_wsgi.stat.exists == True) and 
+        (mod_wsgi.stat.islnk == False)
+
+- name: have we still got a mod_wsgi.so?
+  stat: path=/etc/httpd/modules/mod_wsgi.so
+  register: mod_wsgi
+
 - name: install mod_wsgi
   pip:
     name: mod_wsgi
     executable: pip3
+  when: mod_wsgi.stat.exists == False
 
 - name: create symlink to mod_wsgi in apache setup
   file:
     src: /usr/lib64/python3.4/site-packages/mod_wsgi/server/mod_wsgi-py34.cpython-34m.so
     dest: /etc/httpd/modules/mod_wsgi.so
     state: link
+  when: mod_wsgi.stat.exists == False
 
 - name: create Apache virtual host file
   copy:

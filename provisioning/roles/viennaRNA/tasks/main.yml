@@ -15,7 +15,6 @@
     src: "{{ viennarna_src_tarball }}"
     dest: "{{ viennarna_dest }}"
     remote_src: yes
-    state: present
     creates: "{{ viennarna_dest }}/{{ viennarna_version }}.tar.gz"
 
 - name: configure for this VM

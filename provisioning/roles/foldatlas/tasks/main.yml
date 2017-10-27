@@ -3,10 +3,18 @@
 # Install and configure foldatlas.
 #
 
+- stat:
+    path: "{{ foldatlas_sql_dir }}"
+  register: src_dir
+
 - name: create data directory
-  file: path={{ foldatlas_sql_dir }}
-        mode=0700
-        state=directory
+  file:
+    path: "{{ foldatlas_sql_dir }}"
+    mode: 0755
+    state: directory
+    recurse: yes
+    force: no
+  when: src_dir.stat.exists == False
 
 #
 # --- Download data ---
@@ -72,20 +80,19 @@
 # --- Setup directories
 #
 
-- file:
-    path: "{{ foldatlas_root_dir }}"
-    state: directory
-    mode: 0755
-
-- file:
+- name: create SQL directory for foldatlas
+  file:
     path: "{{ foldatlas_sql_dir }}"
     state: directory
     mode: 0755
+    recurse: yes
 
-- file:
-    path: "{{ foldatlas_downloads_dir }}"
+- name: create downloads directory for foldatlas
+  file:
+    path: "{{ foldatlas_sql_dir }}"
     state: directory
     mode: 0755
+    recurse: yes
 
 #
 # --- Populate DB ---
@@ -144,4 +151,3 @@
 #    dest: /bin/python
 #    force: yes
 #    state: link
-
