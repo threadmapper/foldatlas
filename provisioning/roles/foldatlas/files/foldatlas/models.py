@@ -139,6 +139,7 @@ class Transcript( db.Model ):
             strain_id = settings.reference_strain_id
 
         vals = list( self.get_sequences( strain_id ).values() )
+
         if len( vals ) > 0:
             return vals[ 0 ]
         else:

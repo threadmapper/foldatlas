@@ -17,19 +17,20 @@ else:
     dbuser = "fa_user"
     dbpassword = "@_t3mp_Pas5"
     bppms_folder = "/var/www/bppms"
-    
+
     sqlalchemy_track_modifications = True  # incurs overhead but only on for dev
     sqlalchemy_echo = True
 
+db_name = "foldatlas"
+
 # Format the database connection string
-database_uri = "mysql+mysqlconnector://{}:{}@127.0.0.1/foldatlas?{}".format( dbuser,
-                                                                             dbpassword,
-                                                                             'charset=utf8&use_unicode=1' )
+database_uri = "mysql+mysqlconnector://{}:{}@127.0.0.1/{}?{}".format( dbuser,
+                                                                      dbpassword,
+                                                                      db_name,
+                                                                      'charset=utf8&use_unicode=1' )
 
 # Points to the general data folder
 data_folder = "/var/www/source_data"
-
-db_name = "foldatlas"
 
 # Points to structure data folder, which contains a *lot* of files
 structure_data_folder = "/var/www/structure_data"
@@ -75,6 +76,8 @@ structures_in_vivo = {
     "source_filepath": structure_data_folder + "/in_vivo_structures",
     "source_ext": ".ct",
 }
+
+structure_prediction_run_ids = [ 1, 2 ]
 
 transcripts_fasta_filepath = data_folder + "/transcripts.fasta"
 

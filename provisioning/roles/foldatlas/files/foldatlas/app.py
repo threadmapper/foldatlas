@@ -1,25 +1,11 @@
 from sys import argv
 
 from flask import Flask, render_template, request, Response, send_from_directory
-# from flask_sqlalchemy import SQLAlchemy
 
 import settings
-# from utils import FastaExporter, FastaSplitter
 
 app = Flask( __name__ )
 
-
-# these commands enable migrations, see https://flask-migrate.readthedocs.org/en/latest/
-# print("Creating db object")
-
-
-# def load_models():
-# 	from models import Gene
-# 	print("Models loaded")
-
-# from controllers import GenomeBrowser, TranscriptView, TranscriptSearcher, CoverageSearcher, \
-# 	StructureDiagramView, StructureCirclePlotView, StructureDownloader, \
-# 	NucleotideMeasurementDownloader
 
 # db_session
 @app.teardown_appcontext
@@ -45,19 +31,28 @@ def after_request( response ):
 @app.route( "/" )
 def index():
     from controllers import GenomeBrowser
-    return render_template( "index.html", settings=settings, genome_browser=GenomeBrowser(), page="home" )
+    return render_template( "index.html",
+                            settings=settings,
+                            genome_browser=GenomeBrowser(),
+                            page="home" )
 
 
 @app.route( "/search" )
 def search():
     from controllers import GenomeBrowser
-    return render_template( "index.html", settings=settings, genome_browser=GenomeBrowser(), page="search" )
+    return render_template( "index.html",
+                            settings=settings,
+                            genome_browser=GenomeBrowser(),
+                            page="search" )
 
 
 @app.route( "/help" )
 def help():
     from controllers import GenomeBrowser
-    return render_template( "index.html", settings=settings, genome_browser=GenomeBrowser(), page="help" )
+    return render_template( "index.html",
+                            settings=settings,
+                            genome_browser=GenomeBrowser(),
+                            page="help" )
 
 
 # Transcript - initialise the genome browser with custom parameters to center on the gene of interest.
@@ -80,7 +75,8 @@ def get_genes_ajax():
 
 @app.route( "/ajax/help" )
 def get_help_ajax():
-    return render_template( "help-view.html", settings=settings )
+    return render_template( "help-view.html",
+                            settings=settings )
 
 
 @app.route( "/ajax/genome-browser/transcripts" )
@@ -113,7 +109,8 @@ def get_coverage_page_count():
 @app.route( "/ajax/transcript/<transcript_id>" )
 def view_transcript_ajax( transcript_id ):
     from controllers import TranscriptView
-    return render_template( "transcript-view.html", transcript_view=TranscriptView( transcript_id ) )
+    return render_template( "transcript-view.html",
+                            transcript_view=TranscriptView( transcript_id ) )
 
 
 @app.route( "/ajax/structure-diagram/<structure_id>" )
@@ -134,14 +131,15 @@ def structure_circle_plot_ajax( structure_id ):
 @app.route( "/download/structure/<transcript_id>" )
 def download_structure( transcript_id ):
     from controllers import StructureDownloader
-    buf = StructureDownloader( [ 1, 2 ], transcript_id ).generate()
+    buf = StructureDownloader( structure_prediction_run_ids=settings.structure_prediction_run_ids,
+                               transcript_id=transcript_id ).generate()
     return Response( buf, mimetype='text/plain' )
 
 
 @app.route( "/download/bppm/<transcript_id>" )
 def download_bppm( transcript_id ):
-    from controllers import BppmDownloader
-    return Response( BppmDownloader().fetch( transcript_id ), mimetype='text/plain' )
+    from controllers import fetch_bppm
+    return Response( fetch_bppm( transcript_id ), mimetype='text/plain' )
 
 
 @app.route( "/download/measurements/<experiment_id>/<transcript_id>" )
@@ -183,11 +181,13 @@ if __name__ == "__main__":
         elif argv[ 1 ] == "exportfasta":
             # export sequences into a big fasta file
             from utils import FastaExporter
+
             FastaExporter().export()
 
         elif argv[ 1 ] == "splitfasta":
             # split fasta sequences into individual ones
             from utils import FastaSplitter
+
             FastaSplitter().split()
 
         elif argv[ 1 ] == "export_structure_tids":

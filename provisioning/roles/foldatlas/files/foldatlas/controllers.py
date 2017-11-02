@@ -371,26 +371,26 @@ class CoverageSearcher():
         # size of pages
         self.page_size = 25
 
+        # TODO these hard-coded values must become session-specific
+
         # The experiment ID to sort by. Ideally this should have a value for each
         # transcript, otherwise there will be some missing transcripts...
-        self.nucleotide_measurement_run_id = 1
+        self._nucleotide_measurement_run_id = 1
+
+        self._strain_id = 'Col_0'
+        self._structure_prediction_run_id = 2
 
     def fetch_page_count( self ):
         transcript_count = database.db_session \
             .query( func.count( '*' ) ) \
             .select_from( NucleotideMeasurementSet ) \
-            .filter( NucleotideMeasurementSet.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id ) \
+            .filter( NucleotideMeasurementSet.nucleotide_measurement_run_id == self._nucleotide_measurement_run_id ) \
             .scalar()
 
         page_count = ceil( transcript_count / self.page_size )
         return page_count
 
     def fetch_transcript_data( self, page_num ):
-        # TODO these hard-coded values must become session-specific
-        strain_id = 'Col_0'
-        nucleotide_measurement_run_id = 1
-        structure_prediction_run_id = 2
-
         offset = (int( page_num ) - 1) * self.page_size
         limit = self.page_size
 
@@ -429,22 +429,20 @@ class CoverageSearcher():
             ORDER BY
                 coverage DESC """
 
-        sql = sql.format( nt_run_id=nucleotide_measurement_run_id,
+        sql = sql.format( nt_run_id=self._nucleotide_measurement_run_id,
                           limit_=limit,
                           offset_=offset,
-                          sp_run_id=structure_prediction_run_id,
-                          strain_id=strain_id ).replace( '\n', ' ' )
+                          sp_run_id=self._structure_prediction_run_id,
+                          strain_id=self._strain_id ).replace( '\n', ' ' )
 
         results = database.engine.execute( sql )
 
         out = [ ]
         for row in results:
-            out.append( {
-                "transcript_id": row[ "transcript_id" ],
-                "gene_length": row[ "gene_length" ],
-                "coverage": row[ "coverage" ],
-                "has_structure": row[ "structure_transcript_id" ] is not None
-            } )
+            out.append( { "transcript_id": row[ "transcript_id" ],
+                          "gene_length": row[ "gene_length" ],
+                          "coverage": row[ "coverage" ],
+                          "has_structure": row[ "structure_transcript_id" ] is not None } )
 
         return out
 
@@ -508,7 +506,10 @@ class StructureView():
     def __init__( self, transcript_id, strain_id ):
         self.transcript_id = transcript_id
         self.strain_id = strain_id
-        self.build_entries( [ 1, 2 ] )
+        self.empty = True
+        self.data_json = None
+
+        self.build_entries( structure_prediction_run_ids=settings.structure_prediction_run_ids )
 
     def build_entries( self, structure_prediction_run_ids ):
 
@@ -524,33 +525,28 @@ class StructureView():
 
         for run in runs:
 
-            run_data = {
-                "id": run.id,
-                "description": run.description,
-                "data": [ ]
-            }
+            run_data = { "id": run.id,
+                         "description": run.description,
+                         "data": [ ] }
 
             # fetch all Structure objects that match the experiment ID and the transcript ID
             results = database.db_session \
                 .query( Structure ) \
-                .filter(
-                    Structure.structure_prediction_run_id == run.id,
-                    Structure.transcript_id == self.transcript_id
-            ) \
+                .filter( Structure.structure_prediction_run_id == run.id,
+                         Structure.transcript_id == self.transcript_id ) \
                 .all()
 
             # add the structures to output json
             for structure in results:
-                run_data[ "data" ].append( {
-                    "id": structure.id,
-                    "energy": structure.energy,
-                    "pc1": structure.pc1,
-                    "pc2": structure.pc2
-                } )
+                run_data[ "data" ].append( { "id": structure.id,
+                                             "energy": structure.energy,
+                                             "pc1": structure.pc1,
+                                             "pc2": structure.pc2 } )
 
             data[ run.id ] = run_data
 
         self.empty = True
+
         for experiment_id in data:
             entry = data[ experiment_id ]
             if len( entry[ "data" ] ) > 0:
@@ -634,12 +630,12 @@ class StructureDiagramView():
         # return result
 
 
-class StructureCirclePlotView():
+class StructureCirclePlotView( object ):
     def __init__( self, structure_id ):
         self.structure_id = structure_id
-        self.get_values()
+        self.data_json = self._get_values()
 
-    def get_values( self ):
+    def _get_values( self ):
         # get all the positions
         results = database.db_session \
             .query( Structure ) \
@@ -652,32 +648,29 @@ class StructureCirclePlotView():
 
         # build the output. backward facing links are left blank
         # results must be shifted back to array indexes, since they start at 1 in the DB.
-        out = [ ];
+        out = [ ]
         for curr_position in range( 1, len( positions ) + 1 ):
             paired_to_position = positions[ curr_position - 1 ]
 
-            if paired_to_position == 0 or \
-                            paired_to_position < curr_position:
-
+            if paired_to_position == 0 or paired_to_position < curr_position:
                 link = None
             else:
-                link = paired_to_position - 1
+                link = int( paired_to_position - 1 )
 
-            if link:
-                link = int( link )
+            out.append( { "name": curr_position - 1,
+                          "link": link,
+                          "bpp": None if bpps is None else bpps[ curr_position - 1 ] } )
 
-            out.append( {
-                "name": curr_position - 1,
-                "link": link,
-                "bpp": None if bpps is None else bpps[ curr_position - 1 ]
-            } )
-
-        self.data_json = json.dumps( out )
+        return json.dumps( out )
 
 
 # Generates plaintext structure text files for download
-class StructureDownloader():
+class StructureDownloader( object ):
     def __init__( self, structure_prediction_run_ids, transcript_id ):
+        """
+        :param structure_prediction_run_ids:
+        :param transcript_id:
+        """
         self.structure_prediction_run_ids = structure_prediction_run_ids
         self.transcript_id = transcript_id
 
@@ -685,16 +678,12 @@ class StructureDownloader():
         # Fetch the data
         results = database.db_session \
             .query( Structure, StructurePredictionRun, Transcript ) \
-            .filter(
-                StructurePredictionRun.id == Structure.structure_prediction_run_id,
-                Structure.structure_prediction_run_id.in_( self.structure_prediction_run_ids ),
-                Structure.transcript_id == self.transcript_id,
-                Transcript.id == self.transcript_id
-        ) \
-            .order_by(
-                Structure.structure_prediction_run_id,
-                Structure.id
-        ) \
+            .filter( StructurePredictionRun.id == Structure.structure_prediction_run_id,
+                     Structure.structure_prediction_run_id.in_( self.structure_prediction_run_ids ),
+                     Structure.transcript_id == self.transcript_id,
+                     Transcript.id == self.transcript_id ) \
+            .order_by( Structure.structure_prediction_run_id,
+                       Structure.id ) \
             .all()
 
         return self.generate_txt( results )
@@ -704,59 +693,35 @@ class StructureDownloader():
         # first we must extract and display the sequence, using the transcript object. output
         # in fasta-like format
         transcript = results[ 0 ][ 2 ]
-        buf = ">" + self.transcript_id + "\n"
-        buf += insert_newlines( transcript.get_sequence_str() ) + "\n"
+
+        output_text = [ '>{}\n'.format( self.transcript_id ),
+                        insert_newlines( transcript.get_sequence_str() ) ]
+
+        # buf = ">" + self.transcript_id + "\n"
+        # buf += insert_newlines( transcript.get_sequence_str() ) + "\n"
 
         for result in results:
             structure = result[ 0 ]
             run = result[ 1 ]
-            transcript = result[ 2 ]
             positions = structure.get_values()
 
             # generate and add the header text for this structure
-            buf += (
-                ">sid_" + str( structure.id ) + "\t" +
-                "ENERGY:" + str( structure.energy ) + " kcal/mol\t" +
-                run.description + "\n")
+            output_text.append( '\n>sid_{}\tENERGY:{} kcal/mol\t{}\n'.format( structure.id,
+                                                                              structure.energy,
+                                                                              run.description ) )
 
             # generate and add dot bracket text
-            buf += insert_newlines( build_dot_bracket( positions ) ) + "\n"
+            output_text.append( insert_newlines( build_dot_bracket( positions ) ) )
 
-        return buf
-
-    # Generates the older and far more cluttered txt format for structures
-    def generate_txt_old( self, results ):
-
-        # Generate tab delimited text from the data
-        buf = ""
-        for result in results:
-            structure = result[ 0 ]
-            run = result[ 1 ]
-            transcript = result[ 2 ]
-
-            seq_str = transcript.get_sequence_str()
-            positions = structure.get_values()
-
-            for curr_position in range( 1, len( positions ) + 1 ):
-                paired_to_position = positions[ curr_position - 1 ]
-                letter = seq_str[ curr_position - 1 ].replace( "T", "U" )
-
-                buf += str( structure.id ) + "\t" + \
-                       str( run.description ) + "\t" + \
-                       str( structure.transcript_id ) + "\t" + \
-                       str( structure.energy ) + "\t" + \
-                       str( structure.pc1 ) + "\t" + \
-                       str( structure.pc2 ) + "\t" + \
-                       str( letter ) + "\t" + \
-                       str( curr_position ) + "\t" + \
-                       str( paired_to_position ) + "\n"
-
-        return buf
+        # return buf
+        return ''.join( output_text )
 
 
-# Generates plain text nucleotide measurements for user download
-# Includes raw and normalised
-class NucleotideMeasurementDownloader():
+class NucleotideMeasurementDownloader(object):
+    """
+    Generates plain text nucleotide measurements for user download
+    Includes raw and normalised
+    """
     def __init__( self, nucleotide_measurement_run_id, transcript_id ):
         self.nucleotide_measurement_run_id = nucleotide_measurement_run_id
         self.transcript_id = transcript_id
@@ -768,33 +733,26 @@ class NucleotideMeasurementDownloader():
         # Use the ORM to grab compiled counts
         results = database.db_session \
             .query( RawReactivities ) \
-            .filter(
-                RawReactivities.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id,
-                RawReactivities.transcript_id == self.transcript_id
-        ) \
+            .filter( RawReactivities.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id,
+                     RawReactivities.transcript_id == self.transcript_id ) \
             .all()
 
         measurement_set = results[ 0 ]
         # minus_unpacked =
         # plus_unpacked = values_str_unpack_int(measurement_set.plus_values)
 
-        cols = [
-            values_str_unpack_int( measurement_set.minus_values ),
-            values_str_unpack_int( measurement_set.plus_values )
-        ]
+        cols = [ values_str_unpack_int( measurement_set.minus_values ),
+                 values_str_unpack_int( measurement_set.plus_values ) ]
 
         # Grab the raw replicate lanes data
         lanes = database.db_session \
             .query( RawReplicateCounts ) \
-            .filter(
-                RawReplicateCounts.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id,
-                RawReplicateCounts.transcript_id == self.transcript_id
-        ) \
+            .filter( RawReplicateCounts.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id,
+                     RawReplicateCounts.transcript_id == self.transcript_id ) \
             .order_by(
                 RawReplicateCounts.minusplus_id,
                 RawReplicateCounts.bio_replicate_id,
-                RawReplicateCounts.tech_replicate_id
-        ) \
+                RawReplicateCounts.tech_replicate_id ) \
             .all()
 
         # gather the data
@@ -828,79 +786,82 @@ class NucleotideMeasurementDownloader():
         # Use the ORM to grab all the normalised stuff
         results = database.db_session \
             .query( NucleotideMeasurementSet ) \
-            .filter(
-                NucleotideMeasurementSet.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id,
-                NucleotideMeasurementSet.transcript_id == self.transcript_id
-        ) \
+            .filter( NucleotideMeasurementSet.nucleotide_measurement_run_id == self.nucleotide_measurement_run_id,
+                     NucleotideMeasurementSet.transcript_id == self.transcript_id ) \
             .all()
 
         measurement_set = results[ 0 ]
+
         # TODO detect whether float or int and use the correct unpacker.
         # Needed for raw count values download option
         unpacked = values_str_unpack_float( measurement_set.values )
 
         # index measurements by pos
         measurements = { }
-        for pos in range( 0, len( unpacked ) ):
+        for pos in range( len( unpacked ) ):
             value = unpacked[ pos ]
             measurements[ pos + 1 ] = "NA" if value is None else value
 
         # build the output string
-        buf = ""
-        n = 0
-        for n in range( 0, len( seq_str ) ):
-            pos = n + 1
-            measurement = "NA" if pos not in measurements else measurements[ pos ]
-            buf += str( pos ) + "\t" + \
-                   seq_str[ n ] + "\t" + \
-                   str( measurement ) + "\n"
-            n += 1
+        buf = []
 
-        return buf
+        for pos, nt in enumerate( seq_str, start=1 ):
+            measurement = measurements[ pos ] if pos in measurements else 'NA'
+            buf.append( '{}\t{}\t{}'.format( pos, nt, measurement ) )
+
+        return '\n'.join( buf )
 
 
-# Retrieves the BPPM for this transcript_id
-class BppmDownloader():
-    def fetch( self, transcript_id ):
-        import os
+def fetch_bppm( transcript_id ):
+    """ Retrieves the base-pairing prob. matrix (BPPM) for this transcript_id """
+    import os
 
-        source_filepath = settings.bppms_folder + "/" + transcript_id + ".bppm"
+    source_filepath = settings.bppms_folder + "/" + transcript_id + ".bppm"
 
-        if not os.path.isfile( source_filepath ):
-            return "No BPPM data available for " + transcript_id
+    if not os.path.isfile( source_filepath ):
+        return "No BPPM data available for " + transcript_id
 
-        buf = ""
-        # Open the raw BPPM and convert to our simpler format
-        with open( source_filepath, "r" ) as f:
-            first = True
-            for line in f:
-                if first:  # skip the first line, which shows the length
-                    first = False
-                    continue
+    # buf = ""
+    buf = [ ]
 
-                # add the text for the bppm table
+    # Open the raw BPPM and convert to our simpler format
+    with open( source_filepath, "r" ) as f:
+        first = True
+        found_prob_text = False
+
+        for line in f:
+            if first:  # skip the first line, which shows the length
+                first = False
+                continue
+
+            # add the text for the bppm table
+            if not found_prob_text:
                 if "Probability" in line:  # skip header lines
+                    found_prob_text = True
                     continue
 
-                # extract the data, this will be used for structure BPPMs
-                bits = line.strip().split( "\t" )
-                pos_a = int( bits[ 0 ] )
-                pos_b = int( bits[ 1 ] )
-                bpp = -float( bits[ 2 ] )
+            # extract the data, this will be used for structure BPPMs
+            bits = line.strip().split( "\t" )
+            pos_a = int( bits[ 0 ] )
+            pos_b = int( bits[ 1 ] )
+            bpp = -float( bits[ 2 ] )
 
-                buf += str( pos_a ) + "\t" + str( pos_b ) + "\t" + str( bpp ) + "\n"
-        return buf
+            # buf += str( pos_a ) + "\t" + str( pos_b ) + "\t" + str( bpp ) + "\n"
+            buf.append( '{}\t{}\t{}'.format( pos_a, pos_b, bpp ) )
 
-        # OLD method - storing in the database is not a good way to do it
-        # import zlib, base64
-        # # fetch from database
-        # results = database.db_session \
-        #     .query(Bppm) \
-        #     .filter(Bppm.transcript_id==transcript_id) \
-        #     .all()
-        # bppm = results[0]
+    # return buf
+    return '\n'.join( buf )
 
-        # # decode and return the BPPM
-        # decoded = base64.b64decode(bppm.data)
-        # data_txt = zlib.decompress(decoded)
-        # return data_txt
+    # OLD method - storing in the database is not a good way to do it
+    # import zlib, base64
+    # # fetch from database
+    # results = database.db_session \
+    #     .query(Bppm) \
+    #     .filter(Bppm.transcript_id==transcript_id) \
+    #     .all()
+    # bppm = results[0]
+
+    # # decode and return the BPPM
+    # decoded = base64.b64decode(bppm.data)
+    # data_txt = zlib.decompress(decoded)
+    # return data_txt
