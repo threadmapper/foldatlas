@@ -7,50 +7,33 @@ The live site is available at [foldatlas](http://www.foldatlas.com)
 
 ## Installing locally
 
-- On OSX or Linux (preferably)
-- Install the latest versions of Vagrant, Virtualbox and Ansible
+- On macOS or Linux
+- Install the latest versions of:
+  - [Virtualbox download](https://www.virtualbox.org/wiki/Downloads)
+  - [Vagrant download](https://www.vagrantup.com/)
+  - [Ansible download](http://docs.ansible.com/ansible/latest/intro_installation.html)
+  (more information at [Ansible](https://www.ansible.com/))
 - Clone this code repository
 - Create a python v3.4 environment (using conda or virtualenv)  
   The `requirements.txt` file lists the python packages required for development.  
   Packages required for production are indicated and are mirrored in the 
   provisioning scripts 
  
-## Setting up the box
+## Setting up a local FoldAtlas
 
-Run `vagrant up` in the same folder as this file.  
-The first `vagrant up` call will install everything and download genome sequence data.
-If it fails, first check your `vagrant --version`.
+To initialise the local database with the current live database, set `foldatlas_load_sql_dump: "yes"`
+in the `provisioning/vars.yml` file.  
+Run `vagrant up` in the same folder as this file.    
+The first `vagrant up` call will install and configure the required components.  
+The webserver address is `http://localhost:8080`.
 
-## Hosts
+Set `foldatlas_load_sql_dump: "no"` in the `provisioning/vars.yml` file.  
+Subsequent calls to `vagrant up` will check each component is the latest and start the webserver.
 
-	192.168.50.2	foldatlas.dev
-	192.168.50.2    static.foldatlas.dev
-	192.168.50.2    pma.foldatlas.dev
 
-Add these lines to your `hosts` file, typically located in /etc/hosts on *nix based systems.
 
-## Running the web server
 
-    vagrant ssh
-    rb-runDevServer
 
-This runs a Flask development web server. 
-Go to http://foldatlas.dev to see the site running. 
-The server will keep going until you press `CTRL-C` in the terminal.
 
-## Resetting the database
-
-    vagrant ssh
-    rb-resetDB
-
-This drops all the database tables, recreates them, and then populates the tables by 
-parsing the *.fa and *.gff3 files downloaded during the `vagrant up` provisioning. 
-
-## Viewing / hacking the database
-
-Go to http://pma.foldatlas.dev
-
-    username: root
-    password: vagrant
 
 
