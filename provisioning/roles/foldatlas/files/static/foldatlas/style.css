@@ -1,405 +1,361 @@
 /* 	CSS for RNA structure browser. */
 
 body {
-	height: auto;
-	position: relative;
-	background-color: #2f3b5d;
-	font-family: UbuntuFA, Tahoma, Geneva, sans-serif;
+    height: auto;
+    position: relative;
+    background-color: #2f3b5d;
+    font-family: UbuntuFA, Tahoma, Geneva, sans-serif;
 }
 
 p, li {
-	line-height: 1.4em;
+    line-height: 1.4em;
 }
 
-a:link, a:visited {
-	color: #000;
+a:link,
+a:visited {
+    color: #000;
 }
-a:hover, a:active {
-	background-color: #2f3b5d;
-	color: #fff;
+
+a:hover,
+a:active {
+    background-color: #2f3b5d;
+    color: #fff;
 }
 
 h4 {
-	margin-top: 0px;
-	margin-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 
 #info-panel {
-	text-align: left;
-	/*background-color: rgba(0, 0, 0, 0.7);
-	box-shadow: 0px 0px 40px #000;
-	margin: 30px auto 30px auto;*/
-	/*width: 600px;
-	padding: 20px;*/
-	font-size: 16px;
-	color: #ccc;
-	width: 964px;
-	text-shadow: 0px 0px 10px #000;
-	margin: 30px auto 30px auto;
-	line-height: 1.5em;
+    text-align: left;
+    font-size: 16px;
+    color: #ccc;
+    width: 964px;
+    text-shadow: 0 0 10px #000;
+    margin: 30px auto 30px auto;
+    line-height: 1.5em;
 }
 
-#info-panel a:link, #info-panel a:visited {
-	color: #fff;
+#info-panel a:link,
+#info-panel a:visited {
+    color: #fff;
 }
 
-#info-panel a:hover, #info-panel a:active {
-	background-color: #000;
+#info-panel a:hover,
+#info-panel a:active {
+    background-color: #000;
 }
 
 /*** BUTTONS ***/
 
 .button {
-	margin: 5px;
-	padding: 7px 10px;
-	border: 1px solid #888;
-	color: #000;
-	font-size: 16px;
-	line-height: 15px;
-	text-decoration: none;
-	background-color: #f0f0f0;
-	text-shadow: none;
+    margin: 5px;
+    padding: 7px 10px;
+    border: 1px solid #888;
+    color: #000;
+    font-size: 16px;
+    line-height: 15px;
+    text-decoration: none;
+    background-color: #f0f0f0;
+    text-shadow: none;
 }
 
 .button:active {
-	border: 1px solid #666;
-	padding: 9px 10px 5px 10px;
-	background-color: #fff;
-	box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.5);
+    border: 1px solid #666;
+    padding: 9px 10px 5px 10px;
+    background-color: #fff;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .button:hover {
-	color: #000;
-	background-color: #fff;
-	border: 1px solid #666;
-	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(210, 210, 210, 1) 100%);
+    color: #000;
+    border: 1px solid #666;
+    background: #fff linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(210, 210, 210, 1) 100%);
 }
 
-/* gotta override h2 styling */
+/* override h2 styling */
 .button.download {
-	float: right;
-	background-color: #f0f0f0;
-	border: 1px solid #000;
-	font-weight: normal;
-	margin-top: 9px;
-	margin-left: -1px;
-	margin-right: 0px;
-}
-
-.button.download.r {
-	margin-right: 30px;
+    float: right;
+    background-color: #f0f0f0;
+    border: 1px solid #000;
+    font-weight: normal;
+    margin-top: 9px;
+    margin-left: -1px;
+    margin-right: 0;
 }
 
 #circle-plot {
-	position: relative;
+    position: relative;
 }
 
 #circle-plot-legend {
-	position: absolute;
-	top: 570px;
-	left: 500px;
+    position: absolute;
+    top: 570px;
+    left: 500px;
 }
 
 .button.svg {
-	position: absolute;
-	margin: 0;
-	top: 5px;
-	right: 5px;
-	z-index: 10;
+    position: absolute;
+    margin: 0;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
 }
 
 h1 .button {
-	display: inline-block;
-	vertical-align: bottom;
-	margin: 0px 0px 0px 10px;
-	font-weight: normal;
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 0 0 0 10px;
+    font-weight: normal;
 }
-
 
 #header .button {
-	border: 1px solid #000;
-	/*position: absolute;
-	right: 10px;
-	bottom: 10px;*/
-	float: right;
-	margin-top: 48px;
-	margin-right: 0px;
-	margin-bottom: 0px;
-	margin-left: -1px;
-	vertical-align: bottom;
-	z-index: 9001;
-	font-weight: normal;
+    border: 1px solid #000;
+    float: right;
+    margin: 48px 0 0 -1px;
+    vertical-align: bottom;
+    z-index: 9001;
+    font-weight: normal;
 }
 
-.button.download:active, .button.download:hover {
-	background-color: #fff;
+.button.download:active,
+.button.download:hover {
+    background-color: #fff;
 }
 
-#header .button:active, #header .button:hover {
-	background-color: #fff;
+#header .button:active,
+#header .button:hover {
+    background-color: #fff;
 }
 
-/*** /BUTTONS ***/
+/******/
 
 #main-container {
-	box-shadow: 0px 0px 40px #000;
-	margin: 30px auto 30px auto;
-	width: 964px;
+    box-shadow: 0 0 40px #000;
+    margin: 30px auto 30px auto;
+    width: 964px;
 }
 
 #header {
-	height: 80px;
-	width: 934px;
-	padding: 15px;
-	border: 1px solid #000;
-	position: relative;
+    height: 80px;
+    width: 934px;
+    padding: 15px;
+    border: 1px solid #000;
+    position: relative;
 }
 
 #title {
-	font-weight: bold;
-	color: #fff;
-	text-shadow: 0px 0px 10px #000;
-	position: absolute;
-	left: 15px;
-	bottom: 35px;
-	font-size: 40px;
-	cursor: pointer;
-	line-height: 1em;
-}
-
-#desc {
-	font-weight: bold;
-	color: #fff;
-	text-shadow: 0px 0px 10px #000;
-	position: absolute;
-	left: 15px;
-	bottom: 15px;
-	font-size: 14px;
-	line-height: 1em;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px #000;
+    position: absolute;
+    left: 15px;
+    bottom: 35px;
+    font-size: 40px;
+    cursor: default;
+    line-height: 1em;
 }
 
 #title:hover {
-	text-shadow: 0px 0px 10px rgba(255, 255, 255, 0.5);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+#desc {
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 0 10px #000;
+    position: absolute;
+    left: 15px;
+    bottom: 15px;
+    font-size: 14px;
+    line-height: 1em;
+    cursor: default;
 }
 
 #content {
-	font-size: 16px;
-	background-color: #fff;
-	width: 904px;
-	padding: 30px;
-	border-top: 0px;
-	border-right: 1px solid #000;
-	border-bottom: 1px solid #000;
-	border-left: 1px solid #000;
-	position: relative;
+    font-size: 16px;
+    background-color: #fff;
+    width: 904px;
+    padding: 30px;
+    border-top: 0;
+    border-right: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-left: 1px solid #000;
+    position: relative;
 }
 
 .tabs {
-	clear: both;
-	position: relative;
-	height: 35px;
-	border-bottom: 1px solid #888;
+    clear: both;
+    position: relative;
+    height: 35px;
+    border-bottom: 1px solid #888;
 }
 
 .tabs > .tab {
-	display: block;
-	float: left;
-	line-height: 16px;
-	margin-left: 10px;
-	margin-right: 10px;
-	padding: 10px;
-	font-size: 16px;
-	height: 14px;
-	background-color: #f0f0f0;
+    display: block;
+    float: left;
+    line-height: 16px;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 16px;
+    height: 14px;
+    background-color: #f0f0f0;
 
-	border-top: 1px solid #888;
-	border-left: 1px solid #888;
-	border-right: 1px solid #888;
-
-	border-bottom: 0 none;
-	cursor: pointer;
-	/*box-shadow: inset 0px -10px 10px -10px rgba(0,0,0,0.2);*/
+    border-top: 1px solid #888;
+    border-left: 1px solid #888;
+    border-right: 1px solid #888;
+    border-bottom: 0 none;
+    cursor: pointer;
 }
 
 .tabs > .tab:hover {
-	background-color: #fff;
+    background-color: #fff;
 }
 
 .tabs > .tab.active {
 
-	padding: 12px;
-	margin-left: 8px;
-	margin-right: 8px;
-	margin-top: -4px;
+    padding: 12px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-top: -4px;
 
-	background-color: #fff;
-	border-bottom: none;
-	height: 15px;
-	cursor: default;
-	box-shadow: none;
+    background-color: #fff;
+    border-bottom: none;
+    height: 15px;
+    cursor: default;
+    box-shadow: none;
 }
 
-/*#search-button {
-	display: block;
-	font-size: 14px;
-	background-color: rgba(0, 0, 0, 0.5);
-	padding: 10px 15px;
-	color: #fff;
-	text-decoration: none;
-	line-height: 14px;
-
-	border-radius: 10px 0px 0px 0px;
-	border-top: 1px solid #000;
-	border-left: 1px solid #000;
-	border-bottom: 0 none;
-	border-right: 0 none;
-
-	position: absolute;
-	bottom: 0px;
-	right: 0px;
-}*/
-
 h1 {
-	font-size: 30px;
-	text-align: left;
+    font-size: 30px;
+    text-align: left;
 }
 
 h2.bar {
-
-	margin-left: -30px;
-	margin-right: -30px;
-	padding-left: 30px;
-	text-shadow: 0px 0px 10px #000;
-	text-align: left;
-
-	color: #fff;
-	background-color: #555;
-	border-top: 1px solid #000;
-	border-bottom: 1px solid #000;
-	border-left: 1px solid #666;
-	border-right: 2px solid #666;
-	line-height: 50px;
-	font-size: 20px;
-
-	position: relative;
-	/*border-bottom: 2px solid #aaa;*/
+    margin-left: -30px;
+    margin-right: -30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    text-shadow: 0 0 10px #000;
+    text-align: left;
+    color: #fff;
+    background-color: #555;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-right: 0;
+    border-left: 0;
+    line-height: 50px;
+    font-size: 20px;
+    position: relative;
 }
 
 #loading-indicator {
-	position: fixed;
-	color: #fff;
-	text-shadow: 0px 0px 10px #000;
-	top: 0px;
-	right: 0px;
-	font-size: 80px;
-	line-height: 80px;
-	z-index: 9001;
-	padding: 15px;
+    position: fixed;
+    color: #fff;
+    text-shadow: 0 0 10px #000;
+    top: 0;
+    right: 0;
+    font-size: 80px;
+    line-height: 80px;
+    z-index: 9001;
+    padding: 15px;
 }
 
 #loading-indicator img {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .alignment-container {
-	font-family: UbuntuMonoFA, monospace;
+    font-family: UbuntuMonoFA, monospace;
 }
 
 .alignment-row {
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .snp {
-	background-color: #555;
-	color: #fff;
+    background-color: #555;
+    color: #fff;
 }
 
 .a {
-	background-color: #0a0;
+    background-color: #0a0;
 }
 
-.t, .u {
-	background-color: #00d;
+.t,
+.u {
+    background-color: #00d;
 }
 
 .c {
-	background-color: #ca0;
+    background-color: #ca0;
 }
 
 .g {
-	background-color: #d00;
+    background-color: #d00;
 }
 
 /* SVG */
 #reactivities-chart {
-	border: 1px solid #000;
-	background-color: #fff;
+    border: 1px solid #000;
+    background-color: #fff;
 }
 
-/*.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
-}*/
-
 .tick > text {
-	font: 16px UbuntuMonoFA, monospace;
+    font: 16px UbuntuMonoFA, monospace;
 }
 
 .line {
-  fill: none;
-  stroke: #a00;
-  stroke-width: 1px;
+    fill: none;
+    stroke: #a00;
+    stroke-width: 1px;
 }
-
-/*.nucleotide-measurement-bar {
-	fill: #c33;
-}*/
 
 .missing-bg {
-	fill: #bbb;
+    fill: #bbb;
 }
+
 .not-missing-bg {
-	fill: #fff;
+    fill: #fff;
 }
 
 /*** TRANSCRIPT ID SEARCH ***/
 
 #search-transcript-id {
-	width: 100%;
+    width: 100%;
 }
 
 #search-transcript-id-container {
-	margin-top: 39px;
-	margin-bottom: 39px;
-	text-align: center;
+    margin-top: 39px;
+    margin-bottom: 39px;
+    text-align: center;
 }
 
 .message {
-	text-align: left;
-	padding: 20px;
-	background-color: #ffa;
-	border: 1px solid #000;
-	font-size: 18px;
-	float: center;
-	clear: both;
+    text-align: center;
+    padding: 20px;
+    background-color: #ffa;
+    border: 1px solid #000;
+    font-size: 18px;
+    clear: both;
 }
 
 #search-transcript-id-text, #search-transcript-id-submit {
-	margin: 0px;
-	display: inline-block;
-	font-size: 18px;
-	line-height: 22px;
-	vertical-align: bottom;
+    margin: 0;
+    display: inline-block;
+    font-size: 18px;
+    line-height: 22px;
+    vertical-align: bottom;
 }
 
 #search-transcript-id-text {
-	padding: 7px;
-	border: 1px solid #888;
+    padding: 7px;
+    border: 1px solid #888;
 }
 
 /*** /TRANSCRIPT ID SEARCH ***/
@@ -407,497 +363,514 @@ h2.bar {
 /* COVERAGE TABLE */
 
 .coverage-table {
-	width: 100%;
-	margin: auto;
-	border-spacing: 0px;
-	border-collapse: collapse;
-	clear: both;
+    width: 100%;
+    margin: auto;
+    border-spacing: 0;
+    border-collapse: collapse;
+    clear: both;
 }
 
-.coverage-table th, .coverage-table td {
-	padding: 5px 10px;
-	text-align: left;
+.coverage-table th,
+.coverage-table td {
+    padding: 5px 10px;
+    text-align: left;
 }
 
 .coverage-table td a {
-	font-weight: normal;
-	color: #000;
-	text-decoration: none;
+    font-weight: normal;
+    color: #000;
+    text-decoration: none;
 }
 
-.coverage-table tr:hover td, .coverage-table tr:hover td a {
-	cursor: pointer;
-	background-color: #f0f0f0;
-}
-
-table.coverage-table td.yes {
-	background-color: #beb;
+.coverage-table tr:hover td,
+.coverage-table tr:hover td a {
+    cursor: pointer;
+    background-color: #f0f0f0;
 }
 
 .coverage-table th {
-	font-weight: normal;
-	background-color: #f0f0f0;
-	border-bottom: 1px solid #888;
+    font-weight: normal;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #888;
 }
-
 
 /* STRUCTURE */
 
 #structure-container {
-	position: relative;
-	overflow: hidden;
-	height: 690px;
+    position: relative;
+    overflow: hidden;
+    height: 690px;
 }
 
 /* outer container */
 #pca-container {
-	width: 255px;
+    width: 255px;
 }
 
 /* this contains the actual chart */
 .pca-container {
-	padding-left: 0px;
-	width: 200px;
-	height: 200px;
+    padding-left: 0;
+    width: 200px;
+    height: 200px;
 }
 
 #pca-desc {
-	margin-top: 20px;
+    margin-top: 20px;
 }
 
 .pca-title-container {
-	position: relative;
-	height: 40px;
+    position: relative;
+    height: 40px;
 }
 
 .pca-title-container > h4 {
-	position: absolute;
-	top: 7px;
-	left: 0px;
+    position: absolute;
+    top: 7px;
+    left: 0;
 }
 
 .pca-interact {
-	position: relative;
-	float: right;
-	margin-left: 5px;
-	margin-right: 0px;
+    position: relative;
+    float: right;
+    margin-left: 5px;
+    margin-right: 0;
 }
 
 svg#pca-key {
-	margin-left: 34px;
-	width: 180px;
-	height: 72px;
-	min-width: 0;
-	min-height: 0;
+    margin-left: 34px;
+    width: 180px;
+    height: 72px;
+    min-width: 0;
+    min-height: 0;
 }
 
 #structure-detail {
-	position: absolute;
-	width: 630px;
-	height: 670px;
-	top: 10px;
-	right: 1px;
+    position: absolute;
+    width: 630px;
+    height: 670px;
+    top: 10px;
+    right: 1px;
 }
 
 svg#forna-key {
-	width: 120px;
-	height: 92px;
-	position: absolute;
-	bottom: 10px;
-	right: 10px;
-	min-width: 0;
-	min-height: 0;
-	z-index: 5;
+    width: 120px;
+    height: 92px;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    min-width: 0;
+    min-height: 0;
+    z-index: 5;
 }
 
 #forna-container {
-	position: absolute;
-	width: 630px;
-	height: 630px;
+    position: absolute;
+    width: 630px;
+    height: 630px;
 }
 
 #forna-outer_container {
-	position: absolute;
-	width: 630px;
-	height: 630px;
-	top: 40px;
-	right: 1px;
+    position: absolute;
+    width: 630px;
+    height: 630px;
+    top: 40px;
+    right: 1px;
 }
 
 #forna-overlay {
-	position: absolute;
-	width: 630px;
-	height: 40px;
-	left: 0px;
-	top: 0px;
+    position: absolute;
+    width: 630px;
+    height: 40px;
+    left: 0;
+    top: 0;
 }
 
 .structure-energy {
-	line-height: 40px;
-	font-size: 16px;
-	position: absolute;
-	top: 35px;
-	left: 10px;
-	z-index: 2;
+    line-height: 40px;
+    font-size: 16px;
+    position: absolute;
+    top: 35px;
+    left: 10px;
+    z-index: 2;
 }
 
 .forna-interact {
-	float: right;
-	margin-left: 0px;
-	z-index: 20;
-	/*padding: 7px 0px 7px 7px;*/
+    float: right;
+    margin-left: 0;
+    z-index: 20;
+    /*padding: 7px 0 7px 7px;*/
 }
 
 /*** CIRCLE PLOT ***/
 
 .circleplot-link {
-  pointer-events: none;
+    pointer-events: none;
 }
 
 /*** /CIRCLE PLOT ***/
 
 #nucleotide-measurement-charts {
-	text-align: center;
+    text-align: center;
 }
 
 .nucleotide-detail.button {
-	display: inline-block;
+    display: inline-block;
 }
 
 #structure-pca-chart-tooltip {
-	border: 1px solid #000;
-	background-color: #fff;
-	position: absolute;
-	padding: 5px 10px;
-	pointer-events: none;
-	opacity: 0;
-	margin: 0 none;
-	z-index: 10;
+    border: 1px solid #000;
+    background-color: #fff;
+    position: absolute;
+    padding: 5px 10px;
+    pointer-events: none;
+    opacity: 0;
+    margin: 0;
+    z-index: 10;
 }
 
 .dot {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 /* PAGINATION *********************************************************/
 
 #search-coverage-paginator {
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .pagination {
-	text-align: center;
+    text-align: center;
 }
 
 .pagination > .button {
-	margin: 0px 3px 0px 3px;
-	display: inline-block;
-	font-size: 18px;
-	width: 30px;
-	vertical-align: bottom; /** fixes vertical positioning movement **/
+    margin: 0 3px 0 3px;
+    display: inline-block;
+    font-size: 18px;
+    width: 30px;
+    vertical-align: bottom;
 }
 
 .pagination-status {
-	width: 130px;
-	margin: 0px 3px 0px 3px;
-	text-align: center;
-	padding: 5px;
-	line-height: 19px;
-	border: 1px solid #888;
-	background-color: none;
-	font-size: 16px;
-	font-family: UbuntuFA, Tahoma, Geneva, sans-serif
+    width: 130px;
+    margin: 0 3px 0 3px;
+    text-align: center;
+    padding: 5px;
+    line-height: 19px;
+    border: 1px solid #888;
+    font-size: 16px;
+    font-family: UbuntuFA, Tahoma, Geneva, sans-serif
 }
 
-/* /PAGINATION ********************************************************/
+/*** help page ***/
 
-.help-example-image-full, .help-example-image-small, .help-example-image {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 20px;
-	margin-bottom: 20px;
-	padding: 20px;
-	clear: both;
-	border: 2px solid #C7D2EF;
+.help-example-image-full,
+.help-example-image-small,
+.help-example-image {
+    display: block;
+    margin: 20px auto;
+    padding: 20px;
+    clear: both;
+    border: 2px solid #C7D2EF;
 }
 
 .help-example-image {
-	width: 700px;
-	position: relative;
+    width: 700px;
+    position: relative;
 }
 
 .help-example-image-full {
-	width: 860px;
+    width: 860px;
 }
 
 .help-pre {
-	font-size: 14px;
-	margin-left: auto;
-	margin-right: auto;
-	padding: 20px;
-	width: 860px;
-	border: 2px solid #C7D2EF;
-	tab-size: 4;
-	overflow: auto;
+    font-size: 14px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px;
+    width: 860px;
+    border: 2px solid #C7D2EF;
+    tab-size: 4;
+    overflow: auto;
 }
 
 .help-marker {
-	text-align: center;
-	border-radius: 50%;
-	border: 2px solid #f00;
-	font-size: 14px;
-	position: absolute;
-	width: 18px;
-	height: 18px;
-	line-height: 18px;
-	background: #fff;
+    text-align: center;
+    border-radius: 50%;
+    border: 2px solid #f00;
+    font-size: 14px;
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+    background: #fff;
 }
 
 /* D3nome-specific *********************************************************************/
 
 #d3nome {
-	position: relative;
-	overflow: hidden;
-	clear: both;
+    position: relative;
+    overflow: hidden;
+    clear: both;
 }
 
 .d3nome-viewport {
-	fill: black;
-	fill-opacity: 0.2;
-	stroke: #555;
-  	stroke-width: 1px;
-  	shape-rendering: crispEdges;
+    fill: black;
+    fill-opacity: 0.2;
+    stroke: #555;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
 }
 
-.d3nome-feature-utr, .d3nome-feature-cds, .d3nome-feature-intron {
-	stroke-width: 1px;
-	z-index: 5;
+.d3nome-feature-utr,
+.d3nome-feature-cds,
+.d3nome-feature-intron {
+    stroke-width: 1px;
+    z-index: 5;
 }
 
-.d3nome-feature-utr, .d3nome-feature-cds {
-	shape-rendering: crispEdges;
+.d3nome-feature-utr,
+.d3nome-feature-cds {
+    shape-rendering: crispEdges;
 }
 
-.d3nome-feature-utr.forward { fill: #ded;}
-.d3nome-feature-cds.forward { fill: #191;}
-
-.d3nome-feature-utr.reverse { fill: #edd;}
-.d3nome-feature-cds.reverse { fill: #a33;}
-
-.d3nome-feature-intron { fill: none; }
-.d3nome-feature-utr.forward, .d3nome-feature-cds.forward, .d3nome-feature-intron.forward { stroke: #191; }
-.d3nome-feature-utr.reverse, .d3nome-feature-cds.reverse, .d3nome-feature-intron.reverse { stroke: #a33; }
-
-.d3nome-gene.forward, .d3nome-gene.reverse {
-	stroke-width: 0px;
+.d3nome-feature-utr.forward {
+    fill: #ded;
 }
-.d3nome-gene.forward { fill: #3a3; }
-.d3nome-gene.reverse { fill: #a33; }
+
+.d3nome-feature-cds.forward {
+    fill: #191;
+}
+
+.d3nome-feature-utr.reverse {
+    fill: #edd;
+}
+
+.d3nome-feature-cds.reverse {
+    fill: #a33;
+}
+
+.d3nome-feature-intron {
+    fill: none;
+}
+
+.d3nome-feature-utr.forward,
+.d3nome-feature-cds.forward,
+.d3nome-feature-intron.forward {
+    stroke: #191;
+}
+
+.d3nome-feature-utr.reverse,
+.d3nome-feature-cds.reverse,
+.d3nome-feature-intron.reverse {
+    stroke: #a33;
+}
+
+.d3nome-gene.forward,
+.d3nome-gene.reverse {
+    stroke-width: 0;
+}
+
+.d3nome-gene.forward {
+    fill: #3a3;
+}
+
+.d3nome-gene.reverse {
+    fill: #a33;
+}
 
 .d3nome-transcript-label-container {
-	position: relative;
+    position: relative;
 }
 
 .d3nome-transcript-label {
-	border: 1px solid #666;
-	display: inline-block;
-	background-color: #fff;
-	color: #444;
-	margin-top: 3px;
-	padding: 2px;
-	font-size: 13px;
-	white-space: nowrap; /* prevents line break at hyphens */
-	z-index: 3;
-	/*font-weight: bold;*/
-
-	position: absolute;
-	cursor: pointer;
+    border: 1px solid #666;
+    display: inline-block;
+    background-color: #fff;
+    color: #444;
+    margin-top: 3px;
+    padding: 2px;
+    font-size: 13px;
+    white-space: nowrap; /* prevents line break at hyphens */
+    z-index: 3;
+    position: absolute;
+    cursor: pointer;
 }
 
 .d3nome-transcript-label-hover {
-	border: 1px solid #444;
-	background-color: #fff;
-	color: #35a;
-	box-shadow: 0px 0px 3px #000;
+    border: 1px solid #444;
+    background-color: #fff;
+    color: #35a;
+    box-shadow: 0 0 3px #000;
 }
 
 #d3nome-canvas-container {
-	position: relative;
+    position: relative;
 }
 
-/* underlay is where d3nome-transcript-label s get attached */
-#d3nome-overlay, #d3nome-underlay {
-	stroke-width: 0px;
-	fill-opacity: 0;
-	position: absolute;
-	left: 0px;
-	z-index: 4;
+/* d3nome-transcript-label gets attached to underlay */
+#d3nome-overlay,
+#d3nome-underlay {
+    stroke-width: 0;
+    fill-opacity: 0;
+    position: absolute;
+    left: 0;
+    z-index: 4;
 }
 
-.d3nome-overlay-hover {
-	cursor: pointer;
-}
-
+.d3nome-overlay-hover,
 .d3nome-hover {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 #d3nome-canvas {
-	position: relative;
-	display: block;
+    position: relative;
+    display: block;
 }
 
 #d3nome-resize-bar {
-	position: absolute;
-	bottom: 0px;
-	margin-top: -20px;
-	float: bottom;
-	display: block;
-	height: 20px;
-	text-align: center;
-	font-size: 12px;
-	border-bottom: 1px solid #000;
-	z-index: 10;
-	cursor: s-resize;
+    position: absolute;
+    bottom: 0;
+    margin-top: -20px;
+    float: bottom;
+    display: block;
+    height: 20px;
+    text-align: center;
+    font-size: 12px;
+    border-bottom: 1px solid #000;
+    z-index: 10;
+    cursor: s-resize;
 }
 
 .d3nome-grid-bg {
-	fill: #f6f6f6;
+    fill: #f6f6f6;
 }
 
 .d3nome-flank-overlay {
-	position: absolute;
-	background-color: #fff;
-	z-index: 9000;
+    position: absolute;
+    background-color: #fff;
+    z-index: 9000;
 }
 
 .d3nome-grid path,
 .d3nome-grid line {
-	fill: none;
-	stroke: #d6d6d6;
-	stroke-width: 1px;
-	shape-rendering: crispEdges;
+    fill: none;
+    stroke: #d6d6d6;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
 }
 
 .d3nome-x {
-	shape-rendering: crispEdges;
-	fill: none;
-	stroke-width: 1px;
-	stroke: #333;
+    shape-rendering: crispEdges;
+    fill: none;
+    stroke-width: 1px;
+    stroke: #333;
 }
 
 .d3nome-x > .tick > text {
-	font: 16px UbuntuMonoFA, Courier New, monospace;
-	stroke: none;
-	fill: #000;
+    font: 16px UbuntuMonoFA, Courier New, monospace;
+    stroke: none;
+    fill: #000;
 }
 
 .d3nome-zoomed-out-message {
-	font: 16px UbuntuMonoFA, Courier New, monospace;
+    font: 16px UbuntuMonoFA, Courier New, monospace;
 }
 
 /** SELECT MENU **/
 
 /* Select button */
 .d3nome-container .ui-selectmenu-button {
-	position: absolute;
-	bottom: 10px;
-	/*right: 20px;*/
-	z-index: 20;
-
-	/* generic button shiz */
-	margin: 5px;
-	padding: 7px 10px;
-	border: 1px solid #888;
-	color: #000;
-	line-height: 15px;
-	background-color: #f0f0f0;
-	margin: 0px;
-	border-radius: 0px;
-	background-image: none;
+    position: absolute;
+    bottom: 10px;
+    padding: 7px 10px;
+    border: 1px solid #888;
+    color: #000;
+    line-height: 15px;
+    margin: 0;
+    border-radius: 0;
+    background: #f0f0f0 none;
+    z-index: 20;
 }
 
 /* Text element inside the button */
 .d3nome-container .ui-selectmenu-button .ui-selectmenu-text {
-	padding: 0px;
-	margin: 0px;
-	font-weight: normal;
-	font-size: 16px;
-	line-height: 15px;
-	position: relative;
-	padding-left: 20px;
-	font-family: UbuntuFA, Tahoma, Geneva, sans-serif;
+    margin: 0;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 15px;
+    position: relative;
+    padding: 0 0 0 20px;
+    font-family: UbuntuFA, Tahoma, Geneva, sans-serif;
 }
 
 /* Adds the arrow to the select button */
 .d3nome-container .ui-selectmenu-button .ui-selectmenu-text:before {
     position: absolute;
-    font-family: FontAwesome;
-    top:0;
-    left: 0px;
+    font-family: FontAwesome, sans-serif;
+    top: 0;
+    left: 0;
     font-size: 18px;
     content: "\f107";
 }
 
 /* Hover - show button gradient */
 .d3nome-container .ui-selectmenu-button.ui-state-hover {
-	z-index: 90001;
-	border: 1px solid #666;
-	background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(217, 217, 217, 1) 100%);
+    z-index: 90001;
+    border: 1px solid #666;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, rgba(217, 217, 217, 1) 100%);
 }
 
 /* Button pressed */
 .d3nome-container .ui-corner-top {
-	border: 1px solid #666;
-	padding: 9px 10px 5px 10px;
-	background-color: #f0f0f0;
-	box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.5);
+    border: 1px solid #666;
+    padding: 9px 10px 5px 10px;
+    background-color: #f0f0f0;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 .d3nome-container .ui-state-focus {
-	outline: none;
+    outline: none;
 }
 
 #d3nome-chromosome-selector-menu {
-	border: 1px solid #000;
-	border-radius: 0px;
-	background-image: none;
+    border: 1px solid #000;
+    border-radius: 0;
+    background-image: none;
 }
 
 #d3nome-chromosome-selector-menu .ui-menu-item,
 #d3nome-chromosome-selector-menu .ui-state-focus {
-	font-size: 16px;
-	padding: 5px 10px;
-	background-image: none;
-	font-family: UbuntuFA, Tahoma, Geneva, sans-serif;
+    font-size: 16px;
+    padding: 5px 10px;
+    background-image: none;
+    font-family: UbuntuFA, Tahoma, Geneva, sans-serif;
 }
 
 #d3nome-chromosome-selector-menu .ui-menu-item {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 #d3nome-chromosome-selector-menu .ui-state-focus {
-	background-color: #555;
-	font-weight: normal;
-	color: #fff;
-	border: 0px;
+    background-color: #555;
+    font-weight: normal;
+    color: #fff;
+    border: 0;
 }
 
 #d3nome-chromosome-selector-button.ui-selectmenu-button span.ui-icon.ui-icon {
-	background-image: none;
+    background-image: none;
 }
 
 .ref {
-	margin-top: 10px;
-	margin-bottom: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .ref.highlighted {
-	background-color: #beb;
+    background-color: #beb;
 }
 
 .nm-container {
-	position: relative;
+    position: relative;
 }

@@ -1,11 +1,12 @@
 <h1>
 	{{ transcript_view.transcript_id }}
-	<a href="https://www.arabidopsis.org/servlets/TairObject?type=locus&name={{ transcript_view.gene_id }}" target="_blank" class="button header">
-		<i class="fa fa-external-link"></i> TAIR profile
+	<a href="https://www.arabidopsis.org/servlets/TairObject?type=locus&name={{ transcript_view.gene_id }}"
+       target="_blank" class="button header">
+        <i class="fa fa-external-link"></i> TAIR profile
 	</a>
 </h1>
 
-<script type="text/javascript">
+<script>
 	window.faGlobals.selectedTid = "{{ transcript_view.transcript_id }}";
 </script>
 
@@ -13,7 +14,6 @@
 
 {% if transcript_view.empty %}
 	<div class="message">No data available</div>
-
 {% else %}
 	{% set nucleotide_measurement_view = transcript_view.nucleotide_measurement_view %}
 	{% include "nucleotide-measurement-view.html" %}
@@ -21,10 +21,8 @@
 	{% set structure_view = transcript_view.structure_view %}
 	{% include "structure-view.html" %}
 
-	{#
-		{% set alignment_view = transcript_view.alignment_view %}
-		{% include "alignment-view.html" %}
-	#}
+{#    {% set alignment_view = transcript_view.alignment_view %}#}
+{#    {% include "alignment-view.html" %}#}
 {% endif %}
 
 

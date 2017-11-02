@@ -11,7 +11,7 @@
 		<td><a href="/transcript/{{ row["transcript_id"] }}">{{ row["transcript_id"] }}</a></td>
 		<td>{{ row["gene_length"] }}</td>
 		<td>{{ row["coverage"] }}</td>
-		{% if row["has_structure"] %}<td class="yes">yes</td>{% else %}<td>-</td>{% endif %}
+		{% if row["has_structure"] %}<td><i class='fa fa-check'></i></td>{% else %}<td></td>{% endif %}
 	</tr>
 {% endfor %}
 </table>
