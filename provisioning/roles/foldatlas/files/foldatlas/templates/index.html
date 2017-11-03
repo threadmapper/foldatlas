@@ -35,7 +35,7 @@
     <script>
         window.foldatlasConfig = {
             staticBaseUrl: "{{ settings.static_base_url }}",
-            appBaseUrl: "{{ settings.app_base_url }}",
+            appBaseUrl: "{{ settings.app_base_url }}"
         };
     </script>
 
@@ -59,13 +59,13 @@
                     {% for chromosome in chromosomes %}
                         {
                             id: "{{ chromosome.chromosome_id }}",
-                            length: "{{ chromosome.length }}",
-                        },
+                            length: "{{ chromosome.length }}"
+                        }
                     {% endfor %}
                 ],
                 geneClick: function ( transcriptID ) {
                     window.browserController.jumpTo( "/transcript/" + transcriptID );
-                },
+                }
             };
             window.d3nomeObject = new D3nome( window.d3nomeConfig );
             window.browserController = new BrowserController();

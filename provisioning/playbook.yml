@@ -8,7 +8,7 @@
     - vars.yml
 
   roles:
-    - init
+#    - init
     - build_tools
     - ferm
     - selinux
