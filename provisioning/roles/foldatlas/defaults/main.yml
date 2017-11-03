@@ -1,11 +1,13 @@
 ---
 
 foldatlas_root_dir: "/opt/foldatlas"
-foldatlas_sql_dir: "/opt/foldatlas/source_data"
-foldatlas_downloads_dir: "/opt/foldatlas/source_data/downloads"
+foldatlas_source_data_dir: "/opt/foldatlas/source_data"
+foldatlas_sql_dir: "/opt/foldatlas/source_data/sql"
+foldatlas_downloads_dir: "/var/www/static/downloads"
 
 foldatlas_schema_sql: "foldatlas.schema.sql.gz"
-foldatlas_sql_dump: "foldatlas.sql"
+foldatlas_sql: "foldatlas.sql"
+foldatlas_sql_dump_url: "http://www.foldatlas.com/static/downloads/foldatlas.sql.tar.gz"
 
 # set to "yes" to load the dump
 foldatlas_load_sql_dump: "no"
