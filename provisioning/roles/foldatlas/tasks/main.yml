@@ -80,16 +80,9 @@
 # --- Setup directories
 #
 
-- name: create SQL directory for foldatlas
-  file:
-    path: "{{ foldatlas_sql_dir }}"
-    state: directory
-    mode: 0755
-    recurse: yes
-
 - name: create downloads directory for foldatlas
   file:
-    path: "{{ foldatlas_sql_dir }}"
+    path: "{{ foldatlas_downloads_dir }}"
     state: directory
     mode: 0755
     recurse: yes
@@ -100,18 +93,33 @@
 
 - name: download and unarchive SQL dump
   unarchive:
-    src: http://www.foldatlas.com/static/downloads/foldatlas.sql.tar.gz
-    dest: "{{ foldatlas_downloads_dir }}"
-    creates: "{{ foldatlas_downloads_dir }}/foldatlas.sql"
+    src: "{{ foldatlas_sql_dump_url }}" 
+    dest: "{{ foldatlas_sql_dir }}"
+    creates: "{{ foldatlas_downloads_dir }}/{{ foldatlas_sql }}"
     remote_src: yes
   when:
     foldatlas_load_sql_dump == "yes"
+
+- stat:
+    path: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}.gz"
+  register: sql_gz
+
+- name: rearchive SQL dump without the tar
+  archive:
+    path: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}"
+  when: sql_gz.stat.exists == False
+
+- name: create symlink to gzipped SQL dump
+  file:
+    src: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}.gz"
+    dest: "{{ foldatlas_downloads_dir }}/{{ foldatlas_sql }}.gz"
+    state: link
 
 - name: load SQL dump
   mysql_db:
     name={{ foldatlas_db }}
     state=import
-    target="{{ foldatlas_downloads_dir }}/{{ foldatlas_sql_dump }}"
+    target="{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}"
     login_user="{{ foldatlas_db_user }}"
     login_password="{{ foldatlas_db_pass }}"
   when:
