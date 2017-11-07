@@ -117,8 +117,8 @@ class GenomeBrowser():
             WHERE 
                 strain_id     = '{strain_id}'       AND
                 chromosome_id = '{chromosome_id}'   AND
-                'end'         > {start_}            AND
-                'start'       < {end_} """
+                `end`         > {start_}            AND
+                `start`       < {end_} """
 
         sql = sql.format( strain_id=settings.reference_strain_id,
                           chromosome_id=chromosome_id,

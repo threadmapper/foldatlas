@@ -6,7 +6,6 @@ import settings
 
 app = Flask( __name__ )
 
-
 # db_session
 @app.teardown_appcontext
 def close_db( error ):

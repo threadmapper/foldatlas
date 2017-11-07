@@ -17,8 +17,6 @@
 
     <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/foldatlas/jquery-ui.css"/>
     <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/foldatlas/style.css"/>
-    <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/foldatlas/d3nome-style.css"/>
-
     <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/assets/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" type="text/css" href="{{ settings.static_base_url }}/assets/forna/htdocs/css/fornac.css" media="screen"/>
 
@@ -35,7 +33,7 @@
     <script>
         window.foldatlasConfig = {
             staticBaseUrl: "{{ settings.static_base_url }}",
-            appBaseUrl: "{{ settings.app_base_url }}"
+            appBaseUrl: "{{ settings.app_base_url }}",
         };
     </script>
 
@@ -59,13 +57,13 @@
                     {% for chromosome in chromosomes %}
                         {
                             id: "{{ chromosome.chromosome_id }}",
-                            length: "{{ chromosome.length }}"
-                        }
+                            length: "{{ chromosome.length }}",
+                        },
                     {% endfor %}
                 ],
                 geneClick: function ( transcriptID ) {
                     window.browserController.jumpTo( "/transcript/" + transcriptID );
-                }
+                },
             };
             window.d3nomeObject = new D3nome( window.d3nomeConfig );
             window.browserController = new BrowserController();
@@ -173,11 +171,11 @@
     </div>
 </div>
 
-    <div id="info-panel" style="clear:both;">
-        Version 1.1 &copy; 2017 <a href="https://www.jic.ac.uk/directory/yiliang-ding">Ding lab</a>&nbsp;|&nbsp;
-        <a href="https://github.com/JIC-CSB/foldatlas">GitHub</a>&nbsp;|&nbsp;
-        General comments or questions: <a href="email:foldatlas@jic.ac.uk">foldatlas@jic.ac.uk</a>
-    </div>
+<div id="info-panel" style="clear:both;">
+    Version 1.1 &copy; 2017 <a href="https://www.jic.ac.uk/directory/yiliang-ding">Ding lab</a>&nbsp;|&nbsp;
+    <a href="https://github.com/JIC-CSB/foldatlas">GitHub</a>&nbsp;|&nbsp;
+    General comments or questions: <a href="email:foldatlas@jic.ac.uk">foldatlas@jic.ac.uk</a>
+</div>
 
 </body>
 
