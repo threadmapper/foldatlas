@@ -1,11 +1,9 @@
-# The Apache/foldatlas.conf sets the python path so that the daemon knows
+# This is called via Apache/foldatlas.conf, which also sets the python path used by the imports
 
 import logging
 import sys
 
-logging.basicConfig(stream=sys.stderr)
-
-#sys.path.insert(0, '/var/www/foldatlas/foldatlas')
+logging.basicConfig( stream=sys.stderr )
 
 print( 'Python version: ' + sys.version )
 
