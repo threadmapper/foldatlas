@@ -128,7 +128,7 @@
         $( this.config.container ).css( {
             "width": this.totSvgDims.x + "px",
             "margin-left": (-this.horizMargin) + "px",
-            "margin-right": (-this.horizMargin) + "px"
+            "margin-right": (-this.horizMargin) + "px",
         } );
 
         this.initChromosomeSelectorMenu();
@@ -139,9 +139,9 @@
 
         $( this.config.container ).resizable( {
             handles: {
-                s: "#d3nome-resize-bar"
+                s: "#d3nome-resize-bar",
             },
-            minHeight: this.minHeight
+            minHeight: this.minHeight,
         } ).bind( {
             resize: $.proxy( function ( event, ui ) {
                 var newContainerHeight = ui.size.height;
@@ -162,7 +162,7 @@
                 // draw data so that lines appear in the background
                 this.drawData();
 
-            }, this )
+            }, this ),
         } );
     },
 
@@ -178,7 +178,7 @@
                 if ( chrInd != this.selectedChromosome ) { // only jump if the chromosome has changed.
                     this.jumpToPosition( chrInd, [ 0, this.initRange ], false );
                 }
-            }, this )
+            }, this ),
         );
 
         $( "#d3nome-chromosome-selector-button" ).css( { "right": (10 + this.horizMargin) + "px" } );
@@ -207,7 +207,7 @@
         var chrLen = this.chromosomes[ this.selectedChromosome ].length;
         var coords = [
             coords[ 0 ] < 0 ? 0 : coords[ 0 ],
-            coords[ 1 ] >= chrLen ? chrLen - 1 : coords[ 1 ]
+            coords[ 1 ] >= chrLen ? chrLen - 1 : coords[ 1 ],
         ];
 
         if ( updateMenu ) {
@@ -238,7 +238,7 @@
             "top": (this.navHeight * 2) + "px",
             "left": "0px",
             "width": this.horizMargin + "px",
-            "height": (this.viewDims.y - this.navHeight) + "px"
+            "height": (this.viewDims.y - this.navHeight) + "px",
         } );
 
         // Same but for the right hand side
@@ -246,7 +246,7 @@
             "top": (this.navHeight * 2) + "px",
             "left": (this.viewDims.x + this.horizMargin + 1) + "px",
             "width": this.horizMargin + "px",
-            "height": (this.viewDims.y - this.navHeight) + "px"
+            "height": (this.viewDims.y - this.navHeight) + "px",
         } );
     },
 
@@ -360,7 +360,7 @@
             // Get total offset, must take window scroll offsets into account
             var totOffset = {
                 x: point[ 0 ] + overlayOffset.left - $( window ).scrollLeft(),
-                y: point[ 1 ] + overlayOffset.top - $( window ).scrollTop()
+                y: point[ 1 ] + overlayOffset.top - $( window ).scrollTop(),
             };
 
             // Put the event behind the overlay
@@ -561,7 +561,7 @@
         return {
             start: start,
             end: end,
-            diff: end - start
+            diff: end - start,
         };
     },
 
@@ -588,6 +588,7 @@
 
     loadData: function () {
         var bounds = this.getBounds();
+
         if ( bounds.diff < this.simpleThreshold ) {
             this.loadFeatureData();
         }
@@ -614,17 +615,15 @@
 
             this.drawFeatureData();
         }
-        else if (
-            this.geneData != null &&
+        else if ( this.geneData != null &&
             bounds.diff >= this.simpleThreshold &&
             bounds.diff < this.blankThreshold ) {
 
             this.drawGeneData();
-
         }
         else if ( bounds.diff >= this.blankThreshold ) {
-            this.drawBlankMessage();
 
+            this.drawBlankMessage();
         }
         else {
             // .. maybs show loading spinner?
@@ -667,7 +666,7 @@
 
         $.ajax( {
             url: url,
-            context: this
+            context: this,
         } ).done( $.proxy( function ( results ) {
             this.parseGeneData( $.parseJSON( results ) );
         }, this ) );
@@ -683,23 +682,18 @@
 
     drawGeneData: function () {
         var element = this.viewElement.selectAll( ".d3nome-view" );
+
         var getYPos = $.proxy( function ( d ) {
-
-            // this.geneHeight = 15;
-            // this.geneLaneMargin: 10;
-
-            // d.lane = 0; // temp hack
             return this.geneLaneMargin + (d.lane * (this.geneHeight + this.geneLaneMargin));
         }, this );
 
         var geneGroups = element
-            .data( this.geneData ).enter()
+            .data( this.geneData )
+            .enter()
             .append( "g" )
             .attr( "class", "d3nome-transcript" )
             .append( "rect" )
-            .attr( "class", function ( d ) {
-                return "d3nome-gene " + d.direction;
-            } )
+            .attr( "class", function ( d ) { return "d3nome-gene " + d.direction; } )
             .attr( "x", $.proxy( function ( d, i ) {
                 return this.viewXScale( d.start ) + this.horizMargin;
             }, this ) )
@@ -707,7 +701,7 @@
                 return this.navDims.y + this.geneLaneMargin + getYPos( d );
             }, this ) )
             .attr( "width", $.proxy( function ( d, i ) {
-                return (this.viewXScale( d.end + 1 ) - this.viewXScale( d.start ));
+                return this.viewXScale( d.end + 1 ) - this.viewXScale( d.start );
             }, this ) )
             .attr( "height", this.geneHeight );
 
@@ -721,7 +715,7 @@
 
         $.ajax( {
             url: url,
-            context: this
+            context: this,
         } ).done( $.proxy( function ( results ) {
             this.parseFeatureData( $.parseJSON( results ) );
         }, this ) );
@@ -747,7 +741,7 @@
                         start: feature.start,
                         end: feature.end,
                         direction: direction,
-                        features: []
+                        features: [],
                     };
                 }
             }
@@ -764,7 +758,7 @@
                     type: (feature.feature_type == "CDS") ? "cds" : "utr",
                     start: feature.start,
                     end: feature.end,
-                    direction: direction
+                    direction: direction,
                 } );
             }
         }
@@ -790,7 +784,7 @@
                     type: "utr",
                     start: feature.start,
                     end: feature.end,
-                    direction: transcript.direction
+                    direction: transcript.direction,
                 } );
             }
         }
@@ -825,7 +819,7 @@
                         type: "intron",
                         start: prevFeature.end + 1, // offset by 1 since coords are inclusive.
                         end: currFeature.start - 1,
-                        direction: currFeature.direction
+                        direction: currFeature.direction,
                     } );
                 }
                 prevFeature = currFeature;
@@ -926,8 +920,7 @@
           .attr( "style", $.proxy( function ( d ) {
               var leftVal = this.viewXScale( d.start );
               var topVal = this.transcriptLaneMargin + getYPos( d ) + this.transcriptHeight;
-              var out = "left: " + Math.round( leftVal ) + "px; " +
-                  "top: " + topVal + "px";
+              var out = "left: " + Math.round( leftVal ) + "px; top: " + topVal + "px";
               return out;
           }, this ) )
           .text( function ( d ) {
@@ -1006,21 +999,25 @@
                         .enter()
                         .append( "path" )
                         .attr( "d", $.proxy( function ( d ) {
-                            var bulge = this.intronBulge;
-                            var bulgeOffset = this.intronBulgeOffset;
+                            var startX = this.viewXScale( d.start ) + this.horizMargin;
+                            var endX = this.viewXScale( d.end + 1 ) + this.horizMargin;
+                            var controlX = ( endX + startX ) / 2;
 
-                            var yOffset = this.navDims.y + this.transcriptLaneMargin + getYPos( d ) + 1;
-                            var startStr = (this.viewXScale( d.start ) + this.horizMargin) + " " + yOffset;
-                            var endStr = (this.viewXScale( d.end + 1 ) + this.horizMargin) + " " + yOffset;
+                            var y = this.navDims.y + this.transcriptLaneMargin + getYPos( d );
 
-                            var control1 = (this.viewXScale( d.start + bulgeOffset ) + this.horizMargin) + " " + (yOffset - bulge);
-                            var control2 = (this.viewXScale( (d.end + 1) - bulgeOffset ) + this.horizMargin) + " " + (yOffset - bulge);
+                            var startStr = startX + " " + y;
+                            var endStr = endX + " " + y;
+                            var controlStr = controlX + " " + (y - this.intronBulge);
 
-                            return "M" + startStr + " C " + control1 + ", " + control2 + ", " + endStr;
+                            // use a quadratic curve:
+                            // - cubic beziers (require 2 control points) become v messy for short introns
+                            // - quadratic beziers require one control point and fix the messy short intron problem
+                            return " M " + startStr + " Q " + controlStr + ", " + endStr;
+
                         }, this ) )
                         .attr( "class", function ( d ) {
                             return "d3nome-feature-intron " + d.direction;
                         } );
-    }
+    },
 };
 

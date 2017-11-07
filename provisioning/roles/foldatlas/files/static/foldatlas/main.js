@@ -4,7 +4,7 @@
 
 window.faGlobals = {
     selectedTid: null,
-    selectedSid: null
+    selectedSid: null,
 };
 
 
@@ -72,7 +72,7 @@ var BrowserController = Class.extend( {
         this.showLoading();
         $.ajax( {
             url: "/ajax/help",
-            context: this
+            context: this,
 
         } ).done( function ( html ) {
             $( "#d3nome" ).hide();
@@ -125,7 +125,7 @@ var BrowserController = Class.extend( {
             // the title was already changed in routeUrl so we can just fetch it out here.
             var obj = {
                 Page: document.title,
-                Url: url
+                Url: url,
             };
             history.pushState( obj, obj.Page, obj.Url );
         }
@@ -174,7 +174,7 @@ var BrowserController = Class.extend( {
         this.showLoading();
         $.ajax( {
             url: "/ajax/transcript/" + transcriptID,
-            context: this
+            context: this,
         } ).done( function ( results ) {
             $( "#help" ).hide();
             $( "#search" ).hide();
@@ -294,7 +294,7 @@ var BrowserController = Class.extend( {
         // dims without margins
         var panelDims = {
             x: panelTotDims.x - panelMargin.left - panelMargin.right,
-            y: panelTotDims.y - panelMargin.bottom - panelMargin.top
+            y: panelTotDims.y - panelMargin.bottom - panelMargin.top,
         };
 
         // Init the chart's container element
@@ -346,7 +346,7 @@ var BrowserController = Class.extend( {
         var lineStyle = {
             "fill": "none",
             "stroke": "#000",
-            "stroke-width": "1px"
+            "stroke-width": "1px",
         };
         chart.selectAll( "path" ).style( lineStyle );
         chart.selectAll( "line" ).style( lineStyle );
@@ -398,13 +398,13 @@ var BrowserController = Class.extend( {
         // dims without margins
         var panelDims = {
             x: panelTotDims.x - panelMargin.left - panelMargin.right,
-            y: panelTotDims.y - panelMargin.bottom - panelMargin.top
+            y: panelTotDims.y - panelMargin.bottom - panelMargin.top,
         };
 
         // Total dimensions of chart across all panels and margins.
         var chartDims = {
             x: panelTotDims.x,
-            y: panelTotDims.y * nChartRows
+            y: panelTotDims.y * nChartRows,
         };
 
         // Init the chart's container element
@@ -521,14 +521,14 @@ var BrowserController = Class.extend( {
             var lineStyle = {
                 "fill": "none",
                 "stroke": "#000",
-                "stroke-width": "1px"
+                "stroke-width": "1px",
             };
             chart.selectAll( "path" ).style( lineStyle );
             chart.selectAll( "line" ).style( lineStyle );
 
 
         } // End looping through chart rows
-    }
+    },
 } );
 
 /**
@@ -548,7 +548,7 @@ var SearchController = Class.extend( {
                 if ( this.coverageSearchController == null ) {
                     this.coverageSearchController = new CoverageSearchController();
                 }
-            }, this ) )
+            }, this ) ),
         ] );
 
         this.transcriptIDSearchController = new TranscriptIDSearchController();
@@ -560,7 +560,7 @@ var SearchController = Class.extend( {
         $( "#help" ).hide();
         $( "#transcript-data" ).empty();
         $( "#search" ).fadeIn( 300 );
-    }
+    },
 } );
 
 
@@ -614,7 +614,7 @@ var TabController = Class.extend( {
                 tab.clickCallback();
             }
         }, this, element ) );
-    }
+    },
 } );
 
 
@@ -622,7 +622,7 @@ var TabControllerTab = Class.extend( {
     init: function ( elementID, clickCallback ) {
         this.elementID = elementID;
         this.clickCallback = typeof clickCallback == "undefined" ? null : clickCallback;
-    }
+    },
 } );
 
 
@@ -653,7 +653,7 @@ var TranscriptIDSearchController = Class.extend( {
 
         $.ajax( {
             url: "/ajax/search-transcript/" + term,
-            context: this
+            context: this,
         } ).done( function ( results ) {
             results = $.parseJSON( results );
 
@@ -672,7 +672,7 @@ var TranscriptIDSearchController = Class.extend( {
 
             window.browserController.hideLoading();
         } );
-    }
+    },
 } );
 
 
@@ -682,7 +682,7 @@ var CoverageSearchController = Class.extend( {
 
         $.ajax( {
             url: "/ajax/get-coverage-page-count",
-            context: this
+            context: this,
         } ).done( function ( pageNum ) {
             // insert pagination HTML
             var buf =
@@ -700,7 +700,7 @@ var CoverageSearchController = Class.extend( {
             // initialise the paginator JS
             $( "#search-coverage-paginator" ).jqPagination( {
                 // page change callback
-                paged: $.proxy( function ( pageNum ) { this.search( pageNum ); }, this )
+                paged: $.proxy( function ( pageNum ) { this.search( pageNum ); }, this ),
             } );
 
             // retrieve the first page of results.
@@ -716,7 +716,7 @@ var CoverageSearchController = Class.extend( {
 
         $.ajax( {
             url: "/ajax/search-coverage/" + pageNum,
-            context: this
+            context: this,
         } ).done( $.proxy( function ( results ) {
             $( "#search-coverage-data" ).html( results );
 
@@ -730,7 +730,7 @@ var CoverageSearchController = Class.extend( {
 
             window.browserController.hideLoading();
         }, this ) );
-    }
+    },
 } );
 
 
@@ -743,7 +743,7 @@ var StructureExplorer = Class.extend( {
 
         this.tabController = new TabController( [
             new TabControllerTab( "structure-tab-circle-plot", drawStructureF ),
-            new TabControllerTab( "structure-tab-diagram", drawStructureF )
+            new TabControllerTab( "structure-tab-diagram", drawStructureF ),
         ] );
 
         this.experimentIDs = [ 3, 4 ];
@@ -762,8 +762,8 @@ var StructureExplorer = Class.extend( {
             this.fornaContainer = new FornaContainer(
                 "#forna-container", {
                     "applyForce": true,
-                    "initialSize": [ 650, 650 ]
-                }
+                    "initialSize": [ 650, 650 ],
+                },
             );
             this.fornaContainer.setFriction( 0.5 );
             this.fornaContainer.setCharge( -0.3 );
@@ -806,7 +806,7 @@ var StructureExplorer = Class.extend( {
         this.fornaContainer.addCustomColors( {
             color_values: { "": measurements },
             domain: [ 0, 1 ],
-            range: [ "#4f4", "#f44" ]
+            range: [ "#4f4", "#f44" ],
         } );
         this.fornaContainer.changeColorScheme( "custom" );
     },
@@ -828,7 +828,7 @@ var StructureExplorer = Class.extend( {
         this.fornaContainer.addCustomColors( {
             color_values: { "": measurements },
             domain: [ 0, max ],
-            range: [ "#fff", "#f00" ]
+            range: [ "#fff", "#f00" ],
         } );
         this.fornaContainer.changeColorScheme( "custom" );
     },
@@ -903,7 +903,7 @@ var StructureExplorer = Class.extend( {
         var totDims = { x: 200, y: 200 };
         var panelDims = {
             x: totDims.x - margin.left - margin.right,
-            y: totDims.y - margin.left - margin.right
+            y: totDims.y - margin.left - margin.right,
         };
 
         var energyValue = function ( d ) { return d.energy; };
@@ -918,7 +918,7 @@ var StructureExplorer = Class.extend( {
                        .range( [ 0, panelDims.x ] )
                        .domain( [
                            minX - padX,
-                           maxX + padX
+                           maxX + padX,
                        ] );
 
 
@@ -935,7 +935,7 @@ var StructureExplorer = Class.extend( {
                        .range( [ panelDims.y, 0 ] )
                        .domain( [
                            minY - padY,
-                           maxY + padY
+                           maxY + padY,
                        ] );
 
         var yMap = function ( d ) { return yScale( yValue( d ) );};
@@ -946,7 +946,7 @@ var StructureExplorer = Class.extend( {
         var heatmapColour = d3.scale.quantize()
                               .domain( [
                                   d3.min( dataValues, energyValue ),
-                                  d3.max( dataValues, energyValue )
+                                  d3.max( dataValues, energyValue ),
                               ] )
                               .range( colorbrewer.RdYlGn[ numColors ] );
 
@@ -987,7 +987,7 @@ var StructureExplorer = Class.extend( {
         var lineStyle = {
             "fill": "none",
             "stroke": "#000",
-            "shape-rendering": "crispEdges"
+            "shape-rendering": "crispEdges",
         };
         svg.selectAll( "path" ).style( lineStyle );
         svg.selectAll( "line" ).style( lineStyle );
@@ -1066,7 +1066,7 @@ var StructureExplorer = Class.extend( {
         this.browserController.showLoading();
         $.ajax( {
             url: "/ajax/structure-diagram/" + structureID,
-            context: this
+            context: this,
         } ).done( function ( data ) {
 
             // This data includes sequence string, dot bracket structure
@@ -1096,14 +1096,14 @@ var StructureExplorer = Class.extend( {
         this.browserController.showLoading();
         $.ajax( {
             url: "/ajax/structure-circle-plot/" + structureID,
-            context: this
+            context: this,
         } ).done( function ( data ) {
 
             $( "#circle-plot" ).empty();
             $( "#circle-plot" ).append(
                 "<a href=\"javascript:void(0)\" id=\"circle-plot-dl-button\" class=\"button svg\">" +
                 "<i class=\"fa fa-file-image-o\"></i>" +
-                "</a>"
+                "</a>",
             );
             data = JSON.parse( data );
 
@@ -1247,7 +1247,7 @@ var StructureExplorer = Class.extend( {
             function prepareData( rawData ) {
                 map = {
                     name: "",
-                    children: []
+                    children: [],
                 };
                 for ( var i = 0; i < rawData.length; i++ ) {
                     map.children[ i ] = {
@@ -1255,7 +1255,7 @@ var StructureExplorer = Class.extend( {
                         link: rawData[ i ].link,
                         name: i,
                         label: rawData[ i ].label,
-                        parent: map
+                        parent: map,
                     };
                 }
 
@@ -1273,7 +1273,7 @@ var StructureExplorer = Class.extend( {
                     if ( d.link != null ) {
                         links.push( {
                             source: map[ d.name ],
-                            target: map[ d.link ]
+                            target: map[ d.link ],
                         } );
                     }
                     ;
@@ -1281,7 +1281,7 @@ var StructureExplorer = Class.extend( {
                 return links;
             }
         } );
-    }
+    },
 } );
 
 // Binds a button to SVG download
@@ -1314,7 +1314,7 @@ var SvgDownloader = Class.extend( {
             var blob = new Blob( [ source ], { type: "image/svg+xml;charset=utf-8" } );
             saveAs( blob, filename );
         }, this ) );
-    }
+    },
 } );
 
 
