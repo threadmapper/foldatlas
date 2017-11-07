@@ -8,5 +8,4 @@
     - vars.yml
 
   roles:
-    - init
     - foldatlas

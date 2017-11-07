@@ -18,14 +18,6 @@ Vagrant.configure(2) do |config|
 
     config.vm.network :forwarded_port, guest: 80, host: 8080
 
-#    config.vm.provision "machine", type: "ansible" do |ansible|
-#        ansible.playbook = "provisioning/playbook-machine.yml"
-#    end
-
-#    config.vm.provision "fa_db", type: "ansible" do |ansible|
-#        ansible.playbook = "provisioning/playbook-foldatlas-db.yml"
-#    end
-
     config.vm.provision "ansible" do |ansible|
         ansible.playbook = "provisioning/playbook.yml"
     end
