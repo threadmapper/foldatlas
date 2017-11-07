@@ -6,6 +6,7 @@ import settings
 
 app = Flask( __name__ )
 
+
 # db_session
 @app.teardown_appcontext
 def close_db( error ):
@@ -133,12 +134,6 @@ def download_structure( transcript_id ):
     buf = StructureDownloader( structure_prediction_run_ids=settings.structure_prediction_run_ids,
                                transcript_id=transcript_id ).generate()
     return Response( buf, mimetype='text/plain' )
-
-
-@app.route( "/download/bppm/<transcript_id>" )
-def download_bppm( transcript_id ):
-    from controllers import fetch_bppm
-    return Response( fetch_bppm( transcript_id ), mimetype='text/plain' )
 
 
 @app.route( "/download/measurements/<experiment_id>/<transcript_id>" )
