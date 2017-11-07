@@ -904,28 +904,25 @@
         }, this );
 
         // Append 1 group element per transcript
-        var transcriptGroups = element
-            .data( this.featureData ).enter()
-            .append( "g" )
-            .attr( "class", "d3nome-transcript" );
+        var transcriptGroups = element.data( this.featureData ).enter()
+                                      .append( "g" )
+                                      .attr( "class", "d3nome-transcript" );
 
         // Append text as div to get HTML formatting and nice background
-        d3.select( "#d3nome-underlay" ).selectAll( "#d3nome-underlay" )
-
-          .data( this.featureData ).enter().append( "div" )
+        d3.select( "#d3nome-underlay" )
+          .selectAll( "#d3nome-underlay" )
+          .data( this.featureData )
+          .enter()
+          .append( "div" )
           .attr( "class", "d3nome-transcript-label" )
-          .attr( "data-transcript_id", function ( d ) {
-              return d.id;
-          } )
+          .attr( "data-transcript_id", function ( d ) { return d.id; } )
           .attr( "style", $.proxy( function ( d ) {
               var leftVal = this.viewXScale( d.start );
               var topVal = this.transcriptLaneMargin + getYPos( d ) + this.transcriptHeight;
               var out = "left: " + Math.round( leftVal ) + "px; top: " + topVal + "px";
               return out;
           }, this ) )
-          .text( function ( d ) {
-              return d.id;
-          } );
+          .text( function ( d ) { return d.id; } );
 
         // When gene label is clicked, use the callback
         $( ".d3nome-transcript-label" ).bind( "click", { self: this }, function ( event ) {
@@ -936,21 +933,12 @@
 
         // Find features of specific type.
         function getFeatures( transcript, featureType ) {
-            var out = [];
-            var features = transcript.features;
-            for ( var i = 0; i < features.length; i++ ) {
-                if ( features[ i ].type == featureType ) {
-                    out.push( features[ i ] );
-                }
-            }
-            return out;
+            return transcript.features.filter( function _( f ) { return f.type == featureType; } );
         }
 
         // UTRs
         transcriptGroups.selectAll( "g.d3nome-transcript" )
-                        .data( function ( transcript ) {
-                            return getFeatures( transcript, "utr" );
-                        } )
+                        .data( function ( transcript ) { return getFeatures( transcript, "utr" ); } )
                         .enter()
                         .append( "rect" )
                         .attr( "class", function ( d ) {
