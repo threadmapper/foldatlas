@@ -90,40 +90,43 @@
 #
 # --- Populate DB ---
 #
+#
 
-- name: download and unarchive SQL dump
-  unarchive:
-    src: "{{ foldatlas_sql_dump_url }}" 
-    dest: "{{ foldatlas_sql_dir }}"
-    creates: "{{ foldatlas_downloads_dir }}/{{ foldatlas_sql }}"
-    remote_src: yes
-  when:
-    foldatlas_load_sql_dump == "yes"
-
-- stat:
-    path: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}.gz"
-  register: sql_gz
-
-- name: rearchive SQL dump without the tar
-  archive:
-    path: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}"
-  when: sql_gz.stat.exists == False
-
-- name: create symlink to gzipped SQL dump
-  file:
-    src: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}.gz"
-    dest: "{{ foldatlas_downloads_dir }}/{{ foldatlas_sql }}.gz"
-    state: link
-
-- name: load SQL dump
-  mysql_db:
-    name={{ foldatlas_db }}
-    state=import
-    target="{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}"
-    login_user="{{ foldatlas_db_user }}"
-    login_password="{{ foldatlas_db_pass }}"
-  when:
-    foldatlas_load_sql_dump == "yes"
+# HW commented this out due to provisioning problems
+#
+#- name: download and unarchive SQL dump
+#  unarchive:
+#    src: "{{ foldatlas_sql_dump_url }}"
+#    dest: "{{ foldatlas_sql_dir }}"
+#    creates: "{{ foldatlas_downloads_dir }}/{{ foldatlas_sql }}"
+#    remote_src: yes
+#  when:
+#    foldatlas_load_sql_dump == "yes"
+#
+#- stat:
+#    path: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}.gz"
+#  register: sql_gz
+#
+#- name: rearchive SQL dump without the tar
+#  archive:
+#    path: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}"
+#  when: sql_gz.stat.exists == False
+#
+#- name: create symlink to gzipped SQL dump
+#  file:
+#    src: "{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}.gz"
+#    dest: "{{ foldatlas_downloads_dir }}/{{ foldatlas_sql }}.gz"
+#    state: link
+#
+#- name: load SQL dump
+#  mysql_db:
+#    name={{ foldatlas_db }}
+#    state=import
+#    target="{{ foldatlas_sql_dir }}/{{ foldatlas_sql }}"
+#    login_user="{{ foldatlas_db_user }}"
+#    login_password="{{ foldatlas_db_pass }}"
+#  when:
+#    foldatlas_load_sql_dump == "yes"
 
 #
 # --- Add Web Content ---
@@ -154,4 +157,11 @@
     path: /var/www/bpps
     state: directory
   notify: restart apache
+
+
+# useful when only doing the foldatlas part of the provisioning
+- name: restart apache
+  service:
+    name: httpd
+    state: restarted
 
