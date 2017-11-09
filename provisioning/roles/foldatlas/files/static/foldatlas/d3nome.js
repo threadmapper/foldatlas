@@ -11,7 +11,7 @@
         this.labelHeight = 20;
 
         this.intronBulge = 10;
-        this.intronBulgeOffset = 20;
+        this.minIntronDrawLength = 1.5;
 
         // total height of lane excluding the margin
         this.transcriptHeight = 15;
@@ -791,13 +791,9 @@
 
         // Now infer the intronic sequences from the features already stored
         var sortFeatures = function ( a, b ) {
-            if ( a.start > b.start ) {
-                return 1;
-            }
-            else {
-                return -1;
-            }
+            return a.start - b.start;
         };
+
         $.each( transcripts, function ( transcriptID, transcript ) {
             var features = transcript.features;
 
@@ -981,16 +977,19 @@
         // see https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
         // for explanation of drawing method
         transcriptGroups.selectAll( "g.d3nome-transcript" )
-                        .data( function ( transcript ) {
-                            return getFeatures( transcript, "intron" );
-                        } )
+                        .data( function ( transcript ) { return getFeatures( transcript, "intron" ); } )
                         .enter()
                         .append( "path" )
                         .attr( "d", $.proxy( function ( d ) {
                             var startX = this.viewXScale( d.start ) + this.horizMargin;
                             var endX = this.viewXScale( d.end + 1 ) + this.horizMargin;
-                            var controlX = ( endX + startX ) / 2;
 
+                            if ( endX - startX < this.minIntronDrawLength ) {
+                                // Don't draw the intron if the gap is v. small
+                                return '';
+                            }
+
+                            var controlX = ( endX + startX ) / 2;
                             var y = this.navDims.y + this.transcriptLaneMargin + getYPos( d );
 
                             var startStr = startX + " " + y;
@@ -1003,9 +1002,7 @@
                             return " M " + startStr + " Q " + controlStr + ", " + endStr;
 
                         }, this ) )
-                        .attr( "class", function ( d ) {
-                            return "d3nome-feature-intron " + d.direction;
-                        } );
+                        .attr( "class", function ( d ) { return "d3nome-feature-intron " + d.direction; } );
     },
 };
 
