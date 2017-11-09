@@ -136,14 +136,11 @@ class Transcript( db.Model ):
     # Sequence is always reverse complemented if it's a backwards gene
     def get_sequence( self, strain_id=None ):
         if strain_id is None:
-            strain_id = settings.reference_strain_id
+            strain_id = settings.v1_ids.strain_id
 
         vals = list( self.get_sequences( strain_id ).values() )
 
-        if len( vals ) > 0:
-            return vals[ 0 ]
-        else:
-            return None
+        return vals[ 0 ] if len( vals ) > 0 else None
 
     def get_sequence_str( self, strain_id=None ):
         return str( self.get_sequence( strain_id ).seq )

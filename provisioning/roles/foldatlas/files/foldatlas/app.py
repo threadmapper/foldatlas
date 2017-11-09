@@ -131,7 +131,7 @@ def structure_circle_plot_ajax( structure_id ):
 @app.route( "/download/structure/<transcript_id>" )
 def download_structure( transcript_id ):
     from controllers import StructureDownloader
-    buf = StructureDownloader( structure_prediction_run_ids=settings.structure_prediction_run_ids,
+    buf = StructureDownloader( structure_prediction_run_ids=settings.v1_ids.structure_prediction_run_ids,
                                transcript_id=transcript_id ).generate()
     return Response( buf, mimetype='text/plain' )
 

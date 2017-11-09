@@ -195,7 +195,7 @@ class SequenceImporter():
         for record in SeqIO.parse( filepath, "fasta" ):  # loop through chromosomes
 
             chr_id = record.id
-            if (chr_id in settings.ignored_chromosomes):
+            if chr_id in settings.ignored_chromosomes:
                 continue
 
             seq_str = str( record.seq )

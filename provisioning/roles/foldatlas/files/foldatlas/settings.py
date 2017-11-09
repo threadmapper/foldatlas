@@ -36,6 +36,36 @@ data_folder = "/var/www/source_data"
 structure_data_folder = "/var/www/structure_data"
 structure_tids_filepath = data_folder + "/structure_tids.txt"
 
+
+class ExperimentIds( object ):
+    def __init__( self,
+                  strain_id,
+                  nucleotide_measurement_run_id,
+                  in_silico_structure_prediction_run_id,
+                  in_vivo_structure_prediction_run_id ):
+        """ Store the ids for an experiment """
+
+        self.strain_id = strain_id  # e.g. Col_0
+
+        # Basically a synonym for 'experiment id'
+        self.nucleotide_measurement_run_id = nucleotide_measurement_run_id
+
+        self.in_silico_structure_prediction_run_id = in_silico_structure_prediction_run_id
+        self.in_vivo_structure_prediction_run_id = in_vivo_structure_prediction_run_id
+
+    @property
+    def structure_prediction_run_ids(self):
+        return [ self.in_silico_structure_prediction_run_id,
+                 self.in_vivo_structure_prediction_run_id ]
+
+
+# # Experimental data for the first FoldAtlas dataset # #
+
+v1_ids = ExperimentIds( strain_id='Col_0',
+                        nucleotide_measurement_run_id=1,
+                        in_silico_structure_prediction_run_id=1,
+                        in_vivo_structure_prediction_run_id=2 )
+
 raw_replicate_counts_keys = {
     "minus": [ [ "mDMS_1_ATCACG_L001_R1" ],
                [ "mDMS_2_TAGCTT_L001_R1" ],
@@ -77,16 +107,11 @@ structures_in_vivo = {
     "source_ext": ".ct",
 }
 
-structure_prediction_run_ids = [ 1, 2 ]
-
 transcripts_fasta_filepath = data_folder + "/transcripts.fasta"
 
 base_path = "/var/www/foldatlas"
 
 genoverse_base = static_base_url + "/genoverse"
-
-# this is the one that will be displayed by the genome browser.
-reference_strain_id = "Col_0"
 
 # path of folder for temporary files
 temp_folder = "/tmp"
