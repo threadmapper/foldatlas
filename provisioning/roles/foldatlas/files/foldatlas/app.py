@@ -20,10 +20,11 @@ def send_static( path, filename ):
     return send_from_directory( settings.static_path, path + "/" + filename )
 
 
-@app.after_request
-def after_request( response ):
-    response.headers.add( 'Access-Control-Allow-Origin', '*' )
-    return response
+# Not required here - moved to Apache config
+# @app.after_request
+# def after_request( response ):
+#     response.headers.add( 'Access-Control-Allow-Origin', '*' )
+#     return response
 
 
 # The index should show the genome browser and also a search box.

@@ -1,7 +1,9 @@
 live = False
 
+app_base_url = ''
+
 if live:
-    app_base_url = "http://www.foldatlas.com/"  # if this is wrong, some ajax will fail
+    # app_base_url = "http://www.foldatlas.com/"  # if this is wrong, some ajax will fail
     static_base_url = "/static"
     static_path = "/var/www/foldatlas/static"
     dbuser = "root"
@@ -11,14 +13,14 @@ if live:
     sqlalchemy_track_modifications = False
     sqlalchemy_echo = False
 else:
-    app_base_url = "http://localhost:8080"
+    # app_base_url = "http://localhost:8080"
     static_base_url = "/static"
     static_path = "/var/www/static"
     dbuser = "fa_user"
     dbpassword = "@_t3mp_Pas5"
     bppms_folder = "/var/www/bppms"
 
-    sqlalchemy_track_modifications = True  # incurs overhead but only on for dev
+    sqlalchemy_track_modifications = True  # incurs overhead: only for dev
     sqlalchemy_echo = True
 
 db_name = "foldatlas"
