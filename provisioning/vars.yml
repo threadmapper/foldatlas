@@ -120,21 +120,6 @@ reference_fasta_files:
 strains_home: "/var/www/source_data"
 
 #
-# Database variables
-#
-
-# The database name
-foldatlas_db: "foldatlas"
-
-# The database user
-foldatlas_db_user: "fa_user"
-foldatlas_db_pass: "@_t3mp_Pas5"
-
-# password for root database user
-# root_db_password: "jGEHL3qT6sdntJD9pfyB8f3hGzBajLW2"
-root_db_password: ""
-
-#
 # Structure data
 #
 

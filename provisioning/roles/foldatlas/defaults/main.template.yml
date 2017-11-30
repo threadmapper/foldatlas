@@ -1,5 +1,26 @@
 ---
 
+#
+# Database variables
+#
+
+# The database name
+foldatlas_db: "foldatlas"
+
+# The database user
+foldatlas_db_user: "fa_user"
+foldatlas_db_pass: "your_user_password_here"
+
+# password for root database user
+mysql_root_password: ""
+new_mysql_root_password: "your_root_password_here"
+change_mysql_root: "no"
+#change_mysql_root: "yes"
+
+#
+# Directory locations
+#
+
 foldatlas_root_dir: "/opt/foldatlas"
 foldatlas_source_data_dir: "/opt/foldatlas/source_data"
 foldatlas_sql_dir: "/opt/foldatlas/source_data/sql"
