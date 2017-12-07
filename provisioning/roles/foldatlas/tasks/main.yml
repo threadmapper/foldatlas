@@ -156,6 +156,11 @@
     src: "{{ role_path }}/files/foldatlas/"
     dest: "/var/www/foldatlas/"
 
+- name: create settings.py from template
+  template:
+      src: settings.py
+      dest: "/var/www/foldatlas/"
+
 - name: ensure that /var/www/bpps exists
   file:
     path: /var/www/bpps
