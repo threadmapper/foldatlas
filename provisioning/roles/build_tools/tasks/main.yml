@@ -3,7 +3,12 @@
 
 - name: install gcc
   package:
-      #name: gcc
+    name: gcc
+    state: present
+    update_cache: yes
+
+- name: install compatibility gcc
+  package:
     name: compat-gcc-44
     state: present
     update_cache: yes

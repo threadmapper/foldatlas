@@ -9,6 +9,7 @@
 
   roles:
     - build_tools
+    - epel
     - ferm
     - selinux
     - python
