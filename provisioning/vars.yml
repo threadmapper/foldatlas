@@ -6,18 +6,6 @@ remote_user: root
 # Variables to enable customisation of the FoldAtlas server install.
 
 #
-# FoldAtlas URL
-#
-
-site_url: "http://foldatlas.jic.ac.uk"
-
-#
-# Apache config file
-#
-
-apache_config_file: "foldatlas.conf"
-
-#
 # Species
 #
 

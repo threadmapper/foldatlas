@@ -3,7 +3,7 @@
 
 - name: install Apache
   package:
-    name: "{{ item }}" 
+    name: "{{ item }}"
     state: present
     update_cache: yes
   with_items:
@@ -15,10 +15,10 @@
   register: mod_wsgi
 
 - name: delete Python2 mod_wsgi.so
-  file: 
+  file:
     path: /etc/httpd/modules/mod_wsgi.so
     state: absent
-  when: (mod_wsgi.stat.exists == True) and 
+  when: (mod_wsgi.stat.exists == True) and
         (mod_wsgi.stat.islnk == False)
 
 - name: have we still got a mod_wsgi.so?
@@ -38,13 +38,13 @@
     state: link
   when: mod_wsgi.stat.exists == False
 
-- name: create Apache virtual host file
-  copy:
-    src: "{{ role_path }}/files/{{ apache_config_file }}"
-    dest: "/etc/httpd/conf.d"
+- name: create apache config from template
+  template:
+      src: "{{ apache_config_file }}"
+      dest: "/etc/httpd/conf.d"
 
 - name: start apache and enable at boot
-  service: 
+  service:
     name: httpd
     enabled: yes
     state: started
@@ -56,3 +56,10 @@
     insertafter: '# Ansible specified rules.'
   notify: run ferm
 
+- name: enable modules
+  apache2_module:
+     state: present
+     name: "{{ item }}"
+  with_items:
+      - rewrite
+      - wsgi

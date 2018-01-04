@@ -1,0 +1,3 @@
+apache_config_file: foldatlas.conf
+www_servername: www.foldatlas.com
+non_www_servername: foldatlas.com

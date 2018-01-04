@@ -53,6 +53,13 @@
     login_password: "{{ mysql_root_password }}"
     state: present
 
+- name: drop test database as a security precaution
+  mysql_db:
+    name: test
+    state: absent
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+
 - name: Set root user password
   mysql_user:
     login_user: root
