@@ -1,5 +1,0 @@
-
-python_pip: python34-pip
-
-python_apt_numpy: python34-numpy
-python_apt_scipy: python34-scipy

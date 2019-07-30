@@ -1,35 +1,29 @@
 ---
+
 # Install the python package dependencies.
 
-- include_vars: '{{ item }}'
-  with_first_found:
-    - files:
-       - "{{ ansible_distribution }}.yml"
-
 - name: install pip
-  package:
-    name: "{{ python_pip }}"
+  yum:
+    name: python36-pip
     state: present
+
+- name: install setuptools
+  yum:
+    name: [ python-setuptools, python36-setuptools ]
+    state: present
+
+- name: upgrade pip and setuptools
+  pip:
+    name: [ pip, setuptools ]
+    executable: pip3
+    extra_args: --upgrade
 
 - name: install python packages
-  package:
-    name: "{{ item }}"
+  yum:
+    name: [ python36-scipy, python36-numpy ]
     state: present
-  with_items:
-    - "{{ python_apt_numpy }}"
-    - "{{ python_apt_scipy }}"
 
 - name: install python packages using pip
   pip:
-    name: "{{ item }}"
+    name: [ biopython, Flask, Flask-Migrate, Flask-SQLAlchemy, Flask-Script, Flask-Babel, mysql-connector ]
     executable: pip3
-  with_items:
-#    - scikit-learn
-    - biopython
-    - Flask
-    - Flask-Migrate
-    - Flask-SQLAlchemy
-    - Flask-Script
-    - Flask-Babel
-    - mysql-connector==2.1.4
-#    - forgi
