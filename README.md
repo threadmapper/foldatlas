@@ -32,6 +32,9 @@ Subsequent calls to `vagrant up` will check each component is the latest and sta
 
 
 
+## Tested on MacOSX
+
+
 
 
 
